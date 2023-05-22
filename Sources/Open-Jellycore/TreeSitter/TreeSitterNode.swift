@@ -6,6 +6,7 @@
 //
 
 import TreeSitter
+import Foundation
 
 final class TreeSitterNode {
     let rawNode: TSNode
@@ -24,35 +25,14 @@ final class TreeSitterNode {
         return nil
     }
     
-    var parent: TreeSitterNode? {
-        TreeSitterNode.getPossibleNode(node: ts_node_parent(rawNode))
-    }
-    
-    var nextSibling: TreeSitterNode? {
-        TreeSitterNode.getPossibleNode(node: ts_node_next_sibling(rawNode))
+    var startByte: Int {
+        return Int(ts_node_start_byte(rawNode))
     }
 
-    var prevSibling: TreeSitterNode? {
-        TreeSitterNode.getPossibleNode(node: ts_node_prev_sibling(rawNode))
-    }
-    
-    var nextNamedSibling: TreeSitterNode? {
-        TreeSitterNode.getPossibleNode(node: ts_node_next_named_sibling(rawNode))
+    var endByte: Int {
+        return Int(ts_node_end_byte(rawNode))
     }
 
-    var prevNamedSibling: TreeSitterNode? {
-        TreeSitterNode.getPossibleNode(node: ts_node_prev_named_sibling(rawNode))
-    }
-    
-
-    var numberOfChildren: Int {
-        Int(ts_node_child_count(rawNode))
-    }
-    
-    var numberOfNamedChildren: Int {
-        Int(ts_node_named_child_count(rawNode))
-    }
-    
     var isNull: Bool {
         ts_node_is_null(rawNode)
     }
@@ -75,6 +55,34 @@ final class TreeSitterNode {
     
     var hasError: Bool {
         ts_node_has_error(rawNode)
+    }
+
+    var parent: TreeSitterNode? {
+        TreeSitterNode.getPossibleNode(node: ts_node_parent(rawNode))
+    }
+    
+    var nextSibling: TreeSitterNode? {
+        TreeSitterNode.getPossibleNode(node: ts_node_next_sibling(rawNode))
+    }
+
+    var prevSibling: TreeSitterNode? {
+        TreeSitterNode.getPossibleNode(node: ts_node_prev_sibling(rawNode))
+    }
+    
+    var nextNamedSibling: TreeSitterNode? {
+        TreeSitterNode.getPossibleNode(node: ts_node_next_named_sibling(rawNode))
+    }
+
+    var prevNamedSibling: TreeSitterNode? {
+        TreeSitterNode.getPossibleNode(node: ts_node_prev_named_sibling(rawNode))
+    }
+    
+    var numberOfChildren: Int {
+        Int(ts_node_child_count(rawNode))
+    }
+    
+    var numberOfNamedChildren: Int {
+        Int(ts_node_named_child_count(rawNode))
     }
 
     init(rawNode: TSNode) {
@@ -132,11 +140,24 @@ final class TreeSitterNode {
         let possibleChild = ts_node_child_by_field_name(rawNode, field, UInt32(field.count))
         return TreeSitterNode.getPossibleNode(node: possibleChild)
     }
+    
+    func getContents(in str: String) -> String {
+        let start = str.index(str.startIndex, offsetBy: startByte)
+        let end = str.index(str.startIndex, offsetBy: endByte)
+        
+        return String(str[start ..< end])
+    }
 }
 
 extension TreeSitterNode {
     static func getPossibleNode(node: TSNode) -> TreeSitterNode? {
         let node = TreeSitterNode(rawNode: node)
         return node.isNull ? nil : node
+    }
+}
+
+extension TreeSitterNode: Equatable {
+    static func == (lhs: TreeSitterNode, rhs: TreeSitterNode) -> Bool {
+        return ts_node_eq(lhs.rawNode, rhs.rawNode)
     }
 }
