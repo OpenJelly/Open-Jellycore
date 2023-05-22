@@ -51,12 +51,14 @@ extension Parser {
                 throw JellycoreError.invalidTreeSitterType(type: type)
             }
             
+            let sString = node.string ?? "(empty)"
+            let content = node.getContents(in: contents)
+
             switch nodeType {
             case .flag:
-                return translateFlagNode(node: node)
+                return FlagNode(sString: sString, content: content, rawValue: node)
             case .import:
-                // TODO: Implement Import Nodes
-                break
+                return ImportNode(sString: sString, content: content, rawValue: node)
             case .repeat:
                 // TODO: Implement Repeat Nodes
                 break
@@ -145,13 +147,6 @@ extension Parser {
         
         return nil
     }
-    
-    /// Translates a `TreeSitterNode` into a `FlagNode`
-    private func translateFlagNode(node: TreeSitterNode) -> ParserNode {
-        let sString = node.string ?? "(empty)"
-        let content = node.getContents(in: contents)
-        return FlagNode(sString: sString, content: content, rawValue: node)
-    }
 }
 
 // MARK: General Helpers
@@ -165,4 +160,3 @@ extension Parser {
         return cstr
     }
 }
-
