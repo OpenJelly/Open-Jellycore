@@ -147,6 +147,17 @@ final class TreeSitterNode {
         
         return String(str[start ..< end])
     }
+
+    func getContents(of child: TreeSitterNode, in str: String) -> String {
+        let adjustedStartByte = child.startByte - startByte // This will be positive
+        let adjustedEndByte = child.endByte - endByte // This will be negative
+        
+        let start = str.index(str.startIndex, offsetBy: adjustedStartByte)
+        let end = str.index(str.endIndex, offsetBy: adjustedEndByte) // Because adjustedEndByte is negative we are using the end index, and offsetting by a negative value
+        
+        return String(str[start ..< end])
+
+    }
 }
 
 extension TreeSitterNode {

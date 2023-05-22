@@ -29,9 +29,15 @@ public final class Parser {
         let rootNode = tree.rootNode()
         let children = rootNode.getChildren()
         
+        var parsedNodes: [any ParserNode] = []
+        
         for child in children {
-            try translateNodeFromTreeSitterNode(node: child)
+            if let node = try translateNodeFromTreeSitterNode(node: child) {
+                parsedNodes.append(node)
+            }
         }
+        
+        print(parsedNodes, parsedNodes.count)
     }
 }
 
@@ -39,7 +45,7 @@ public final class Parser {
 /// Any functions that are directly helpful to parsing.
 extension Parser {
     /// Translates a tree-sitter node into a Jellycore Node. This allows us to do our own processing on the nodes found by tree-sitter.
-    private func translateNodeFromTreeSitterNode(node: TreeSitterNode) throws {
+    private func translateNodeFromTreeSitterNode(node: TreeSitterNode) throws -> ParserNode? {
         if let type = node.type {
             guard let nodeType = ParserNodeType(rawValue: type) else {
                 throw JellycoreError.invalidTreeSitterType(type: type)
@@ -47,8 +53,7 @@ extension Parser {
             
             switch nodeType {
             case .flag:
-                // TODO: Implement Flag Nodes
-                break
+                return translateFlagNode(node: node)
             case .import:
                 // TODO: Implement Import Nodes
                 break
@@ -137,6 +142,15 @@ extension Parser {
         } else {
             print("Child with no type found \(node.string ?? "No String Either")")
         }
+        
+        return nil
+    }
+    
+    /// Translates a `TreeSitterNode` into a `FlagNode`
+    private func translateFlagNode(node: TreeSitterNode) -> ParserNode {
+        let sString = node.string ?? "(empty)"
+        let content = node.getContents(in: contents)
+        return FlagNode(sString: sString, content: content, rawValue: node)
     }
 }
 
@@ -152,57 +166,3 @@ extension Parser {
     }
 }
 
-/// These are analogous to the nodes defined in `grammar.js` in the `tree-sitter-jelly` package. They are used to pull parsed nodes directly from the tree sitter tree. Any new nodes added in `grammar.js` need to be added here
-enum ParserNodeType: String {
-    case flag = "flag"
-    case `import` = "import"
-    case `repeat` = "repeat_definition"
-    case repeatEach = "repeat_each_definition"
-    case conditional = "conditional_definition"
-    case conditionalElse = "conditional_else"
-    case `operator` = "operator"
-    case menu = "menu_definition"
-    case menuParameters = "menu_parameters"
-    case menuBlock = "menu_block"
-    case menuCase = "menu_case"
-    case function = "function_definition"
-    case macro = "macro_definition"
-    case parameterList = "parameter_list"
-    case statement = "statement"
-    case variableDeclaration = "variable_declaration"
-    case functionCall = "function_call"
-    case magicVariable = "magic_variable_definition"
-    case returnStatement = "return_statement"
-    case identifier = "identifier"
-    case number = "number"
-    case array = "array"
-    case string = "string"
-    case multiString = "multi_line_string"
-    case block = "block"
-    case comment = "comment"
-    case blockComment = "block_comment"
-    case commentContent = "comment_content"
-    case blockCommentContent = "block_comment_content"
-}
-
-protocol ParserNode {
-    var type: ParserNodeType { get }
-    var sString: String { get }
-    var content: String { get }
-    
-    var rawValue: TreeSitterNode { get }
-}
-
-final class FlagNode: ParserNode {
-    var type: ParserNodeType
-    var sString: String
-    var content: String
-    var rawValue: TreeSitterNode
-    
-    init(sString: String, content: String, rawValue: TreeSitterNode) {
-        self.type = .flag
-        self.sString = sString
-        self.content = content
-        self.rawValue = rawValue
-    }
-}
