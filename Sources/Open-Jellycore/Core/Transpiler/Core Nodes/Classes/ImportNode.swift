@@ -5,10 +5,8 @@
 //  Created by Taylor Lineman on 5/22/23.
 //
 
-import Foundation
-
-final class ImportNode: ParserNode {
-    var type: ParserNodeType
+final class ImportNode: CoreNode {
+    var type: CoreNodeType
     var sString: String
     var content: String
     var rawValue: TreeSitterNode

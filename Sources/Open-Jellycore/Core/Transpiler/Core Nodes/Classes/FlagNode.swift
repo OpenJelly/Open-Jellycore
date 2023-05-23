@@ -5,8 +5,8 @@
 //  Created by Taylor Lineman on 5/22/23.
 //
 
-final class FlagNode: ParserNode {
-    var type: ParserNodeType
+final class FlagNode: CoreNode {
+    var type: CoreNodeType
     var sString: String
     var content: String
     var rawValue: TreeSitterNode
