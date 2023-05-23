@@ -7,8 +7,8 @@
 
 protocol JellyObject: JellyAny, Codable {
     
-    init?(_ value: CoreNode)
-    
+    init?(_ value: CoreNode, scopedVariables: [Variable])
+
     var objectName: String { get }
     var correctType: String { get }
     var description: String { get }

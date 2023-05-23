@@ -5,6 +5,8 @@
 //  Created by Taylor Lineman on 10/28/22.
 //
 
+import Foundation
+
 struct JellyVariableReference: JellyAny, Codable {
     var name: String
     var uuid: String
@@ -25,24 +27,30 @@ struct JellyVariableReference: JellyAny, Codable {
         case outputName = "OutputName"
         case outputUUID = "OutputUUID"
     }
-        
-    init?(_ value: CoreNode) {
-        self.init(value.content)
+    
+    init(_ value: Variable) {
+        self.name = value.name
+        self.uuid = value.uuid
     }
     
-    init(_ variableName: String) {
-        self.name = variableName
+    init?(_ value: CoreNode, scopedVariables: [Variable]) {
+        self.name = ""
         self.uuid = ""
-        // TODO: Re-setup variable type
-//        // MARK: Remove Aggrandizements
-//        var nameComponents = name.components(separatedBy: ".")
-//        self.name = nameComponents.removeFirst()
-//
-//        if nameComponents.count > 0 {
-//            parseAggrandizements(individualAggrandizement: nameComponents, textPosition: textPosition)
-//        }
-//
-//        // MARK: Check for a valid variable
+    }
+            
+//    init(_ variableName: String, uuid: String, node: CoreNode, variables: [Variable]) {
+//        self.name = variableName
+//        self.uuid = uuid
+//        // TODO: Re-setup variable type
+////        // MARK: Remove Aggrandizements
+////        var nameComponents = name.components(separatedBy: ".")
+////        self.name = nameComponents.removeFirst()
+////
+////        if nameComponents.count > 0 {
+////            parseAggrandizements(individualAggrandizement: nameComponents, textPosition: textPosition)
+////        }
+////
+////        // MARK: Check for a valid variable
 //        if let variable = variables.first(where: { variable in
 //            return name == variable.name
 //        }) {
@@ -62,10 +70,10 @@ struct JellyVariableReference: JellyAny, Codable {
 //                variableType = "ActionOutput"
 //            }
 //        } else {
-//            ErrorReporter.shared.report(error: JellyError.variableDoesNotExist(variableName: variableName), textPosition: textPosition)
+//            ErrorHandler.shared.reportError(error: .variableDoesNotExist(variable: variableName), node: node)
 //            unableToInitialize = true
 //        }
-    }
+//    }
 //
 //    mutating func parseAggrandizements(individualAggrandizement: [String], textPosition: TextPosition) {
 //        for aggrandizement in individualAggrandizement {

@@ -6,5 +6,5 @@
 //
 
 protocol JellyAny: Codable {
-    init?(_ value: CoreNode)
+    init?(_ value: CoreNode, scopedVariables: [Variable])
 }

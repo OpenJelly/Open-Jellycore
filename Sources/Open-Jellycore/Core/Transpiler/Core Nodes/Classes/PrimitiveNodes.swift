@@ -16,13 +16,17 @@ struct PrimitiveFactory {
             return ArrayNode(sString: sString, content: content, rawValue: node)
         } else if node.type == CoreNodeType.string.rawValue || node.type ==  CoreNodeType.multiString.rawValue {
             return StringNode(sString: sString, content: content, rawValue: node)
+        } else if node.type == CoreNodeType.identifier.rawValue {
+            return VariableNode(sString: sString, content: content, rawValue: node)
         }
         return nil
     }
 }
 
 protocol CorePrimitiveNode {
+    var type: CoreNodeType { get }
     var content: String { get }
+    var sString: String { get }
     var rawValue: TreeSitterNode { get }
 }
 
@@ -111,6 +115,14 @@ final class StringNode: CoreNode, CorePrimitiveNode {
         self.collectValues()
     }
     
+    init(content: String, rawValue: TreeSitterNode) {
+        self.type = .string
+        self.sString = ""
+        self.originalContent = content
+        self.content = content
+        self.rawValue = rawValue
+    }
+    
     func collectValues() {
         let rawValueStartByte = rawValue.startByte
         let rawValueEndByte = rawValue.endByte
@@ -132,5 +144,19 @@ final class StringNode: CoreNode, CorePrimitiveNode {
             }
         }
         self.content = tempContent
+    }
+}
+
+final class VariableNode: CoreNode, CorePrimitiveNode {
+    var type: CoreNodeType
+    var sString: String
+    var content: String
+    var rawValue: TreeSitterNode
+        
+    init(sString: String, content: String, rawValue: TreeSitterNode) {
+        self.type = .string
+        self.sString = sString
+        self.content = content
+        self.rawValue = rawValue
     }
 }

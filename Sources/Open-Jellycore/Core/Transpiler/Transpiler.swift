@@ -29,7 +29,7 @@ class Transpiler {
     
         for child in rootNode.getChildren() {
             do {
-                let actions = try compileNode(node: child)
+                let actions = try compileNode(node: child, scope: [])
                 shortcutsActions.append(contentsOf: actions)
             } catch {
                 print("Error Compiling node \(child.string ?? "No String") - \(error)")
@@ -39,10 +39,11 @@ class Transpiler {
         print("Got \(shortcutsActions.count) Actions - \(shortcutsActions)")
     }
     
-    func compileNode(node: TreeSitterNode) throws -> [WFAction] {
+    func compileNode(node: TreeSitterNode, scope: [Variable]) throws -> [WFAction] {
         let coreNode = try translateNodeFromTreeSitterNode(node: node)
         guard let coreNode else { print("Unable to get core node - \(node.type ?? "No Type")"); return [] }
         var actions: [WFAction] = []
+        var scope: [Variable] = []
         print("Got Node \(coreNode)")
         
         switch coreNode.type {
@@ -95,8 +96,14 @@ class Transpiler {
             // TODO: Implement Statement Nodes
             break
         case .variableDeclaration:
-            // TODO: Implement Variable Declaration Nodes
-            break
+            guard let coreNode = coreNode as? VariableDeclarationNode else {
+                throw JellycoreError.typeError(type: "VariableDeclarationNode", description: "Node type does not match struct type")
+            }
+
+            let results = try compileVariableDeclaration(node: coreNode, scopedVariables: scope)
+            
+            actions.append(contentsOf: results.actions)
+            scope.append(contentsOf: results.variables)
         case .functionCall:
             guard let coreNode = coreNode as? FunctionCallNode else {
                 throw JellycoreError.typeError(type: "FunctionCallNode", description: "Node type does not match struct type")
@@ -138,6 +145,9 @@ class Transpiler {
             
             let commentAction = try compileComment(node: coreNode)
             actions.append(commentAction)
+        case .setVariable:
+            // TODO: Implement Set Variable
+            break
         }
         
         return actions
@@ -147,9 +157,51 @@ class Transpiler {
 // MARK: Transpile Individual Nodes
 /// Any functions that transpiler individual CoreNodes into Shortcuts Actions
 extension Transpiler {
+    private func compileVariableDeclaration(node: VariableDeclarationNode, scopedVariables: [Variable]) throws -> (actions: [WFAction], variables: [Variable]) {
+        print("Compile Declaration")
+        
+        if let valuePrimitive = node.valuePrimitive {
+            print("Got Primitive")
+            var scopedVariables: [Variable] = scopedVariables
+            let nodeType = valuePrimitive.type
+            var actions: [WFAction] = []
+            
+            if nodeType == .string {
+                print("String Node")
+                let textUUID = UUID().uuidString
+                let magicVariable = Variable(uuid: textUUID, name: "Generated Magic Variable \(textUUID)", valueType: .magicVariable, value: "Text")
+                
+                if let foundFunction = TranspilerLookupTables.shortcutsFunctions["text"] {
+                    let call: [FunctionCallParameterItem] = [
+                        FunctionCallParameterItem(slotName: "text", item: valuePrimitive)
+                    ]
+                    let builtFunction = foundFunction.build(call: call, magicVariable: nil, scopedVariables: scopedVariables)
+                    
+                    actions.append(builtFunction)
+                }
+                
+                
+                let variableAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.setvariable", WFWorkflowActionParameters: ["WFInput": QuantumValue(JellyVariableReference(magicVariable)), "WFVariableName": QuantumValue(node.name)])
+                
+                // Add the magic variable pointing to the string function to the scope
+                scopedVariables.append(magicVariable)
+                // Add the variable we just created to the scope
+                scopedVariables.append(Variable(uuid: UUID().uuidString, name: node.name, valueType: .string, value: node.value))
+                actions.append(variableAction)
+
+            }
+
+            
+            return (actions, scopedVariables)
+        }
+
+        return ([], [])
+
+    }
+    
     private func compileFunctionCall(node: FunctionCallNode) throws -> WFAction? {
         if let foundFunction = lookupTable[node.name.lowercased()] {
-            let builtFunction = foundFunction.build(call: node, magicVariable: nil, scopedVariables: [])
+            let builtFunction = foundFunction.build(call: node.parameters, magicVariable: nil, scopedVariables: [])
             return builtFunction
         } else {
             // TODO: We have to handle custom user inputted functions
@@ -233,8 +285,7 @@ extension Transpiler {
                 // TODO: Implement Statement Nodes
                 break
             case .variableDeclaration:
-                // TODO: Implement Variable Declaration Nodes
-                break
+                return VariableDeclarationNode(sString: sString, content: content, rawValue: node)
             case .functionCall:
                 return FunctionCallNode(sString: sString, content: content, rawValue: node)
             case .magicVariable:
@@ -260,6 +311,9 @@ extension Transpiler {
                 break
             case .block:
                 // TODO: Implement Block Nodes
+                break
+            case .setVariable:
+                // TODO: Implement Set Variable Node
                 break
             case .comment, .blockComment:
                 return CommentNode(sString: sString, content: content, rawValue: node)

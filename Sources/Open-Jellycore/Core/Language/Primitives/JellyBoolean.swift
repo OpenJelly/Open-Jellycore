@@ -19,7 +19,7 @@ struct JellyBoolean: JellyPrimitiveType {
         self.value = try JellyBoolean.bool(input: value)
     }
     
-    init?(_ value: CoreNode) {
+    init?(_ value: CoreNode, scopedVariables: [Variable]) {
         do {
             try self.init(value.content)
         } catch {

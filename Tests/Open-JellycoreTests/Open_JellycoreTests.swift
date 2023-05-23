@@ -6,7 +6,7 @@ import XCTest
 
 final class Open_JellycoreTests: XCTestCase {
     var testString: String = """
-    Text(text: "Hello ${interpolation} World")
+    var interpolation = "Hello"
     """
     /*
      // A test of the Jelylcuts Transpiler

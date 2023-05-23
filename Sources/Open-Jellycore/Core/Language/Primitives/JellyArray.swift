@@ -8,7 +8,12 @@
 struct JellyArray<InternalType: JellyAny>: JellyAny, Codable {
     var items: [QuantumValue] = []
     
-    init?(_ value: CoreNode) {
+    init(_ value: CoreNode, scopedVariables: [Variable]) {
+        if let arrayNode = value as? ArrayNode {
+            for value in arrayNode.values {
+                
+            }
+        }
         // TODO: Re-setup array type
 //        if let value = value as? ArrayNode {
 //            for item in value.arrayValues {
@@ -23,6 +28,7 @@ struct JellyArray<InternalType: JellyAny>: JellyAny, Codable {
 //            }
 //        }
     }
+    
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()

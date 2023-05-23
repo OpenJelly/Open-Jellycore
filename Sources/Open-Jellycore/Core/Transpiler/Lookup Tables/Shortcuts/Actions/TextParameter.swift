@@ -12,7 +12,7 @@ struct TextParameter: ParameterProtocol, Codable {
         var parameters = TextParameter()
 
         if let value = call.first(where: { node in return node.slotName == "text" }) {
-            parameters.WFTextActionText = JellyString(value)
+            parameters.WFTextActionText = JellyString(value, scopedVariables: scopedVariables)
         } else {
             // TODO: Reimplement error handling
             ErrorHandler.shared.reportError(error: .missingParameter(function: "Text", name: "text"), node: nil)

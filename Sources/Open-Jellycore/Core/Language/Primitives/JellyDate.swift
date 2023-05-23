@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct JellyDate: JellyPrimitiveType {
+struct JellyDate: JellyPrimitiveType {    
     typealias T = Date
         
     var value: Date
@@ -26,7 +26,7 @@ struct JellyDate: JellyPrimitiveType {
         }
     }
     
-    init?(_ value: CoreNode) {
+    init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(Date())
 //        do {
 //            try self.init(value.content)

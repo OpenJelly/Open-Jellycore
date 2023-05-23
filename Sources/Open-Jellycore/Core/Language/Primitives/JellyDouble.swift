@@ -23,7 +23,7 @@ struct JellyDouble: JellyPrimitiveType {
         self.value = double
     }
     
-    init?(_ value: CoreNode) {
+    init?(_ value: CoreNode, scopedVariables: [Variable]) {
         do {
             try self.init(value.content)
         } catch {

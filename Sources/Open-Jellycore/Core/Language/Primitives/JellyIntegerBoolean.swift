@@ -20,7 +20,7 @@ struct JellyIntegerBoolean: JellyPrimitiveType {
         self.value = bool ? 1 : 0
     }
     
-    init?(_ value: CoreNode) {
+    init?(_ value: CoreNode, scopedVariables: [Variable]) {
         do {
             try self.init(value.content)
         } catch {

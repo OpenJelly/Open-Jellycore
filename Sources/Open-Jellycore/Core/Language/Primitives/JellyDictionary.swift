@@ -37,7 +37,7 @@ struct JellyDictionary: JellyPrimitiveType {
         self.value = [:]
     }
     
-    init(_ value: CoreNode) {
+    init(_ value: CoreNode, scopedVariables: [Variable]) {
         self.value = [:]
         // TODO: Re-setup dictionary type
 //        if !value.content.contains("{") {

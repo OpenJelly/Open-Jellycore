@@ -26,6 +26,7 @@ enum CoreNodeType: String {
     case parameterListItem = "parameter_list_item"
     case statement = "statement"
     case variableDeclaration = "variable_declaration"
+    case setVariable = "set_variable"
     case functionCall = "function_call"
     case magicVariable = "magic_variable_definition"
     case returnStatement = "return_statement"

@@ -13,7 +13,7 @@ protocol AnyAction {
     var lowestCompatibleHost: ShortcutsHostVersion { get }
     var presets: [ActionPreset] { get }
     
-    func build(call: FunctionCallNode, magicVariable: Variable?, scopedVariables: [Variable]) -> WFAction
+    func build(call: [FunctionCallParameterItem], magicVariable: Variable?, scopedVariables: [Variable]) -> WFAction
 }
 
 struct Action<ParameterType: ParameterProtocol>: AnyAction {
@@ -24,17 +24,15 @@ struct Action<ParameterType: ParameterProtocol>: AnyAction {
     var lowestCompatibleHost: ShortcutsHostVersion
     var presets: [ActionPreset]
     
-    func build(call: FunctionCallNode, magicVariable: Variable?, scopedVariables: [Variable]) -> WFAction {
-        let callParameters = call.parameters
-        
-        for parameter in callParameters {
+    func build(call: [FunctionCallParameterItem], magicVariable: Variable?, scopedVariables: [Variable]) -> WFAction {
+        for parameter in call {
             if parameter.slotName == nil {
                 // TODO: Get the proper slot names
                 ErrorHandler.shared.reportError(error: .missingParameterName(function: name, name: "PLACEHOLDER"), node: parameter)
             }
         }
                 
-        let type: ParameterType = ParameterType.build(call: callParameters, scopedVariables: []) as! ParameterType
+        let type: ParameterType = ParameterType.build(call: call, scopedVariables: []) as! ParameterType
         let parameters: [String: QuantumValue] = type.asDictionary()
 
         return WFAction(WFWorkflowActionIdentifier: identifier, WFWorkflowActionParameters: parameters)

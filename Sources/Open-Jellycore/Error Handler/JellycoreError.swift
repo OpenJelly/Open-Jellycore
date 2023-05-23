@@ -26,6 +26,7 @@ class JellycoreError: Error, Identifiable {
         case invalidContent(type: String, description: String)
         case missingParameterName(function: String, name: String)
         case missingParameter(function: String, name: String)
+        case variableDoesNotExist(variable: String)
         case generic
         
         var description: String {
@@ -48,7 +49,8 @@ class JellycoreError: Error, Identifiable {
                 return "Missing parameter name: \(name) in \(function)"
             case .missingParameter(let function, let name):
                 return "Missing parameter \(name) in \(function)"
-
+            case .variableDoesNotExist(let variable):
+                return "Variable \(variable) does not exist"
             }
         }
     }
@@ -115,5 +117,9 @@ extension JellycoreError {
     
     static func missingParameter(function: String, name: String) -> JellycoreError {
         return JellycoreError(underlyingError: .missingParameter(function: function, name: name), level: .warning, recoveryStrategy: "Make sure that you have included all of the parameters you wish in the function \(function)")
+    }
+    
+    static func variableDoesNotExist(variable: String) -> JellycoreError {
+        return JellycoreError(underlyingError: .variableDoesNotExist(variable: variable), level: .error, recoveryStrategy: "Make sure that you have initialized the variable \(variable)")
     }
 }

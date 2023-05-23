@@ -14,7 +14,7 @@ protocol JellyPrimitiveType: JellyAny, Codable {
     
     init(_ value: String) throws
     
-    init?(_ value: CoreNode)
+    init?(_ value: CoreNode, scopedVariables: [Variable])
 }
 
 extension JellyPrimitiveType {

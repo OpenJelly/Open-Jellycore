@@ -5,6 +5,8 @@
 //  Created by Taylor Lineman on 5/22/23.
 //
 
+import TreeSitter
+
 final class FunctionCallNode: CoreNode {
     var type: CoreNodeType
     var sString: String
@@ -66,6 +68,16 @@ final class FunctionCallParameterItem: CoreNode {
         
         self.item = getItem()
         self.slotName = getParameterName()
+    }
+    
+    init(slotName: String, item: CorePrimitiveNode) {
+        self.type = .parameterList
+        self.sString = ""
+        self.content = item.content
+        self.rawValue = TreeSitterNode(rawNode: TSNode())
+        
+        self.item = item
+        self.slotName = slotName
     }
     
     func getParameterName() -> String? {

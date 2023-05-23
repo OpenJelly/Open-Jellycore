@@ -7,7 +7,7 @@
 
 protocol JellyEnum: JellyAny, Codable {
         
-    init?(_ value: CoreNode)
+    init?(_ value: CoreNode, scopedVariables: [Variable])
 
     var value: String { get }
 }

@@ -21,7 +21,7 @@ struct JellyString: JellyPrimitiveType {
         self.value = value
     }
     
-    init(_ value: CoreNode) {
+    init(_ value: CoreNode, scopedVariables: [Variable]) {
         if let stringNode = value as? StringNode {
             self.init(stringNode.content)
             // TODO: Re-setup string interpolation
