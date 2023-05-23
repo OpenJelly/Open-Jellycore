@@ -37,7 +37,7 @@ extension Parser {
     /// Get's the cString representation of a Swift String and returns it. Since this can fail, this basically wraps it in a throwable function.
     private func getCString() throws -> [CChar] {
         guard let cstr = contents.cString(using: .utf8) else {
-            throw JellycoreError.unableToGetCString
+            throw JellycoreError.unableToGetCString()
         }
         return cstr
     }

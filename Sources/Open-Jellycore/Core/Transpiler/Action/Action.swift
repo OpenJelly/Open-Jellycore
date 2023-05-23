@@ -1,6 +1,6 @@
 //
 //  Action.swift
-//  
+//  JellycoreV2
 //
 //  Created by Taylor Lineman on 10/28/22.
 //
@@ -25,13 +25,15 @@ struct Action<ParameterType: ParameterProtocol>: AnyAction {
     var presets: [ActionPreset]
     
     func build(call: FunctionCallNode, magicVariable: Variable?, scopedVariables: [Variable]) -> WFAction {
-        var callParameters = call.parameters
+        let callParameters = call.parameters
         
-        if callParameters.contains(where: {$0.slotName == nil}) {
-            // TODO: ERROR HANDLING
-            // Empty slot names are no longer supported
+        for parameter in callParameters {
+            if parameter.slotName == nil {
+                // TODO: Get the proper slot names
+                ErrorHandler.shared.reportError(error: .missingParameterName(function: name, name: "PLACEHOLDER"), node: parameter)
+            }
         }
-        
+                
         let type: ParameterType = ParameterType.build(call: callParameters, scopedVariables: []) as! ParameterType
         let parameters: [String: QuantumValue] = type.asDictionary()
 

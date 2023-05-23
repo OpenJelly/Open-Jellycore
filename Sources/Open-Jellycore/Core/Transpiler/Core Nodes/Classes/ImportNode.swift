@@ -1,6 +1,6 @@
 //
-//  ImpportNode.swift
-//  
+//  ImportNode.swift
+//  Open-Jellycore
 //
 //  Created by Taylor Lineman on 5/22/23.
 //

@@ -5,6 +5,10 @@
 //  Created by Taylor Lineman on 10/28/22.
 //
 
+enum WFWorkflowTypes: String, Encodable {
+    case ncWidget = "NCWidget"
+}
+
 struct WFShortcut: Encodable {
     var WFWorkflowClientVersion: String = "1050.24"
     var WFWorkflowMinimumClientVersionString: String = "900"
@@ -12,7 +16,7 @@ struct WFShortcut: Encodable {
     var WFWorkflowClientRelease = 3.0
     var WFWorkflowIcon: Icon = Icon()
     var WFWorkflowImportQuestions: [String] = []
-    var WFWorkflowTypes: [String] = ["NCWidget"]
+    var WFWorkflowTypes: [WFWorkflowTypes] = [.ncWidget]
     var WFWorkflowInputContentItemClasses: [String] = []
     var WFWorkflowActions: [WFAction] = []
     

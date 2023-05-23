@@ -15,7 +15,7 @@ struct TextParameter: ParameterProtocol, Codable {
             parameters.WFTextActionText = JellyString(value)
         } else {
             // TODO: Reimplement error handling
-            print("unable to get parameter text")
+            ErrorHandler.shared.reportError(error: .missingParameter(function: "Text", name: "text"), node: nil)
         }
 
         return parameters
@@ -25,7 +25,6 @@ struct TextParameter: ParameterProtocol, Codable {
     static func getDefaultValues() -> [String: String] {
         return [
 			"text": "Hello World",
-
         ]
     }
 }

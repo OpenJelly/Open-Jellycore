@@ -17,12 +17,12 @@ class Transpiler {
     func compile(with parser: Parser) throws {
         currentParser = parser
         guard let tree = parser.tree else {
-            throw JellycoreError.noParserTree
+            throw JellycoreError.noParserTree()
         }
         
         let rootNode = tree.rootNode()
         guard rootNode.type == "source_file" else {
-            throw JellycoreError.invalidRoot
+            throw JellycoreError.invalidRoot()
         }
         
         var shortcutsActions: [WFAction] = []
