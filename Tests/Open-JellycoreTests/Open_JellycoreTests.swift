@@ -6,10 +6,10 @@ import XCTest
 
 final class Open_JellycoreTests: XCTestCase {
     var testString: String = """
-    var interpolation = "Hello"
+    text(text: "${interpolation.as(Text)} World")
     """
     /*
-     // A test of the Jelylcuts Transpiler
+     // A test of the Jellycuts Transpiler
      /*
      Written on May 22nd by Taylor Lineman
      */

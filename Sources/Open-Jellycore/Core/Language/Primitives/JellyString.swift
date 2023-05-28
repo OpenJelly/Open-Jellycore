@@ -22,38 +22,43 @@ struct JellyString: JellyPrimitiveType {
     }
     
     init(_ value: CoreNode, scopedVariables: [Variable]) {
-        if let stringNode = value as? StringNode {
-            self.init(stringNode.content)
-            // TODO: Re-setup string interpolation
+        if let value = value as? FunctionCallParameterItem {
+            self.init(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             self.init(value.content)
         }
     }
-
-    // TODO: Re-setup string interpolation
-//        for child in childrenNodes {
-//            if let child = child as? StringInterpolationNode {
-//                let key = "{\(child.start), 1}"
-//                var variableReference = JellyVariableReference(child.variableCall, variables: scopedVariables, textPosition: value.textPosition)
-//                variableReference.needsValueKey = false
-//                variableReference.needsSerialization = false
-//
-//                attachmentsByRange.merge([key: variableReference]) { first, _ in
-//                    return first
-//                }
-//                self.value = self.value.replacingOccurrences(of: "${\(child.content)}", with: "￼")
-//            }
-//        }
-//    init(_ value: String, scopedVariables: [Variable]) {
-//        let stringAggrandizements = JellyParser.getInterpolationInString(textPosition: .zero, content: value)
-//        self.init(ParserNode(type: .string, content: value, textPosition: .zero), childrenNodes: stringAggrandizements, scopedVariables: scopedVariables)
-//    }
-//    
-//    init(_ value: ParserNode, scopedVariables: [Variable]) {
-//        let stringAggrandizements = JellyParser.getInterpolationInString(textPosition: .zero, content: value.content)
-//        self.init(value, childrenNodes: stringAggrandizements, scopedVariables: scopedVariables)
-//    }
     
+    init(parameterItem: FunctionCallParameterItem, scopedVariables: [Variable]) {
+        if let stringNode = parameterItem.item as? StringNode {
+            self.init(stringNode.content)
+            createAttachments(stringNode, scopedVariables: scopedVariables)
+        } else {
+            self.init(parameterItem.content)
+        }
+    }
+    
+    mutating func createAttachments(_ value: StringNode, scopedVariables: [Variable]) {
+        for child in value.internalNodes.filter({internalNodeFilter($0)}) {
+            let interpolationNode = StringNode.InterpolationNode(sString: child.node.string ?? "No sString", content: child.content, rawValue: child.node)
+            let key = "{\(child.localRange.lowerBound), 1}"
+            var variableReference = JellyVariableReference(interpolationNode: interpolationNode, scopedVariables: scopedVariables)
+            variableReference.needsValueKey = false
+            variableReference.needsSerialization = false
+            
+            attachmentsByRange.merge([key: variableReference]) { first, _ in
+                return first
+            }
+            
+            self.value = self.value.replacingOccurrences(of: "\(child.content)", with: "￼")
+        }
+    }
+    
+    
+    private func internalNodeFilter(_ node: StringNode.InternalNode) -> Bool {
+        return node.type == .interpolation
+    }
+
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: EncodingKeys.self)
 
@@ -66,47 +71,3 @@ struct JellyString: JellyPrimitiveType {
         try container.encode("WFTextTokenString", forKey: .serializationType)
     }
 }
-/*
- <key>WFTextActionText</key>
- <dict>
-     <key>Value</key>
-     <dict>
-         <key>attachmentsByRange</key>
-         <dict>
-             <key>{6, 1}</key>
-             <dict>
-                 <key>Type</key>
-                 <string>ExtensionInput</string>
-             </dict>
-         </dict>
-         <key>string</key>
-         <string>Hello ￼</string>
-     </dict>
-     <key>WFSerializationType</key>
-     <string>WFTextTokenString</string>
- </dict>
-
- <key>WFTextActionText</key>
- <dict>
-     <key>Value</key>
-     <dict>
-         <key>attachmentsByRange</key>
-         <dict>
-             <key>{7, 1}</key>
-             <dict>
-                 <key>Aggrandizements</key>
-                 <array/>
-                 <key>Type</key>
-                 <string>ExtensionInput</string>
-                 <key>VariableName</key>
-                 <string>ShortcutInput</string>
-             </dict>
-         </dict>
-         <key>string</key>
-         <string>Hello ￼</string>
-     </dict>
-     <key>WFSerializationType</key>
-     <string>WFTextTokenString</string>
- </dict>
-
- */

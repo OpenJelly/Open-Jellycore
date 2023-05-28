@@ -40,5 +40,4 @@ final class VariableDeclarationNode: CoreNode {
         }
         return nil
     }
-
 }

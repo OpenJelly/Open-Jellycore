@@ -35,7 +35,10 @@ enum CoreNodeType: String {
     case array = "array"
     case string = "string"
     case multiString = "multi_line_string"
+    case stringInterpolation = "string_interpolation"
     case block = "block"
     case comment = "comment"
     case blockComment = "block_comment"
+    case variableProperty = "variable_property"
+    case variablePropertyType = "variable_property_type"
 }

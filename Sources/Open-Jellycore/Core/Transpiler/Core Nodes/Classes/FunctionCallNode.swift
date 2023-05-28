@@ -61,7 +61,7 @@ final class FunctionCallParameterItem: CoreNode {
     var item: CorePrimitiveNode?
     
     init(sString: String, content: String, rawValue: TreeSitterNode) {
-        self.type = .parameterList
+        self.type = .parameterListItem
         self.sString = sString
         self.content = content
         self.rawValue = rawValue
@@ -71,7 +71,7 @@ final class FunctionCallParameterItem: CoreNode {
     }
     
     init(slotName: String, item: CorePrimitiveNode) {
-        self.type = .parameterList
+        self.type = .parameterListItem
         self.sString = ""
         self.content = item.content
         self.rawValue = TreeSitterNode(rawNode: TSNode())

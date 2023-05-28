@@ -148,6 +148,14 @@ class Transpiler {
         case .setVariable:
             // TODO: Implement Set Variable
             break
+        case .variableProperty:
+            // TODO: Implement Set Variable
+            break
+        case .variablePropertyType:
+            // TODO: Implement Set Variable
+            break
+        case .stringInterpolation:
+            break
         }
         
         return actions
@@ -158,16 +166,14 @@ class Transpiler {
 /// Any functions that transpiler individual CoreNodes into Shortcuts Actions
 extension Transpiler {
     private func compileVariableDeclaration(node: VariableDeclarationNode, scopedVariables: [Variable]) throws -> (actions: [WFAction], variables: [Variable]) {
-        print("Compile Declaration")
+        // TODO: Check to make sure variable is available
         
         if let valuePrimitive = node.valuePrimitive {
-            print("Got Primitive")
             var scopedVariables: [Variable] = scopedVariables
             let nodeType = valuePrimitive.type
             var actions: [WFAction] = []
             
             if nodeType == .string {
-                print("String Node")
                 let textUUID = UUID().uuidString
                 let magicVariable = Variable(uuid: textUUID, name: "Generated Magic Variable \(textUUID)", valueType: .magicVariable, value: "Text")
                 
@@ -181,7 +187,7 @@ extension Transpiler {
                 }
                 
                 
-                let variableAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.setvariable", WFWorkflowActionParameters: ["WFInput": QuantumValue(JellyVariableReference(magicVariable)), "WFVariableName": QuantumValue(node.name)])
+                let variableAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.setvariable", WFWorkflowActionParameters: ["WFInput": QuantumValue(JellyVariableReference(magicVariable, scopedVariables: scopedVariables)), "WFVariableName": QuantumValue(node.name)])
                 
                 // Add the magic variable pointing to the string function to the scope
                 scopedVariables.append(magicVariable)
@@ -317,6 +323,14 @@ extension Transpiler {
                 break
             case .comment, .blockComment:
                 return CommentNode(sString: sString, content: content, rawValue: node)
+            case .variableProperty:
+                // TODO: Implement Set Variable
+                break
+            case .variablePropertyType:
+                // TODO: Implement Set Variable
+                break
+            case .stringInterpolation:
+                break
             }
         } else {
             print("Child with no type found \(node.string ?? "No String Either")")

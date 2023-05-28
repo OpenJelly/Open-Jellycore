@@ -31,16 +31,103 @@ protocol CorePrimitiveNode {
 }
 
 final class IdentifierNode: CoreNode, CorePrimitiveNode {
+    final class VariablePropertyNode: CoreNode, CorePrimitiveNode {
+        var type: CoreNodeType
+        var sString: String
+        var content: String
+        var rawValue: TreeSitterNode
+        
+        init(sString: String, content: String, rawValue: TreeSitterNode) {
+            self.type = .variableProperty
+            self.sString = sString
+            self.content = content
+            self.rawValue = rawValue
+        }
+        
+        func getType() -> String? {
+            if let node = rawValue.getChild(by: "type") {
+                return rawValue.getContents(of: node, in: content)
+            }
+            return nil
+        }
+        
+        func getValue() -> String? {
+            if let node = rawValue.getChild(by: "value") {
+                return rawValue.getContents(of: node, in: content)
+            }
+            return nil
+        }
+    }
+    
     var type: CoreNodeType
     var sString: String
     var content: String
+    var originalContent: String
     var rawValue: TreeSitterNode
     
+    var aggrandizements: [Aggrandizement] = []
+
     init(sString: String, content: String, rawValue: TreeSitterNode) {
         self.type = .identifier
         self.sString = sString
         self.content = content
+        self.originalContent = content
         self.rawValue = rawValue
+        
+        self.collectValues()
+        
+        if let results = getContentField() {
+            self.content = results.content
+        }
+    }
+        
+    func getContentField() -> (content: String, node: TreeSitterNode)? {
+        if let node = rawValue.getChild(by: "content") {
+            return (rawValue.getContents(of: node, in: originalContent), node)
+        }
+        return nil
+    }
+    
+    func collectValues() {
+        for child in rawValue.getChildren().filter({filterChildren($0)}) {
+            let childContent = rawValue.getContents(of: child, in: originalContent)
+            let propertyNode = VariablePropertyNode(sString: child.string ?? "No sString", content: childContent, rawValue: child)
+            
+            guard let type = propertyNode.getType() else {
+                ErrorHandler.shared.reportError(error: .generic(description: "Invalid Identifier Property. Can not find the type of the property.", recoveryStrategy: "Make sure you are using a valid identifier property. Valid properties are 'get', 'as' and 'key'.", level: .error), node: propertyNode)
+
+                continue
+            }
+            if type == "as" {
+                guard let value = propertyNode.getValue() else {
+                    ErrorHandler.shared.reportError(error: .generic(description: "Invalid Identifier Property Value", recoveryStrategy: "Make sure you have included a value in the identifier 'as' property.", level: .error), node: propertyNode)
+                    continue
+                }
+                if let typeCoercion = TypeCoercion(value: value) {
+                    aggrandizements.append(Aggrandizement.as(typeCast: typeCoercion))
+                } else {
+                    ErrorHandler.shared.reportError(error: .invalidTypeCoercion(type: value), node: propertyNode)
+                }
+            } else if type == "get" {
+                guard let value = propertyNode.getValue() else {
+                    ErrorHandler.shared.reportError(error: .generic(description: "Invalid Identifier Property Value", recoveryStrategy: "Make sure you have included a value in the identifier 'get' property.", level: .error), node: propertyNode)
+                    continue
+                }
+                
+                aggrandizements.append(Aggrandizement.get(property: value))
+            } else if type == "key" {
+                guard let value = propertyNode.getValue() else {
+                    ErrorHandler.shared.reportError(error: .generic(description: "Invalid Identifier Property Value", recoveryStrategy: "Make sure you have included a value in the identifier 'key' property.", level: .error), node: propertyNode)
+                    continue
+                }
+                
+                aggrandizements.append(Aggrandizement.key(key: value))
+            }
+        }
+    }
+    
+    private func filterChildren(_ node: TreeSitterNode) -> Bool {
+        return node.type == CoreNodeType.variableProperty.rawValue
     }
 }
 
@@ -92,6 +179,55 @@ final class ArrayNode: CoreNode, CorePrimitiveNode {
 }
 
 final class StringNode: CoreNode, CorePrimitiveNode {
+    final class InterpolationNode: CoreNode, CorePrimitiveNode {
+        var type: CoreNodeType
+        var sString: String
+        var content: String
+        var originalContent: String
+        var rawValue: TreeSitterNode
+        
+        var identifierNode: IdentifierNode?
+        
+        init(sString: String, content: String, rawValue: TreeSitterNode) {
+            self.type = .stringInterpolation
+            self.sString = sString
+            self.content = content
+            self.originalContent = content
+            self.rawValue = rawValue
+            
+            if let results = getIdentifier() {
+                self.content = results.content
+                self.identifierNode = IdentifierNode(sString: results.node.string ?? "No sString", content: results.content, rawValue: results.node)
+            } else {
+                ErrorHandler.shared.reportError(error: .generic(description: "Empty Interpolation", recoveryStrategy: "Interpolation can not be empty, please add an identifier", level: .error), node: self)
+            }
+        }
+        
+        
+        func getIdentifier() -> (content: String, node: TreeSitterNode)? {
+            if let node = rawValue.getChild(by: "identifier") {
+                return (rawValue.getContents(of: node, in: originalContent), node)
+            }
+            return nil
+        }
+
+    }
+    
+    final class InternalNode {
+        var type: InternalNodeType
+        var node: TreeSitterNode
+        var localRange: Range<Int>
+        var content: String
+
+        
+        init(type: InternalNodeType, node: TreeSitterNode, localRange: Range<Int>, content: String) {
+            self.type = type
+            self.node = node
+            self.localRange = localRange
+            self.content = content
+        }
+    }
+    
     enum InternalNodeType {
         case text
         case interpolation
@@ -103,7 +239,7 @@ final class StringNode: CoreNode, CorePrimitiveNode {
     var content: String
     var rawValue: TreeSitterNode
     
-    var internalNodes: [(type: InternalNodeType, node: TreeSitterNode, localRange: Range<Int>)] = []
+    var internalNodes: [InternalNode] = []
     
     init(sString: String, content: String, rawValue: TreeSitterNode) {
         self.type = .string
@@ -138,9 +274,9 @@ final class StringNode: CoreNode, CorePrimitiveNode {
             let range: Range<Int> = adjustedStartByte ..< adjustedEndByte
 
             if fieldName == "text" {
-                internalNodes.append((InternalNodeType.text, child, range))
+                internalNodes.append(InternalNode(type: .text, node: child, localRange: range, content: contents))
             } else if fieldName == "interpolation" {
-                internalNodes.append((InternalNodeType.interpolation, child, range))
+                internalNodes.append(InternalNode(type: .interpolation, node: child, localRange: range, content: contents))
             }
         }
         self.content = tempContent

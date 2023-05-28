@@ -27,6 +27,7 @@ class JellycoreError: Error, Identifiable {
         case missingParameterName(function: String, name: String)
         case missingParameter(function: String, name: String)
         case variableDoesNotExist(variable: String)
+        case invalidTypeCoercion(type: String)
         case generic
         
         var description: String {
@@ -51,6 +52,8 @@ class JellycoreError: Error, Identifiable {
                 return "Missing parameter \(name) in \(function)"
             case .variableDoesNotExist(let variable):
                 return "Variable \(variable) does not exist"
+            case .invalidTypeCoercion(let type):
+                return "\(type) is not a valid 'as' coercion"
             }
         }
     }
@@ -121,5 +124,9 @@ extension JellycoreError {
     
     static func variableDoesNotExist(variable: String) -> JellycoreError {
         return JellycoreError(underlyingError: .variableDoesNotExist(variable: variable), level: .error, recoveryStrategy: "Make sure that you have initialized the variable \(variable)")
+    }
+    
+    static func invalidTypeCoercion(type: String) -> JellycoreError {
+        return JellycoreError(underlyingError: .invalidTypeCoercion(type: type), level: .error, recoveryStrategy: "Make sure you have entered a valid type coercion value for the as property.")
     }
 }
