@@ -29,6 +29,15 @@ struct JellyString: JellyPrimitiveType {
         }
     }
     
+    init(_ value: CorePrimitiveNode, scopedVariables: [Variable]) {
+        if let stringNode = value as? StringNode {
+            self.init(stringNode.content)
+            createAttachments(stringNode, scopedVariables: scopedVariables)
+        } else {
+            self.init(value.content)
+        }
+    }
+    
     init(parameterItem: FunctionCallParameterItem, scopedVariables: [Variable]) {
         if let stringNode = parameterItem.item as? StringNode {
             self.init(stringNode.content)
