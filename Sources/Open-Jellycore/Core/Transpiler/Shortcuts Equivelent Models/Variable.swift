@@ -5,7 +5,7 @@
 //  Created by Taylor Lineman on 11/4/22.
 //
 
-class Variable {
+final class Variable {
     enum ValueType {
         case magicVariable
         case string

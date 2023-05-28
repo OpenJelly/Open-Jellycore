@@ -6,6 +6,8 @@ import XCTest
 
 final class Open_JellycoreTests: XCTestCase {
     var testString: String = """
+    var interpolation = "Hello"
+    
     text(text: "${interpolation.as(Text)} World")
     """
     /*

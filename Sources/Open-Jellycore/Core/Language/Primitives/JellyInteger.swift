@@ -29,7 +29,7 @@ struct JellyInteger: JellyPrimitiveType {
             self.init(0)
 
             self.variable = JellyVariableReference(value, scopedVariables: scopedVariables)
-            if variable?.unableToInitialize ?? false {
+            if variable == nil {
                 return nil
             }
         }

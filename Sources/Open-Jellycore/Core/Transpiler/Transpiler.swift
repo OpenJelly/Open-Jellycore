@@ -8,12 +8,22 @@
 import Foundation
 
 class Transpiler {
+    static let globalVariables: [Variable] = [
+        Variable(uuid: "", name: "ShortcutInput", valueType: .global, value: ""),
+        Variable(uuid: "", name: "Clipboard", valueType: .global, value: ""),
+        Variable(uuid: "", name: "CurrentDate", valueType: .global, value: ""),
+        Variable(uuid: "", name: "Ask", valueType: .global, value: ""),
+        Variable(uuid: "", name: "RepeatItem", valueType: .global, value: ""),
+        Variable(uuid: "", name: "RepeatIndex", valueType: .global, value: ""),
+        Variable(uuid: "", name: "DeviceDetails", valueType: .global, value: "")
+    ]
+
     var contents: String {
         return currentParser?.contents ?? ""
     }
     var currentParser: Parser? = nil
     var lookupTable: [String: AnyAction] = TranspilerLookupTables.generateLookupTable(importedLibraries: [.shortcuts])
-    
+
     func compile(with parser: Parser) throws {
         currentParser = parser
         guard let tree = parser.tree else {
@@ -65,19 +75,7 @@ class Transpiler {
         case .conditionalElse:
             // TODO: Implement Conditional Nodes
             break
-        case .operator:
-            // TODO: Implement Conditional Nodes
-            break
         case .menu:
-            // TODO: Implement Menu Nodes
-            break
-        case .menuParameters:
-            // TODO: Implement Menu Nodes
-            break
-        case .menuBlock:
-            // TODO: Implement Menu Nodes
-            break
-        case .menuCase:
             // TODO: Implement Menu Nodes
             break
         case .function:
@@ -86,17 +84,8 @@ class Transpiler {
         case .macro:
             // TODO: Implement Macro Nodes
             break
-        case .parameterList:
-            // TODO: Implement Parameter List Nodes
-            break
-        case .parameterListItem:
-            // TODO: Implement Parameter List Nodes
-            break
-        case .statement:
-            // TODO: Implement Statement Nodes
-            break
-        case .variableDeclaration:
-            guard let coreNode = coreNode as? VariableDeclarationNode else {
+        case .variableDeclaration, .setVariable:
+            guard let coreNode = coreNode as? VariableAssignmentNode else {
                 throw JellycoreError.typeError(type: "VariableDeclarationNode", description: "Node type does not match struct type")
             }
 
@@ -114,30 +103,6 @@ class Transpiler {
             } else {
                 print("Unable to generate action")
             }
-        case .magicVariable:
-            // TODO: Implement Magic Variable Nodes
-            break
-        case .returnStatement:
-            // TODO: Implement Return Nodes
-            break
-        case .identifier:
-            // TODO: Implement Identifier Nodes
-            break
-        case .number:
-            // TODO: Implement Number Nodes
-            break
-        case .array:
-            // TODO: Implement Array Nodes
-            break
-        case .string:
-            // TODO: Implement String Nodes
-            break
-        case .multiString:
-            // TODO: Implement Multi String Nodes
-            break
-        case .block:
-            // TODO: Implement Block Nodes
-            break
         case .comment, .blockComment:
             guard let coreNode = coreNode as? CommentNode else {
                 throw JellycoreError.typeError(type: "Comment", description: "Node type does not match struct type")
@@ -145,16 +110,8 @@ class Transpiler {
             
             let commentAction = try compileComment(node: coreNode)
             actions.append(commentAction)
-        case .setVariable:
-            // TODO: Implement Set Variable
-            break
-        case .variableProperty:
-            // TODO: Implement Set Variable
-            break
-        case .variablePropertyType:
-            // TODO: Implement Set Variable
-            break
-        case .stringInterpolation:
+        default:
+            print("Unhandled Node on Compile step \(coreNode.content) - \(coreNode.sString)")
             break
         }
         
@@ -165,14 +122,21 @@ class Transpiler {
 // MARK: Transpile Individual Nodes
 /// Any functions that transpiler individual CoreNodes into Shortcuts Actions
 extension Transpiler {
-    private func compileVariableDeclaration(node: VariableDeclarationNode, scopedVariables: [Variable]) throws -> (actions: [WFAction], variables: [Variable]) {
+    
+    private func compileVariableDeclaration(node: VariableAssignmentNode, scopedVariables: [Variable]) throws -> (actions: [WFAction], variables: [Variable]) {
         // TODO: Check to make sure variable is available
+        if Transpiler.globalVariables.contains(where: { variableNameMatches(variable: $0, name: node.name) }) {
+            // TODO: Error Reporting
+            return ([], [])
+        }
         
+        let existingVariable: Variable? = scopedVariables.first(where: { variableNameMatches(variable: $0, name: node.name) })
+
         if let valuePrimitive = node.valuePrimitive {
             var scopedVariables: [Variable] = scopedVariables
             let nodeType = valuePrimitive.type
             var actions: [WFAction] = []
-            
+                        
             if nodeType == .string {
                 let textUUID = UUID().uuidString
                 let magicVariable = Variable(uuid: textUUID, name: "Generated Magic Variable \(textUUID)", valueType: .magicVariable, value: "Text")
@@ -181,7 +145,7 @@ extension Transpiler {
                     let call: [FunctionCallParameterItem] = [
                         FunctionCallParameterItem(slotName: "text", item: valuePrimitive)
                     ]
-                    let builtFunction = foundFunction.build(call: call, magicVariable: nil, scopedVariables: scopedVariables)
+                    let builtFunction = foundFunction.build(call: call, magicVariable: magicVariable, scopedVariables: scopedVariables)
                     
                     actions.append(builtFunction)
                 }
@@ -191,10 +155,57 @@ extension Transpiler {
                 
                 // Add the magic variable pointing to the string function to the scope
                 scopedVariables.append(magicVariable)
-                // Add the variable we just created to the scope
-                scopedVariables.append(Variable(uuid: UUID().uuidString, name: node.name, valueType: .string, value: node.value))
+                if let existingVariable {
+                    existingVariable.value = node.value
+                    existingVariable.valueType = .string
+                } else {
+                    // Add the variable we just created to the scope
+                    scopedVariables.append(Variable(uuid: UUID().uuidString, name: node.name, valueType: .string, value: node.value))
+                }
                 actions.append(variableAction)
+            } else if nodeType == .number {
+                let numberUUID = UUID().uuidString
+                let magicVariable = Variable(uuid: numberUUID, name: "Generated Magic Variable \(numberUUID)", valueType: .magicVariable, value: "Text")
+                
+                if let foundFunction = TranspilerLookupTables.shortcutsFunctions["number"] {
+                    let call: [FunctionCallParameterItem] = [
+                        FunctionCallParameterItem(slotName: "value", item: valuePrimitive)
+                    ]
+                    let builtFunction = foundFunction.build(call: call, magicVariable: magicVariable, scopedVariables: scopedVariables)
+                    
+                    actions.append(builtFunction)
+                }
+                
+                
+                let variableAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.setvariable", WFWorkflowActionParameters: ["WFInput": QuantumValue(JellyVariableReference(magicVariable, scopedVariables: scopedVariables)), "WFVariableName": QuantumValue(node.name)])
+                
+                // Add the magic variable pointing to the string function to the scope
+                scopedVariables.append(magicVariable)
 
+                if let existingVariable {
+                    existingVariable.value = node.value
+                    existingVariable.valueType = .number
+                } else {
+                    // Add the variable we just created to the scope
+                    scopedVariables.append(Variable(uuid: UUID().uuidString, name: node.name, valueType: .number, value: node.value))
+                }
+                
+                actions.append(variableAction)
+            } else {
+                if let variableReference = JellyVariableReference(valuePrimitive, scopedVariables: scopedVariables) {
+                    let variableAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.setvariable", WFWorkflowActionParameters: ["WFInput": QuantumValue(variableReference), "WFVariableName": QuantumValue(valuePrimitive.content)])
+                    actions.append(variableAction)
+                    
+                    let type: Variable.ValueType = Transpiler.globalVariables.contains(where: {variableNameMatches(variable: $0, name: valuePrimitive.content)}) ? .global : .magicVariable
+                    
+                    if let existingVariable {
+                        existingVariable.value = node.value
+                        existingVariable.valueType = type
+                    } else {
+                        // Add the variable we just created to the scope
+                        scopedVariables.append(Variable(uuid: UUID().uuidString, name: node.name, valueType: type, value: node.value))
+                    }
+                }
             }
 
             
@@ -202,7 +213,6 @@ extension Transpiler {
         }
 
         return ([], [])
-
     }
     
     private func compileFunctionCall(node: FunctionCallNode) throws -> WFAction? {
@@ -248,88 +258,14 @@ extension Transpiler {
                 return FlagNode(sString: sString, content: content, rawValue: node)
             case .import:
                 return ImportNode(sString: sString, content: content, rawValue: node)
-            case .repeat:
-                // TODO: Implement Repeat Nodes
-                break
-            case .repeatEach:
-                // TODO: Implement Repeat Nodes
-                break
-            case .conditional:
-                // TODO: Implement Conditional Nodes
-                break
-            case .conditionalElse:
-                // TODO: Implement Conditional Nodes
-                break
-            case .operator:
-                // TODO: Implement Conditional Nodes
-                break
-            case .menu:
-                // TODO: Implement Menu Nodes
-                break
-            case .menuParameters:
-                // TODO: Implement Menu Nodes
-                break
-            case .menuBlock:
-                // TODO: Implement Menu Nodes
-                break
-            case .menuCase:
-                // TODO: Implement Menu Nodes
-                break
-            case .function:
-                // TODO: Implement Function Nodes
-                break
-            case .macro:
-                // TODO: Implement Macro Nodes
-                break
-            case .parameterList:
-                // TODO: Implement Parameter List Nodes
-                break
-            case .parameterListItem:
-                // TODO: Implement Parameter List Nodes
-                break
-            case .statement:
-                // TODO: Implement Statement Nodes
-                break
-            case .variableDeclaration:
-                return VariableDeclarationNode(sString: sString, content: content, rawValue: node)
+            case .variableDeclaration, .setVariable:
+                return VariableAssignmentNode(sString: sString, content: content, rawValue: node)
             case .functionCall:
                 return FunctionCallNode(sString: sString, content: content, rawValue: node)
-            case .magicVariable:
-                // TODO: Implement Magic Variable Nodes
-                break
-            case .returnStatement:
-                // TODO: Implement Return Nodes
-                break
-            case .identifier:
-                // TODO: Implement Identifier Nodes
-                break
-            case .number:
-                // TODO: Implement Number Nodes
-                break
-            case .array:
-                // TODO: Implement Array Nodes
-                break
-            case .string:
-                // TODO: Implement String Nodes
-                break
-            case .multiString:
-                // TODO: Implement Multi String Nodes
-                break
-            case .block:
-                // TODO: Implement Block Nodes
-                break
-            case .setVariable:
-                // TODO: Implement Set Variable Node
-                break
             case .comment, .blockComment:
                 return CommentNode(sString: sString, content: content, rawValue: node)
-            case .variableProperty:
-                // TODO: Implement Set Variable
-                break
-            case .variablePropertyType:
-                // TODO: Implement Set Variable
-                break
-            case .stringInterpolation:
+            default:
+                print("Unhandled Node on Translate step \(content) - \(sString)")
                 break
             }
         } else {
@@ -337,5 +273,12 @@ extension Transpiler {
         }
         
         return nil
+    }
+}
+
+// MARK: Filters and Array searches
+extension Transpiler {
+    private func variableNameMatches(variable: Variable, name: String) -> Bool {
+        return variable.name == name
     }
 }

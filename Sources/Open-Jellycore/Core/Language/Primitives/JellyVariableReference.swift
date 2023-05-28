@@ -15,7 +15,6 @@ struct JellyVariableReference: JellyAny, Codable {
     var needsValueKey: Bool = true
     var needsSerialization: Bool = true
     var variableType: String = "Variable"
-    var unableToInitialize: Bool = false
     
     private enum EncodingKey: String, CodingKey {
         case value = "Value"
@@ -37,7 +36,7 @@ struct JellyVariableReference: JellyAny, Codable {
         self.name = ""
         self.uuid = ""
         
-        if let variable = scopedVariables.first(where: {variableNameFilter(variable: $0, name: name)}) {
+        if let variable = scopedVariables.first(where: { variableNameFilter(variable: $0, name: name) }) {
             self.name = variable.name
             self.uuid = variable.uuid
         } else {

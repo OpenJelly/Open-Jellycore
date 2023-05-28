@@ -26,7 +26,7 @@ struct JellyBoolean: JellyPrimitiveType {
             self.init(false)
 
             self.variable = JellyVariableReference(value, scopedVariables: scopedVariables)
-            if variable?.unableToInitialize ?? false {
+            if variable == nil {
                 return nil
             }
         }

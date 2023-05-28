@@ -36,7 +36,7 @@ struct JellyDate: JellyPrimitiveType {
 
                 self.init(Date())
                 self.variable = JellyVariableReference(value, scopedVariables: scopedVariables)
-                if variable?.unableToInitialize ?? false {
+                if variable == nil {
                     return nil
                 }
             }

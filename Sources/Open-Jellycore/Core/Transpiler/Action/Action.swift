@@ -33,8 +33,14 @@ struct Action<ParameterType: ParameterProtocol>: AnyAction {
         }
                 
         let type: ParameterType = ParameterType.build(call: call, scopedVariables: []) as! ParameterType
-        let parameters: [String: QuantumValue] = type.asDictionary()
+        var parameters: [String: QuantumValue] = type.asDictionary()
 
+        if let magicVariable = magicVariable {
+            parameters.merge(["UUID": QuantumValue(magicVariable.uuid), "CustomOutputName": QuantumValue(magicVariable.name)]) { first, _ in
+                return first
+            }
+        }
+        
         return WFAction(WFWorkflowActionIdentifier: identifier, WFWorkflowActionParameters: parameters)
         
     }

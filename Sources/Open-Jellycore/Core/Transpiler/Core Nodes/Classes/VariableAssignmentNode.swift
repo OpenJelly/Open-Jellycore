@@ -1,11 +1,11 @@
 //
-//  VariableDeclarationNode.swift
-//  Open-Jellyore
+//  VariableAssignmentNode.swift
+//  Open-Jellycore
 //
-//  Created by Taylor Lineman on 5/23/23.
+//  Created by Taylor Lineman on 5/28/23.
 //
 
-final class VariableDeclarationNode: CoreNode {
+final class VariableAssignmentNode: CoreNode {
     var type: CoreNodeType
     var sString: String
     var content: String
