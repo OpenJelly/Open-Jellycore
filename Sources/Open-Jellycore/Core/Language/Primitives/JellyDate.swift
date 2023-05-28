@@ -27,20 +27,19 @@ struct JellyDate: JellyPrimitiveType {
     }
     
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
-        self.init(Date())
-//        do {
-//            try self.init(value.content)
-//        } catch {
-//            do {
-//                try self.init(value.content)
-//            } catch {
-//                // TODO: Re-setup variable references
-////                self.init(Date())
-////                self.variable = JellyVariableReference(value, scopedVariables: scopedVariables)
-////                if variable?.unableToInitialize ?? false {
-////                    return nil
-////                }
-//            }
-//        }
+        do {
+            try self.init(value.content)
+        } catch {
+            do {
+                try self.init(value.content)
+            } catch {
+                // TODO: Re-setup variable references
+                self.init(Date())
+                self.variable = JellyVariableReference(value, scopedVariables: scopedVariables)
+                if variable?.unableToInitialize ?? false {
+                    return nil
+                }
+            }
+        }
     }
 }

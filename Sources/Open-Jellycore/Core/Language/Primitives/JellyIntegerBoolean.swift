@@ -26,13 +26,11 @@ struct JellyIntegerBoolean: JellyPrimitiveType {
         } catch {
             self.init(0)
             // TODO: Re-setup variable references
-//            self.variable = JellyVariableReference(value, scopedVariables: scopedVariables)
-//            if variable?.unableToInitialize ?? false {
-//                ErrorReporter.shared.report(error: .typeError(type: "Boolean", description: "\(value.content) is not convertable to a boolean"), textPosition: value.textPosition)
-//                return nil
-//            }
+            self.variable = JellyVariableReference(value, scopedVariables: scopedVariables)
+            if variable?.unableToInitialize ?? false {
+                return nil
+            }
         }
-
     }
 
     internal static func bool(input: String) throws -> Bool {

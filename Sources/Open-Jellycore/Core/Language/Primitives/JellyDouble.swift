@@ -29,11 +29,10 @@ struct JellyDouble: JellyPrimitiveType {
         } catch {
             self.init(0.0)
             // TODO: Re-setup variable references
-//            self.variable = JellyVariableReference(value, scopedVariables: scopedVariables)
-//            if variable?.unableToInitialize ?? false {
-//                ErrorReporter.shared.report(error: error as! JellyError, textPosition: value.textPosition)
-//                return nil
-//            }
+            self.variable = JellyVariableReference(value, scopedVariables: scopedVariables)
+            if variable?.unableToInitialize ?? false {
+                return nil
+            }
         }
     }
 }

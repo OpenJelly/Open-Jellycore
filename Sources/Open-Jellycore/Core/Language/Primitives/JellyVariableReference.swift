@@ -34,14 +34,25 @@ struct JellyVariableReference: JellyAny, Codable {
     }
     
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
-        self.name = value.content
-        self.uuid = UUID().uuidString
+        self.name = ""
+        self.uuid = ""
+        
+        if let variable = scopedVariables.first(where: {variableNameFilter(variable: $0, name: name)}) {
+            self.name = variable.name
+            self.uuid = variable.uuid
+        } else {
+            return nil
+        }
     }
     
     init(interpolationNode: StringNode.InterpolationNode, scopedVariables: [Variable]) {
         self.name = interpolationNode.identifierNode?.content ?? interpolationNode.content
         self.uuid = UUID().uuidString
         self.aggrandizements = interpolationNode.identifierNode?.aggrandizements ?? []
+    }
+    
+    private func variableNameFilter(variable: Variable, name: String) -> Bool {
+        return variable.name == name
     }
     
     func encode(to encoder: Encoder) throws {
