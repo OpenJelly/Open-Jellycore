@@ -5,7 +5,7 @@
 //  Created by Taylor Lineman on 1/7/23.
 //
 
-public enum ShortcutImage: String, CaseIterable {
+public enum ShortcutsColor: String, CaseIterable, Identifiable {
     case red
     case orange
     case tangerine
@@ -22,7 +22,7 @@ public enum ShortcutImage: String, CaseIterable {
     case grayGreen
     case grayBrown
     
-    var version: ShortcutsHostVersion {
+    public var version: ShortcutsHostVersion {
         switch self {
         case .red:
             return .iOS13
@@ -57,7 +57,7 @@ public enum ShortcutImage: String, CaseIterable {
         }
     }
     
-    var id: Int {
+    public var id: Int {
         switch self {
         case .red:
             return 4282601983
@@ -92,7 +92,7 @@ public enum ShortcutImage: String, CaseIterable {
         }
     }
     
-    var gradient: (top: String, bottom: String) {
+    public var gradient: (top: String, bottom: String) {
         switch self {
         case .red:
             return ("#F36F74", "#F2585E")
@@ -128,7 +128,7 @@ public enum ShortcutImage: String, CaseIterable {
     }
 }
 
-public enum ShortcutGlyph: String, CaseIterable {
+public enum ShortcutGlyph: String, CaseIterable, Identifiable {
     case car
     case carMultiple
     case electricCar
@@ -517,7 +517,7 @@ public enum ShortcutGlyph: String, CaseIterable {
     case twoCartoonHearts
     case cloudService
 
-    var version: ShortcutsHostVersion {
+    public var version: ShortcutsHostVersion {
         switch self {
         case .car:
             return.iOS14
@@ -1296,780 +1296,780 @@ public enum ShortcutGlyph: String, CaseIterable {
         }
     }
     
-    var id: Int {
+    public var id: Int {
         switch self {
         case .car:
-            return 5945959452
+            return 59452
         case .carMultiple:
-            return 5945961446
+            return 61446
         case .electricCar:
-            return 5945961447
+            return 61447
         case .bus:
-            return 5945959678
+            return 59678
         case .busDouble:
-            return 5945961448
+            return 61448
         case .tram:
-            return 5945961449
+            return 61449
         case .tramTunnel:
-            return 5945961450
+            return 61450
         case .bike:
-            return 5945959668
+            return 59668
         case .motorcycle:
-            return 5945959783
+            return 59783
         case .ambulance:
-            return 5945959652
+            return 59652
         case .airplane:
-            return 5945959648
+            return 59648
         case .sailboat:
-            return 5945959823
+            return 59823
         case .house:
-            return 5945959755
+            return 59755
         case .church:
-            return 5945959688
+            return 59688
         case .buildings:
-            return 5945959677
+            return 59677
         case .shoppingCart:
-            return 5945959828
+            return 59828
         case .handbag:
-            return 5945959750
+            return 59750
         case .groceryStore:
-            return 5945959747
+            return 59747
         case .utensils:
-            return 5945959863
+            return 59863
         case .fuelstation:
-            return 5945959741
+            return 59741
         case .thermometer:
-            return 5945959854
+            return 59854
         case .sun:
-            return 5945959845
+            return 59845
         case .moon:
-            return 5945959782
+            return 59782
         case .moonCircle:
-            return 5945961517
+            return 61517
         case .snowflake:
-            return 5945959835
+            return 59835
         case .cloud:
-            return 5945959714
+            return 59714
         case .raincloud:
-            return 5945959715
+            return 59715
         case .umbrella:
-            return 5945959861
+            return 59861
         case .pineTree:
-            return 5945959731
+            return 59731
         case .flower:
-            return 5945959468
+            return 59468
         case .fire:
-            return 5945959734
+            return 59734
         case .footprints:
-            return 5945959738
+            return 59738
         case .signs:
-            return 5945959724
+            return 59724
         case .binoculars:
-            return 5945959669
+            return 59669
         case .compass:
-            return 5945959717
+            return 59717
         case .globe:
-            return 5945959412
+            return 59412
         case .mountain:
-            return 5945959785
+            return 59785
         case .picture:
-            return 5945959784
+            return 59784
         case .filmstrip:
-            return 5945959733
+            return 59733
         case .camera:
-            return 5945959682
+            return 59682
         case .movieCamera:
-            return 5945959402
+            return 59402
         case .microphone:
-            return 5945959780
+            return 59780
         case .videoIcon:
-            return 5945959864
+            return 59864
         case .clipboard:
-            return 5945959711
+            return 59711
         case .calendar:
-            return 5945959681
+            return 59681
         case .chatBubble:
-            return 5945959414
+            return 59414
         case .messageBubbles:
-            return 5945959403
+            return 59403
         case .textBubble:
-            return 5945959779
+            return 59779
         case .envelope:
-            return 5945959773
+            return 59773
         case .envelopeOpen:
-            return 5945959774
+            return 59774
         case .paperAirplane:
-            return 5945959836
+            return 59836
         case .paperAirplaneCircle:
-            return 5945961462
+            return 61462
         case .briefcase:
-            return 5945959676
+            return 59676
         case .folder:
-            return 5945959737
+            return 59737
         case .creditCard:
-            return 5945959719
+            return 59719
         case .watch:
-            return 5945959865
+            return 59865
         case .phone:
-            return 5945959814
+            return 59814
         case .laptop:
-            return 5945959436
+            return 59436
         case .keyboard:
-            return 5945959446
+            return 59446
         case .keyboardOld:
-            return 5945959494
+            return 59494
         case .calculator:
-            return 5945959680
+            return 59680
         case .barGraph:
-            return 5945959662
+            return 59662
         case .printer:
-            return 5945959817
+            return 59817
         case .hardDrive:
-            return 5945959752
+            return 59752
         case .server:
-            return 5945959722
+            return 59722
         case .database:
-            return 5945959519
+            return 59519
         case .networkStorage:
-            return 5945959826
+            return 59826
         case .archive:
-            return 5945959653
+            return 59653
         case .cube:
-            return 5945959721
+            return 59721
         case .tv:
-            return 5945959851
+            return 59851
         case .gameController:
-            return 5945959742
+            return 59742
         case .puzzlePiece:
-            return 5945959818
+            return 59818
         case .headphones:
-            return 5945959753
+            return 59753
         case .headphonesCircle:
-            return 5945961479
+            return 61479
         case .ear:
-            return 5945961481
+            return 61481
         case .musicNote:
-            return 5945959790
+            return 59790
         case .speakerWave1:
-            return 5945959839
+            return 59839
         case .speakerWave2:
-            return 5945961470
+            return 61470
         case .speakerWave3:
-            return 5945961471
+            return 61471
         case .mute:
-            return 5945961472
+            return 61472
         case .speaker:
-            return 5945961473
+            return 61473
         case .hifiSpeaker:
-            return 5945961478
+            return 61478
         case .desktopSpeaker:
-            return 5945961474
+            return 61474
         case .bookshelf:
-            return 5945959671
+            return 59671
         case .openBook:
-            return 5945959465
+            return 59465
         case .sashBook:
-            return 5945959672
+            return 59672
         case .closedBook:
-            return 5945961442
+            return 61442
         case .glasses:
-            return 5945959745
+            return 59745
         case .mask:
-            return 5945959777
+            return 59777
         case .ticket:
-            return 5945959788
+            return 59788
         case .dramaMask:
-            return 5945959730
+            return 59730
         case .dice:
-            return 5945959723
+            return 59723
         case .baseball:
-            return 5945959663
+            return 59663
         case .basketball:
-            return 5945959664
+            return 59664
         case .soccerBall:
-            return 5945959837
+            return 59837
         case .tennisBall:
-            return 5945959852
+            return 59852
         case .football:
-            return 5945959456
+            return 59456
         case .lifePreserver:
-            return 5945959762
+            return 59762
         case .telescope:
-            return 5945959850
+            return 59850
         case .microscope:
-            return 5945959781
+            return 59781
         case .horse:
-            return 5945959756
+            return 59756
         case .clock:
-            return 5945959712
+            return 59712
         case .alarmClock:
-            return 5945959649
+            return 59649
         case .stopwatch:
-            return 5945959844
+            return 59844
         case .bell:
-            return 5945959667
+            return 59667
         case .sparklingBell:
-            return 5945959838
+            return 59838
         case .heart:
-            return 5945959754
+            return 59754
         case .star:
-            return 5945959841
+            return 59841
         case .trophy:
-            return 5945959860
+            return 59860
         case .lightbulb:
-            return 5945959763
+            return 59763
         case .lightningBolt:
-            return 5945959764
+            return 59764
         case .flag:
-            return 5945959736
+            return 59736
         case .tag:
-            return 5945959848
+            return 59848
         case .key:
-            return 5945959760
+            return 59760
         case .hourglass:
-            return 5945959757
+            return 59757
         case .lock:
-            return 5945959770
+            return 59770
         case .unlockButton:
-            return 5945959862
+            return 59862
         case .battery:
-            return 5945959489
+            return 59489
         case .magicWand:
-            return 5945959511
+            return 59511
         case .magicWandAlt:
-            return 5945959771
+            return 59771
         case .paintbrush:
-            return 5945959793
+            return 59793
         case .pencil:
-            return 5945959798
+            return 59798
         case .paperclip:
-            return 5945959794
+            return 59794
         case .scissors:
-            return 5945959824
+            return 59824
         case .magnifyingGlass:
-            return 5945959772
+            return 59772
         case .chainlink:
-            return 5945959685
+            return 59685
         case .eyedropper:
-            return 5945959716
+            return 59716
         case .hammer:
-            return 5945959748
+            return 59748
         case .wrench:
-            return 5945959870
+            return 59870
         case .tools:
-            return 5945959749
+            return 59749
         case .gear:
-            return 5945959743
+            return 59743
         case .hammerAlt:
-            return 5945959473
+            return 59473
         case .screwdriver:
-            return 5945959825
+            return 59825
         case .hand:
-            return 5945959751
+            return 59751
         case .trashcan:
-            return 5945959859
+            return 59859
         case .waterDrop:
-            return 5945959866
+            return 59866
         case .mug:
-            return 5945959789
+            return 59789
         case .steamingBowl:
-            return 5945959842
+            return 59842
         case .apple:
-            return 5945959740
+            return 59740
         case .carrot:
-            return 5945959683
+            return 59683
         case .fish:
-            return 5945959735
+            return 59735
         case .cake:
-            return 5945959679
+            return 59679
         case .wineBottle:
-            return 5945959868
+            return 59868
         case .martini:
-            return 5945959776
+            return 59776
         case .clothesHanger:
-            return 5945959713
+            return 59713
         case .laundryMachine:
-            return 5945959761
+            return 59761
         case .oven:
-            return 5945959792
+            return 59792
         case .shirt:
-            return 5945959827
+            return 59827
         case .bathtub:
-            return 5945959665
+            return 59665
         case .shower:
-            return 5945959829
+            return 59829
         case .pill:
-            return 5945959461
+            return 59461
         case .medicine:
-            return 5945959815
+            return 59815
         case .medicineBottle:
-            return 5945959778
+            return 59778
         case .bandage:
-            return 5945959660
+            return 59660
         case .inhaler:
-            return 5945959759
+            return 59759
         case .stethoscope:
-            return 5945959843
+            return 59843
         case .syringe:
-            return 5945959847
+            return 59847
         case .atom:
-            return 5945959657
+            return 59657
         case .chemical:
-            return 5945959686
+            return 59686
         case .cat:
-            return 5945959684
+            return 59684
         case .dog:
-            return 5945959728
+            return 59728
         case .pawPrint:
-            return 5945959796
+            return 59796
         case .thumbsUp:
-            return 5945959857
+            return 59857
         case .graduate:
-            return 5945959746
+            return 59746
         case .gift:
-            return 5945959744
+            return 59744
         case .alien:
-            return 5945959651
+            return 59651
         case .bed:
-            return 5945959666
+            return 59666
         case .stairs:
-            return 5945959840
+            return 59840
         case .rocket:
-            return 5945959822
+            return 59822
         case .map:
-            return 5945961444
+            return 61444
         case .gauge:
-            return 5945961452
+            return 61452
         case .speedometer:
-            return 5945961453
+            return 61453
         case .barometer:
-            return 5945961454
+            return 61454
         case .network:
-            return 5945961455
+            return 61455
         case .rectangleStack:
-            return 5945961456
+            return 61456
         case .squareStack:
-            return 5945961457
+            return 61457
         case .threeDSquareStack:
-            return 5945961458
+            return 61458
         case .photoStack:
-            return 5945961459
+            return 61459
         case .photoStackAlt:
-            return 5945961460
+            return 61460
         case .aperture:
-            return 5945961461
+            return 61461
         case .note:
-            return 5945961464
+            return 61464
         case .noteText:
-            return 5945961465
+            return 61465
         case .noteTextPlus:
-            return 5945961466
+            return 61466
         case .sendMessage:
-            return 5945961467
+            return 61467
         case .addMessage:
-            return 5945961468
+            return 61468
         case .earPods:
-            return 5945961475
+            return 61475
         case .airPods:
-            return 5945961476
+            return 61476
         case .airPodsPro:
-            return 5945961477
+            return 61477
         case .radio:
-            return 5945961480
+            return 61480
         case .appleTV:
-            return 5945961482
+            return 61482
         case .homePod:
-            return 5945961483
+            return 61483
         case .appleWatchWaves:
-            return 5945961484
+            return 61484
         case .iPhone:
-            return 5945961486
+            return 61486
         case .iPhoneWave:
-            return 5945961487
+            return 61487
         case .iPhoneApps:
-            return 5945961488
+            return 61488
         case .iPad:
-            return 5945961489
+            return 61489
         case .iPadAlt:
-            return 5945961490
+            return 61490
         case .iPod:
-            return 5945961491
+            return 61491
         case .babyGirl:
-            return 5945959658
+            return 59658
         case .babyBoy:
-            return 5945959659
+            return 59659
         case .child:
-            return 5945959687
+            return 59687
         case .man:
-            return 5945959775
+            return 59775
         case .woman:
-            return 5945959869
+            return 59869
         case .wheelchair:
-            return 5945959806
+            return 59806
         case .person:
-            return 5945959801
+            return 59801
         case .people2:
-            return 5945959800
+            return 59800
         case .people3:
-            return 5945959799
+            return 59799
         case .person2:
-            return 5945959437
+            return 59437
         case .personAlter:
-            return 5945959802
+            return 59802
         case .personSpeech:
-            return 5945959804
+            return 59804
         case .personDancer:
-            return 5945959803
+            return 59803
         case .personLifting:
-            return 5945959807
+            return 59807
         case .personSkiing:
-            return 5945959809
+            return 59809
         case .personSnowboarding:
-            return 5945959810
+            return 59810
         case .personSwimming:
-            return 5945959811
+            return 59811
         case .personHiking:
-            return 5945959805
+            return 59805
         case .personWalking:
-            return 5945959812
+            return 59812
         case .personWalkingCane:
-            return 5945959813
+            return 59813
         case .personRunning:
-            return 5945959808
+            return 59808
         case .personRunningCircle:
-            return 5945961493
+            return 61493
         case .personSprinting:
-            return 5945961494
+            return 61494
         case .personClose:
-            return 5945961495
+            return 61495
         case .personOpen:
-            return 5945961496
+            return 61496
         case .shortcuts:
-            return 5945961440
+            return 61440
         case .alertTriangle:
-            return 5945959650
+            return 59650
         case .arrowCurvedLeft:
-            return 5945959654
+            return 59654
         case .arrowCurvedRight:
-            return 5945959655
+            return 59655
         case .bookmark:
-            return 5945959670
+            return 59670
         case .barcode:
-            return 5945959661
+            return 59661
         case .QRCode:
-            return 5945959819
+            return 59819
         case .play:
-            return 5945959508
+            return 59508
         case .boxFilled:
-            return 5945959673
+            return 59673
         case .boxOutline:
-            return 5945959674
+            return 59674
         case .braille:
-            return 5945959675
+            return 59675
         case .circleLeftArrow:
-            return 5945959696
+            return 59696
         case .circleRightArrow:
-            return 5945959705
+            return 59705
         case .downloadArrow:
-            return 5945959693
+            return 59693
         case .circledUpArrow:
-            return 5945959707
+            return 59707
         case .circledDownArrow:
-            return 5945959692
+            return 59692
         case .uploadArrow:
-            return 5945959708
+            return 59708
         case .circledPlay:
-            return 5945959699
+            return 59699
         case .circledRewind:
-            return 5945959704
+            return 59704
         case .circledPower:
-            return 5945959702
+            return 59702
         case .circledStop:
-            return 5945959706
+            return 59706
         case .circledFastForward:
-            return 5945959695
+            return 59695
         case .circledQuestionMark:
-            return 5945959703
+            return 59703
         case .circledCheckmark:
-            return 5945959690
+            return 59690
         case .circledPlus:
-            return 5945959700
+            return 59700
         case .circledX:
-            return 5945959709
+            return 59709
         case .circledPi:
-            return 5945959698
+            return 59698
         case .circledI:
-            return 5945959697
+            return 59697
         case .smileyFace:
-            return 5945959834
+            return 59834
         case .document:
-            return 5945959725
+            return 59725
         case .dollarSign:
-            return 5945959395
+            return 59395
         case .poundSign:
-            return 5945959512
+            return 59512
         case .euroSign:
-            return 5945959448
+            return 59448
         case .yenSign:
-            return 5945959514
+            return 59514
         case .bitcoin:
-            return 5945959515
+            return 59515
         case .asterisk:
-            return 5945959656
+            return 59656
         case .documentFilled:
-            return 5945959726
+            return 59726
         case .documentOutline:
-            return 5945959727
+            return 59727
         case .newsArticle:
-            return 5945959791
+            return 59791
         case .fourSquares:
-            return 5945959739
+            return 59739
         case .ellipsis:
-            return 5945959392
+            return 59392
         case .list:
-            return 5945959445
+            return 59445
         case .twelveSquares:
-            return 5945959405
+            return 59405
         case .Connected:
-            return 5945959718
+            return 59718
         case .infinity:
-            return 5945959758
+            return 59758
         case .recycle:
-            return 5945959820
+            return 59820
         case .loadingIndicator:
-            return 5945959767
+            return 59767
         case .loadingIndicatorAlt:
-            return 5945959516
+            return 59516
         case .Target:
-            return 5945959849
+            return 59849
         case .podcasts:
-            return 5945959816
+            return 59816
         case .targetAlt:
-            return 5945959454
+            return 59454
         case .locationArrow:
-            return 5945959768
+            return 59768
         case .locationPin:
-            return 5945959769
+            return 59769
         case .parking:
-            return 5945959795
+            return 59795
         case .crop:
-            return 5945959720
+            return 59720
         case .shrinkArrow:
-            return 5945959830
+            return 59830
         case .moveArrow:
-            return 5945959786
+            return 59786
         case .repostArrows:
-            return 5945959821
+            return 59821
         case .syncArrows:
-            return 5945959846
+            return 59846
         case .shuffleArrows:
-            return 5945959832
+            return 59832
         case .sliders:
-            return 5945959833
+            return 59833
         case .doubleQuote:
-            return 5945959729
+            return 59729
         case .peaceSign:
-            return 5945959797
+            return 59797
         case .threeCircles:
-            return 5945959856
+            return 59856
         case .textSymbol:
-            return 5945959853
+            return 59853
         case .feedRight:
-            return 5945959732
+            return 59732
         case .feed:
-            return 5945959497
+            return 59497
         case .wifi:
-            return 5945959867
+            return 59867
         case .airdrop:
-            return 5945961501
+            return 61501
         case .arrowDiamond:
-            return 5945961497
+            return 61497
         case .directionsRight:
-            return 5945961498
+            return 61498
         case .airplayAudio:
-            return 5945961499
+            return 61499
         case .airplayVideo:
-            return 5945961500
+            return 61500
         case .musicNoteList:
-            return 5945961502
+            return 61502
         case .musicNoteAlt:
-            return 5945961503
+            return 61503
         case .musicSquareStack:
-            return 5945961504
+            return 61504
         case .musicWaveForm:
-            return 5945961505
+            return 61505
         case .livePlay:
-            return 5945961506
+            return 61506
         case .livePhoto:
-            return 5945961507
+            return 61507
         case .sloMo:
-            return 5945961508
+            return 61508
         case .timeLapse:
-            return 5945961509
+            return 61509
         case .calendarPlus:
-            return 5945961510
+            return 61510
         case .calendarExclamation:
-            return 5945961511
+            return 61511
         case .timer:
-            return 5945961512
+            return 61512
         case .timerSquare:
-            return 5945961513
+            return 61513
         case .compose:
-            return 5945961514
+            return 61514
         case .duplicate:
-            return 5945961515
+            return 61515
         case .nightShift:
-            return 5945961518
+            return 61518
         case .trueTone:
-            return 5945961519
+            return 61519
         case .dialMin:
-            return 5945961520
+            return 61520
         case .dialMax:
-            return 5945961521
+            return 61521
         case .QRViewFinder:
-            return 5945961522
+            return 61522
         case .cameraViewFinder:
-            return 5945961523
+            return 61523
         case .walletPass:
-            return 5945961524
+            return 61524
         case .appearance:
-            return 5945961525
+            return 61525
         case .noSign:
-            return 5945961528
+            return 61528
         case .command:
-            return 5945961529
+            return 61529
         case .commandCircle:
-            return 5945961530
+            return 61530
         case .commandSquare:
-            return 5945961531
+            return 61531
         case .blank:
-            return 59459999999
+            return 999999
         case .bumps:
-            return 5945959433
+            return 59433
         case .stripe:
-            return 5945959455
+            return 59455
         case .facetime:
-            return 5945959583
+            return 59583
         case .circledHeart:
-            return 5945959542
+            return 59542
         case .documentOutlineAlt:
-            return 5945959496
+            return 59496
         case .circledA:
-            return 5945959520
+            return 59520
         case .folderGear:
-            return 5945961571
+            return 61571
         case .folderOutline:
-            return 5945961570
+            return 61570
         case .takeout:
-            return 5945961553
+            return 61553
         case .starHalf:
-            return 5945961579
+            return 61579
         case .sparkles:
-            return 5945961581
+            return 61581
         case .surgicalMask:
-            return 5945961551
+            return 61551
         case .bear:
-            return 5945961554
+            return 61554
         case .tiger:
-            return 5945961555
+            return 61555
         case .monkey:
-            return 5945961556
+            return 61556
         case .ram:
-            return 5945961557
+            return 61557
         case .rabbit:
-            return 5945961558
+            return 61558
         case .snake:
-            return 5945961559
+            return 61559
         case .chicken:
-            return 5945961560
+            return 61560
         case .pig:
-            return 5945961561
+            return 61561
         case .mouse:
-            return 5945961562
+            return 61562
         case .cow:
-            return 5945961563
+            return 61563
         case .dragon:
-            return 5945961564
+            return 61564
         case .retroAlien:
-            return 5945961565
+            return 61565
         case .robot:
-            return 5945961566
+            return 61566
         case .ghost:
-            return 5945961567
+            return 61567
         case .poop:
-            return 5945961568
+            return 61568
         case .skull:
-            return 5945961569
+            return 61569
         case .twoxTwoRectangles:
-            return 5945961572
+            return 61572
         case .twoxTwoRectanglesOutline:
-            return 5945961573
+            return 61573
         case .rectangleSplit:
-            return 5945961574
+            return 61574
         case .rectangleSplitThree:
-            return 5945961575
+            return 61575
         case .rectangleSplitThreeOutline:
-            return 5945961576
+            return 61576
         case .sendMessageOutline:
-            return 5945961582
+            return 61582
         case .brainHead:
-            return 5945961532
+            return 61532
         case .brain:
-            return 5945961533
+            return 61533
         case .faceGrinning:
-            return 5945961534
+            return 61534
         case .faceSmiling:
-            return 5945961535
+            return 61535
         case .faceGrinningSquint:
-            return 5945961536
+            return 61536
         case .faceTears:
-            return 5945961537
+            return 61537
         case .faceRolling:
-            return 5945961538
+            return 61538
         case .faceWink:
-            return 5945961539
+            return 61539
         case .faceGrimacing:
-            return 5945961540
+            return 61540
         case .faceLove:
-            return 5945961541
+            return 61541
         case .faceKiss:
-            return 5945961542
+            return 61542
         case .faceHearts:
-            return 5945961543
+            return 61543
         case .faceSunglasses:
-            return 5945961544
+            return 61544
         case .faceStarry:
-            return 5945961545
+            return 61545
         case .memoji:
-            return 5945961546
+            return 61546
         case .handSlash:
-            return 5945961584
+            return 61584
         case .handSlashOutline:
-            return 5945961585
+            return 61585
         case .thumbsUpEmoji:
-            return 5945961547
+            return 61547
         case .peace:
-            return 5945961548
+            return 61548
         case .loveGesture:
-            return 5945961549
+            return 61549
         case .closedFist:
-            return 5945961550
+            return 61550
         case .xSquare:
-            return 5945961589
+            return 61589
         case .checklist:
-            return 5945961587
+            return 61587
         case .doubleQuoteOutline:
-            return 5945961583
+            return 61583
         case .textBox:
-            return 5945961588
+            return 61588
         case .waveform:
-            return 5945961586
+            return 61586
         case .oneProngPuzzlePiece:
-            return 5945961552
+            return 61552
         case .cartoonHeart:
-            return 5945961577
+            return 61577
         case .twoCartoonHearts:
-            return 5945961578
+            return 61578
         case .cloudService:
             return 59459
         }
