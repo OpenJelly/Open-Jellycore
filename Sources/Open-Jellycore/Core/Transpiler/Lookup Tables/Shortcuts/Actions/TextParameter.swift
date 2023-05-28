@@ -24,7 +24,7 @@ struct TextParameter: ParameterProtocol, Codable {
     // Need to loop through all properties to build the documentation.
     static func getDefaultValues() -> [String: String] {
         return [
-			"text": "Hello World",
+			"text": "\"Hello World\"",
         ]
     }
 }

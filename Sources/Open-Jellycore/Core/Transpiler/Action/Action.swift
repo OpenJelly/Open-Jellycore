@@ -14,6 +14,7 @@ protocol AnyAction {
     var presets: [ActionPreset] { get }
     
     func build(call: [FunctionCallParameterItem], magicVariable: Variable?, scopedVariables: [Variable]) -> WFAction
+    func getDefaultParameters() -> [String: String]
 }
 
 struct Action<ParameterType: ParameterProtocol>: AnyAction {
@@ -42,6 +43,9 @@ struct Action<ParameterType: ParameterProtocol>: AnyAction {
         }
         
         return WFAction(WFWorkflowActionIdentifier: identifier, WFWorkflowActionParameters: parameters)
-        
+    }
+    
+    func getDefaultParameters() -> [String: String] {
+        return ParameterType.getDefaultValues()
     }
 }
