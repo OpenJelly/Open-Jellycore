@@ -28,7 +28,7 @@ struct JellyDouble: JellyPrimitiveType {
             try self.init(value.content)
         } catch {
             self.init(0.0)
-            // TODO: Re-setup variable references
+
             self.variable = JellyVariableReference(value, scopedVariables: scopedVariables)
             if variable?.unableToInitialize ?? false {
                 return nil

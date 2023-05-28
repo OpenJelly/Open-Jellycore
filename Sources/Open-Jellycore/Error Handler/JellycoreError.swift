@@ -28,6 +28,7 @@ class JellycoreError: Error, Identifiable {
         case missingParameter(function: String, name: String)
         case variableDoesNotExist(variable: String)
         case invalidTypeCoercion(type: String)
+        case unableToParseJSON(jsonError: Error)
         case generic
         
         var description: String {
@@ -54,6 +55,8 @@ class JellycoreError: Error, Identifiable {
                 return "Variable \(variable) does not exist"
             case .invalidTypeCoercion(let type):
                 return "\(type) is not a valid 'as' coercion"
+            case .unableToParseJSON(let jsonError):
+                return "Invalid JSON, underlying error \(jsonError.localizedDescription)"
             }
         }
     }
@@ -128,5 +131,13 @@ extension JellycoreError {
     
     static func invalidTypeCoercion(type: String) -> JellycoreError {
         return JellycoreError(underlyingError: .invalidTypeCoercion(type: type), level: .error, recoveryStrategy: "Make sure you have entered a valid type coercion value for the as property.")
+    }
+    
+    static func syntax(description: String, recoveryStrategy: String) -> JellycoreError {
+        return JellycoreError(underlyingError: .generic, level: .syntax, description: description, recoveryStrategy: recoveryStrategy)
+    }
+
+    static func unableToParseJSON(error: Error) -> JellycoreError {
+        return JellycoreError(underlyingError: .unableToParseJSON(jsonError: error), level: .error, recoveryStrategy: "Check your JSON Structure for invalid syntax")
     }
 }

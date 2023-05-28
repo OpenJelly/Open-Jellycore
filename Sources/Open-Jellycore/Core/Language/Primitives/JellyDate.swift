@@ -33,7 +33,7 @@ struct JellyDate: JellyPrimitiveType {
             do {
                 try self.init(value.content)
             } catch {
-                // TODO: Re-setup variable references
+
                 self.init(Date())
                 self.variable = JellyVariableReference(value, scopedVariables: scopedVariables)
                 if variable?.unableToInitialize ?? false {
