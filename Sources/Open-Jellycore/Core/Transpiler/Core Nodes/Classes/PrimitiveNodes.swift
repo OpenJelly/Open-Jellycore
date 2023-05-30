@@ -247,6 +247,7 @@ final class StringNode: CoreNode, CorePrimitiveNode {
         self.rawValue = rawValue
         
         self.collectValues()
+        self.trimContent()
     }
     
     init(content: String, rawValue: TreeSitterNode) {
@@ -255,6 +256,17 @@ final class StringNode: CoreNode, CorePrimitiveNode {
         self.originalContent = content
         self.content = content
         self.rawValue = rawValue
+        self.trimContent()
+    }
+    
+    // Remove surrounding quotes
+    func trimContent() {
+        if content.hasPrefix("\"") {
+            content.removeFirst()
+        }
+        if content.hasSuffix("\"") {
+            content.removeLast()
+        }
     }
     
     func collectValues() {

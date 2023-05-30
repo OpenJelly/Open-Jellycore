@@ -11,7 +11,7 @@ An open source version of the originally closed source Jellycore. This package h
 | If Statements                  | ✅             | ✅                |
 | Repeat Statements              | ✅             | ✅                |
 | Repeat Each Statements         | ✅             | ✅                |
-| Menus                          | ❌             | ✅                |
+| Menus                          | ✅             | ✅                |
 | Read Icon and Color Flags      | ❌             | ✅                |
 | Import Third Party Libraries   | ❌             | ✅                |
 | Custom User Functions & Macros | ❌             | ✅                |

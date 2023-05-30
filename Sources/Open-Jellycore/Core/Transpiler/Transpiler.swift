@@ -100,8 +100,14 @@ class Transpiler {
             actions.append(contentsOf: results.actions)
             scope = results.variables
         case .menu:
-            // TODO: Implement Menu Nodes
-            break
+            guard let coreNode = coreNode as? MenuNode else {
+                throw JellycoreError.typeError(type: "MenuNode", description: "Node type does not match struct type")
+            }
+
+            let results = try compileMenu(node: coreNode, scopedVariables: scope)
+            
+            actions.append(contentsOf: results.actions)
+            scope = results.variables
         case .function:
             // TODO: Implement Function Nodes
             break
@@ -146,6 +152,50 @@ class Transpiler {
 // MARK: Transpile Individual Nodes
 /// Any functions that transpiler individual CoreNodes into Shortcuts Actions
 extension Transpiler {
+    
+    private func compileMenu(node: MenuNode, scopedVariables: [Variable]) throws -> (actions: [WFAction], variables: [Variable]) {
+        let scopedVariables: [Variable] = scopedVariables
+        var actions: [WFAction] = []
+        
+        if let prompt = node.prompt,
+           let menuBody = node.body {
+            let menuUUID = UUID().uuidString
+            let menuItems: [String] = menuBody.caseNodes.compactMap({ $0.caseString?.content })
+            
+            let menuHeadAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.choosefrommenu", WFWorkflowActionParameters: [
+                "WFMenuPrompt": QuantumValue(prompt.content),
+                "WFControlFlowMode": QuantumValue(0),
+                "WFMenuItems": QuantumValue(menuItems),
+                "GroupingIdentifier": QuantumValue(menuUUID)
+            ])
+            actions.append(menuHeadAction)
+            
+            // MARK: Compile each underlying case node
+            for caseNode in menuBody.caseNodes {
+                guard let caseTitle = caseNode.caseString?.content else { continue }
+                let caseHeadAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.choosefrommenu", WFWorkflowActionParameters: [
+                    "WFMenuItemTitle": QuantumValue(caseTitle),
+                    "WFControlFlowMode": QuantumValue(1),
+                    "GroupingIdentifier": QuantumValue(menuUUID)
+                ])
+                actions.append(caseHeadAction)
+
+                if let body = caseNode.body {
+                    let compilationResults = compileBlock(root: body.rawValue, variableScope: scopedVariables)
+                    actions.append(contentsOf: compilationResults.actions)
+                }
+            }
+
+            var menuTailDictionary: [String: QuantumValue] = [
+                "WFControlFlowMode": QuantumValue(2),
+                "GroupingIdentifier": QuantumValue(menuUUID)
+            ]
+            let menuTailAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.choosefrommenu", WFWorkflowActionParameters: menuTailDictionary)
+            actions.append(menuTailAction)
+        }
+
+        return (actions, scopedVariables)
+    }
     
     private func compileRepeatEach(node: RepeatEachNode, scopedVariables: [Variable]) throws -> (actions: [WFAction], variables: [Variable]) {
         let scopedVariables: [Variable] = scopedVariables
@@ -469,6 +519,8 @@ extension Transpiler {
                 return RepeatNode(sString: sString, content: content, rawValue: node)
             case .repeatEach:
                 return RepeatEachNode(sString: sString, content: content, rawValue: node)
+            case .menu:
+                return MenuNode(sString: sString, content: content, rawValue: node)
             default:
                 print("Unhandled Node on Translate step \(content) - \(sString)")
                 break

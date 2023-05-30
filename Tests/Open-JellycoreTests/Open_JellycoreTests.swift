@@ -6,10 +6,9 @@ import XCTest
 
 final class Open_JellycoreTests: XCTestCase {
     var testString: String = """
-    var interpolation = "Hello"
-    
-    repeatEach(interpolation) {
-        text(text: "Hello")
+    menu "Hello World" {
+        case "Case One":
+            text(text: "Hello World")
     }
     """
     /*
