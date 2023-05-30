@@ -7,7 +7,7 @@
 
 import Foundation
 
-class JellycoreError: LocalizedError, Identifiable {
+class JellycoreError: LocalizedError, Identifiable {    
     var id: UUID = UUID()
     
     enum Level {
@@ -29,34 +29,37 @@ class JellycoreError: LocalizedError, Identifiable {
         case variableDoesNotExist(variable: String)
         case invalidTypeCoercion(type: String)
         case unableToParseJSON(jsonError: Error)
+        case unableToEncode(identifier: String)
         case generic
         
         var description: String {
             switch self {
             case .unableToGetCString:
-                return "Unable to create a CString from the input file"
+                return "Unable to create a CString from the input file."
             case .noParserTree:
-                return "Unable to get a starting parser tree"
+                return "Unable to get a starting parser tree."
             case .invalidTreeSitterType(let type):
-                return "Invalid Tree Sitter Type \(type)"
+                return "Invalid Tree Sitter Type \(type)."
             case .typeError(let type, let description):
-                return "Type Error \(type) - \(description)"
+                return "Type Error \(type) - \(description)."
             case .invalidRoot:
-                return "Invalid Root Node"
+                return "Invalid Root Node,"
             case .invalidContent(let type, let description):
-                return "Invalid Content for type (\(type)) - \(description)"
+                return "Invalid Content for type (\(type)) - \(description)."
             case .generic:
-                return "Generic Error"
+                return "Generic Error."
             case .missingParameterName(let function, let name):
-                return "Missing parameter name: \(name) in \(function)"
+                return "Missing parameter name: \(name) in \(function)."
             case .missingParameter(let function, let name):
-                return "Missing parameter \(name) in \(function)"
+                return "Missing parameter \(name) in \(function)."
             case .variableDoesNotExist(let variable):
-                return "Variable \(variable) does not exist"
+                return "Variable \(variable) does not exist."
             case .invalidTypeCoercion(let type):
-                return "\(type) is not a valid 'as' coercion"
+                return "\(type) is not a valid 'as' coercion."
             case .unableToParseJSON(let jsonError):
-                return "Invalid JSON, underlying error \(jsonError.localizedDescription)"
+                return "Invalid JSON, underlying error \(jsonError.localizedDescription)."
+            case .unableToEncode(let identifier):
+                return "Unable to encode \(identifier)."
             }
         }
     }
@@ -66,9 +69,15 @@ class JellycoreError: LocalizedError, Identifiable {
     var level: JellycoreError.Level
     
     var recoveryStrategy: String
+    
+    var recoverySuggestion: String? {
+        return recoveryStrategy
+    }
+    
     var errorDescription: String? {
         return description
     }
+    
     var description: String
     
     init(underlyingError: JellycoreUnderlyingError, relevantNode: CoreNode? = nil, level: JellycoreError.Level, recoveryStrategy: String) {
@@ -142,5 +151,9 @@ extension JellycoreError {
 
     static func unableToParseJSON(error: Error) -> JellycoreError {
         return JellycoreError(underlyingError: .unableToParseJSON(jsonError: error), level: .error, recoveryStrategy: "Check your JSON Structure for invalid syntax")
+    }
+    
+    static func unableToEncode(identifier: String) -> JellycoreError {
+        return JellycoreError(underlyingError: .unableToEncode(identifier: identifier), level: .error, recoveryStrategy: "Ensure that all the characters in your Jelly file are valid Unicode characters.")
     }
 }

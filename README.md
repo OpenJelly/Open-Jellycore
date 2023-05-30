@@ -1,5 +1,4 @@
 # Open-Jellycore
-
 An open source version of the originally closed source Jellycore. This package handles all of the transpiling of Jelly -> Shortcuts.
 
 ## Features (Compared to Private Jellycore)
@@ -12,8 +11,10 @@ An open source version of the originally closed source Jellycore. This package h
 | Repeat Statements              | ✅             | ✅                |
 | Repeat Each Statements         | ✅             | ✅                |
 | Menus                          | ✅             | ✅                |
-| Read Icon and Color Flags      | ❌             | ✅                |
-| Import Third Party Libraries   | ❌             | ✅                |
-| Custom User Functions & Macros | ❌             | ✅                |
 | Magic Variables                | ✅             | ✅                |
+| Export Shortcut Plist          | ✅             | ✅                |
+| Custom User Functions & Macros | ❌             | ✅                |
+| Import Third Party Libraries   | ❌             | ✅                |
+| Read Icon and Color Flags      | ❌             | ✅                |
 | Test Suite                     | ❌             | ✅                |
+| Full Error Handling            | ❌             | ✅                |

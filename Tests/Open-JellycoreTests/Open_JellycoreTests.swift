@@ -6,7 +6,7 @@ import XCTest
 
 final class Open_JellycoreTests: XCTestCase {
     var testString: String = """
-
+    text(text: "Hello World")
     """
     /*
      // A test of the Jellycuts Transpiler
@@ -39,13 +39,16 @@ final class Open_JellycoreTests: XCTestCase {
         try parser.parse()
         
         let transpiler = Transpiler()
-        try transpiler.compile(with: parser)
+        let shortcut = try transpiler.compile(with: parser)
         if !ErrorHandler.shared.errors.isEmpty {
 //            XCTFail("There were errors present")
             print("Found \(ErrorHandler.shared.errors.count) errors")
             for error in ErrorHandler.shared.errors {
-                print(error.errorDescription, error.recoveryStrategy)
+                print(error.errorDescription, error.recoveryOptions)
             }
+        } else {
+            print("Successfully Compiled Shortcut")
+            print(shortcut)
         }
     }
 }

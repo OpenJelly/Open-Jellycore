@@ -24,7 +24,7 @@ class Transpiler {
     var currentParser: Parser? = nil
     var lookupTable: [String: AnyAction] = TranspilerLookupTables.generateLookupTable(importedLibraries: [.shortcuts])
 
-    func compile(with parser: Parser) throws {
+    func compile(with parser: Parser) throws -> String {
         currentParser = parser
         guard let tree = parser.tree else {
             throw JellycoreError.noParserTree()
@@ -39,8 +39,35 @@ class Transpiler {
         
         print("Got \(results.scope.count) Variables - \(results.scope.map({$0.name}))")
         print("Got \(results.actions.count) Actions - \(results.actions)")
+        
+        var shortcut = WFShortcut()
+        shortcut.WFWorkflowActions = results.actions
+                
+        let encodedShortcut = try encodeShortcut(shortcut: shortcut)
+
+        return encodedShortcut
     }
     
+    private func encodeShortcut(shortcut: WFShortcut) throws -> String {
+        let encoder = PropertyListEncoder()
+        encoder.outputFormat = .xml
+        
+        do {
+            let data = try encoder.encode(shortcut)
+            if let stringRepresentation = String(data: data, encoding: .utf8) {
+                return stringRepresentation
+            } else {
+                throw JellycoreError.unableToEncode(identifier: "WFShortcut")
+            }
+        } catch let error as JellycoreError {
+            ErrorHandler.shared.reportError(error: error, node: nil)
+            throw error
+        } catch {
+            ErrorHandler.shared.reportError(error: .generic(description: error.localizedDescription, recoveryStrategy: "Contact the developer", level: .fatal), node: nil)
+            throw error
+        }
+    }
+
     private func compileBlock(root: TreeSitterNode, variableScope: [Variable]) -> (actions: [WFAction], scope: [Variable]){
         var shortcutsActions: [WFAction] = []
         var variableScope: [Variable] = variableScope
