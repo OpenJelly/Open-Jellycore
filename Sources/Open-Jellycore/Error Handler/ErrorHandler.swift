@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ErrorHandler {
+public class ErrorHandler {
     var errors: [JellycoreError] = []
     
     static let shared = ErrorHandler()

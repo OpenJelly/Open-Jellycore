@@ -7,7 +7,7 @@
 
 import Foundation
 
-class JellycoreError: Error, Identifiable {
+class JellycoreError: LocalizedError, Identifiable {
     var id: UUID = UUID()
     
     enum Level {
@@ -66,6 +66,9 @@ class JellycoreError: Error, Identifiable {
     var level: JellycoreError.Level
     
     var recoveryStrategy: String
+    var errorDescription: String? {
+        return description
+    }
     var description: String
     
     init(underlyingError: JellycoreUnderlyingError, relevantNode: CoreNode? = nil, level: JellycoreError.Level, recoveryStrategy: String) {

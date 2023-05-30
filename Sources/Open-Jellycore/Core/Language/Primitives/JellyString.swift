@@ -51,15 +51,18 @@ struct JellyString: JellyPrimitiveType {
         for child in value.internalNodes.filter({internalNodeFilter($0)}) {
             let interpolationNode = StringNode.InterpolationNode(sString: child.node.string ?? "No sString", content: child.content, rawValue: child.node)
             let key = "{\(child.localRange.lowerBound), 1}"
-            var variableReference = JellyVariableReference(interpolationNode: interpolationNode, scopedVariables: scopedVariables)
-            variableReference.needsValueKey = false
-            variableReference.needsSerialization = false
-            
-            attachmentsByRange.merge([key: variableReference]) { first, _ in
-                return first
+            if var variableReference = JellyVariableReference(interpolationNode: interpolationNode, scopedVariables: scopedVariables) {
+                variableReference.needsValueKey = false
+                variableReference.needsSerialization = false
+                
+                attachmentsByRange.merge([key: variableReference]) { first, _ in
+                    return first
+                }
+                
+                self.value = self.value.replacingOccurrences(of: "\(child.content)", with: "￼")
+            } else {
+                ErrorHandler.shared.reportError(error: .variableDoesNotExist(variable: interpolationNode.identifierNode?.content ?? interpolationNode.content), node: interpolationNode)
             }
-            
-            self.value = self.value.replacingOccurrences(of: "\(child.content)", with: "￼")
         }
     }
     

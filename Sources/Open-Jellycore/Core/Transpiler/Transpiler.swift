@@ -35,26 +35,35 @@ class Transpiler {
             throw JellycoreError.invalidRoot()
         }
         
-        var shortcutsActions: [WFAction] = []
+        let results = compileBlock(root: rootNode, variableScope: [])
+        
+        print("Got \(results.scope.count) Variables - \(results.scope.map({$0.name}))")
+        print("Got \(results.actions.count) Actions - \(results.actions)")
+    }
     
-        for child in rootNode.getChildren() {
+    private func compileBlock(root: TreeSitterNode, variableScope: [Variable]) -> (actions: [WFAction], scope: [Variable]){
+        var shortcutsActions: [WFAction] = []
+        var variableScope: [Variable] = variableScope
+
+        for child in root.getChildren() {
             do {
-                let actions = try compileNode(node: child, scope: [])
-                shortcutsActions.append(contentsOf: actions)
+                let results = try compileNode(node: child, scope: variableScope)
+                
+                shortcutsActions.append(contentsOf: results.actions)
+                variableScope = results.scope
             } catch {
-                print("Error Compiling node \(child.string ?? "No String") - \(error)")
+                print("Error Compiling node \(child.string ?? "No String") - \(error.localizedDescription)")
             }
         }
         
-        print("Got \(shortcutsActions.count) Actions - \(shortcutsActions)")
+        return (shortcutsActions, variableScope)
     }
     
-    func compileNode(node: TreeSitterNode, scope: [Variable]) throws -> [WFAction] {
+    private func compileNode(node: TreeSitterNode, scope: [Variable]) throws -> (actions: [WFAction], scope: [Variable]) {
         let coreNode = try translateNodeFromTreeSitterNode(node: node)
-        guard let coreNode else { print("Unable to get core node - \(node.type ?? "No Type")"); return [] }
+        guard let coreNode else { print("Unable to get core node - \(node.type ?? "No Type")"); return ([], scope) }
         var actions: [WFAction] = []
-        var scope: [Variable] = []
-        print("Got Node \(coreNode)")
+        var scope: [Variable] = scope
         
         switch coreNode.type {
         case .flag:
@@ -70,8 +79,14 @@ class Transpiler {
             // TODO: Implement Repeat Nodes
             break
         case .conditional:
-            // TODO: Implement Conditional Nodes
-            break
+            guard let coreNode = coreNode as? ConditionalNode else {
+                throw JellycoreError.typeError(type: "ConditionalNode", description: "Node type does not match struct type")
+            }
+
+            let results = try compileConditional(node: coreNode, scopedVariables: scope)
+            
+            actions.append(contentsOf: results.actions)
+            scope = results.variables
         case .conditionalElse:
             // TODO: Implement Conditional Nodes
             break
@@ -92,13 +107,13 @@ class Transpiler {
             let results = try compileVariableDeclaration(node: coreNode, scopedVariables: scope)
             
             actions.append(contentsOf: results.actions)
-            scope.append(contentsOf: results.variables)
+            scope = results.variables
         case .functionCall:
             guard let coreNode = coreNode as? FunctionCallNode else {
                 throw JellycoreError.typeError(type: "FunctionCallNode", description: "Node type does not match struct type")
             }
 
-            if let functionCallAction = try compileFunctionCall(node: coreNode) {
+            if let functionCallAction = try compileFunctionCall(node: coreNode, scopedVariables: scope) {
                 actions.append(functionCallAction)
             } else {
                 print("Unable to generate action")
@@ -115,13 +130,116 @@ class Transpiler {
             break
         }
         
-        return actions
+        return (actions, scope)
     }
 }
 
 // MARK: Transpile Individual Nodes
 /// Any functions that transpiler individual CoreNodes into Shortcuts Actions
 extension Transpiler {
+    
+    private func compileConditional(node: ConditionalNode, scopedVariables: [Variable]) throws -> (actions: [WFAction], variables: [Variable]) {
+        var scopedVariables: [Variable] = scopedVariables
+        var actions: [WFAction] = []
+
+        if let primaryNode = node.primaryNode,
+           let primaryVariableReference = JellyVariableReference(identifierNode: primaryNode, scopedVariables: scopedVariables) {
+            let conditionalUUID = UUID().uuidString
+            
+            if let operatorNode = node.operatorNode,
+               let secondaryNode = node.secondaryNode {
+                // MARK: We have all three slots filled
+
+                var condition = operatorNode.operatorType.shortcutsConditionNumber
+                
+                // If we are checking for nil, we need to swap the condition number to what shortcut's recognizes as checking if something exists or not
+                if secondaryNode.content == "nil" {
+                    if condition == OperatorNode.OperatorType.equals.shortcutsConditionNumber {
+                        condition = 101 // Does not exist
+                    } else if condition == OperatorNode.OperatorType.notEquals.shortcutsConditionNumber {
+                        condition = 100 // Does exist
+                    }
+                }
+                
+                // Automatically guess we are taking in a string, if not we will change it in the upcoming switch
+                var parameterType: ConditionalType = .string
+                var inputTwo: QuantumValue = QuantumValue(JellyString(secondaryNode, scopedVariables: scopedVariables))
+                
+                if secondaryNode.type == .number {
+                    if let double = JellyDouble(secondaryNode, scopedVariables: scopedVariables) {
+                        parameterType = .number
+                        inputTwo = QuantumValue(double)
+                    }
+                } else if secondaryNode.type == .identifier {
+                    // TODO: Implement a way to convert an identifier node into a StringNode with interpolation of the original identifier node.
+                }
+                
+                // MARK: Make the WFActions
+                let conditionalHeadAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.conditional", WFWorkflowActionParameters: [
+                    "WFControlFlowMode": QuantumValue(0),
+                    "GroupingIdentifier": QuantumValue(conditionalUUID),
+                    "WFCondition": QuantumValue(condition),
+                    "WFInput": QuantumValue([
+                        "Type": "Variable",
+                        "Variable": primaryVariableReference
+                    ] as [String : Any]),
+                    parameterType.rawValue: inputTwo,
+                ])
+                                
+                actions.append(conditionalHeadAction)
+            } else {
+                // MARK: We are using a singular variable as a boolean
+                let conditionalHeadAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.conditional", WFWorkflowActionParameters: [
+                    "WFControlFlowMode": QuantumValue(0),
+                    "GroupingIdentifier": QuantumValue(conditionalUUID),
+                    "WFCondition": QuantumValue(0),
+                    "WFInput": QuantumValue([
+                        "Type": "Variable",
+                        "Variable": primaryVariableReference
+                    ] as [String : Any])
+                ])
+                                
+                actions.append(conditionalHeadAction)
+            }
+            
+            // MARK: Compile Body
+            if let body = node.body {
+                let compilationResults = compileBlock(root: body.rawValue, variableScope: scopedVariables)
+                actions.append(contentsOf: compilationResults.actions)
+                // TODO: Figure out how shortcuts handles variables within if statements
+//                    scopedVariables.append(contentsOf: compilationResults.scope)
+            }
+            
+            if let elseNode = node.elseNode {
+                let elseAction: WFAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.conditional", WFWorkflowActionParameters: [
+                    "GroupingIdentifier": QuantumValue(conditionalUUID),
+                    "WFControlFlowMode": QuantumValue(1)
+                ])
+                actions.append(elseAction)
+                
+                if let body = elseNode.body {
+                    let compilationResults = compileBlock(root: body.rawValue, variableScope: scopedVariables)
+                    actions.append(contentsOf: compilationResults.actions)
+                    // TODO: Figure out how shortcuts handles variables within if statements
+    //                    scopedVariables.append(contentsOf: compilationResults.scope)
+                }
+            }
+
+            // MARK: Compile Tail
+            let conditionalTailDictionary: [String: QuantumValue] = [
+                "WFControlFlowMode": QuantumValue(2),
+                "GroupingIdentifier": QuantumValue(conditionalUUID)
+            ]
+            let conditionalTailAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.conditional", WFWorkflowActionParameters: conditionalTailDictionary)
+
+            actions.append(conditionalTailAction)
+
+        } else {
+            print("Unable to initialize due to invalid primary node")
+        }
+        
+        return (actions, scopedVariables)
+    }
     
     private func compileVariableDeclaration(node: VariableAssignmentNode, scopedVariables: [Variable]) throws -> (actions: [WFAction], variables: [Variable]) {
         // TODO: Check to make sure variable is available
@@ -208,16 +326,15 @@ extension Transpiler {
                 }
             }
 
-            
             return (actions, scopedVariables)
         }
 
         return ([], [])
     }
     
-    private func compileFunctionCall(node: FunctionCallNode) throws -> WFAction? {
+    private func compileFunctionCall(node: FunctionCallNode, scopedVariables: [Variable]) throws -> WFAction? {
         if let foundFunction = lookupTable[node.name.lowercased()] {
-            let builtFunction = foundFunction.build(call: node.parameters, magicVariable: nil, scopedVariables: [])
+            let builtFunction = foundFunction.build(call: node.parameters, magicVariable: nil, scopedVariables: scopedVariables)
             return builtFunction
         } else {
             // TODO: We have to handle custom user inputted functions
@@ -264,6 +381,8 @@ extension Transpiler {
                 return FunctionCallNode(sString: sString, content: content, rawValue: node)
             case .comment, .blockComment:
                 return CommentNode(sString: sString, content: content, rawValue: node)
+            case .conditional:
+                return ConditionalNode(sString: sString, content: content, rawValue: node)
             default:
                 print("Unhandled Node on Translate step \(content) - \(sString)")
                 break

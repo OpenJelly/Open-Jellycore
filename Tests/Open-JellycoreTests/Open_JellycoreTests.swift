@@ -8,7 +8,11 @@ final class Open_JellycoreTests: XCTestCase {
     var testString: String = """
     var interpolation = "Hello"
     
-    text(text: "${interpolation.as(Text)} World")
+    if interpolation == "Hello" {
+        text(text: "Hello")
+    } else {
+        text(text: "World")
+    }
     """
     /*
      // A test of the Jellycuts Transpiler
@@ -42,5 +46,12 @@ final class Open_JellycoreTests: XCTestCase {
         
         let transpiler = Transpiler()
         try transpiler.compile(with: parser)
+        if !ErrorHandler.shared.errors.isEmpty {
+//            XCTFail("There were errors present")
+            print("Found \(ErrorHandler.shared.errors.count) errors")
+            for error in ErrorHandler.shared.errors {
+                print(error.errorDescription, error.recoveryStrategy)
+            }
+        }
     }
 }

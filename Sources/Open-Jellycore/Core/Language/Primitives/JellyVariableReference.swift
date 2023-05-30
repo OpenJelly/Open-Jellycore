@@ -33,7 +33,7 @@ struct JellyVariableReference: JellyAny, Codable {
     }
     
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
-        self.name = ""
+        self.name = value.content
         self.uuid = ""
         
         if let variable = scopedVariables.first(where: { variableNameFilter(variable: $0, name: name) }) {
@@ -44,10 +44,32 @@ struct JellyVariableReference: JellyAny, Codable {
         }
     }
     
-    init(interpolationNode: StringNode.InterpolationNode, scopedVariables: [Variable]) {
-        self.name = interpolationNode.identifierNode?.content ?? interpolationNode.content
-        self.uuid = UUID().uuidString
-        self.aggrandizements = interpolationNode.identifierNode?.aggrandizements ?? []
+    init?(identifierNode: IdentifierNode, scopedVariables: [Variable]) {
+        self.name = identifierNode.content
+        self.uuid = ""
+        
+        if let variable = scopedVariables.first(where: { variableNameFilter(variable: $0, name: name) }) {
+            self.name = variable.name
+            self.uuid = variable.uuid
+            self.aggrandizements = identifierNode.aggrandizements
+        } else {
+            return nil
+        }
+    }
+
+    
+    init?(interpolationNode: StringNode.InterpolationNode, scopedVariables: [Variable]) {
+        self.name = ""
+        self.uuid = ""
+        let name = interpolationNode.identifierNode?.content ?? interpolationNode.content
+
+        if let variable = scopedVariables.first(where: { variableNameFilter(variable: $0, name: name) }) {
+            self.name = variable.name
+            self.uuid = variable.uuid
+            self.aggrandizements = interpolationNode.identifierNode?.aggrandizements ?? []
+        } else {
+            return nil
+        }
     }
     
     private func variableNameFilter(variable: Variable, name: String) -> Bool {

@@ -33,7 +33,7 @@ struct Action<ParameterType: ParameterProtocol>: AnyAction {
             }
         }
                 
-        let type: ParameterType = ParameterType.build(call: call, scopedVariables: []) as! ParameterType
+        let type: ParameterType = ParameterType.build(call: call, scopedVariables: scopedVariables) as! ParameterType
         var parameters: [String: QuantumValue] = type.asDictionary()
 
         if let magicVariable = magicVariable {
