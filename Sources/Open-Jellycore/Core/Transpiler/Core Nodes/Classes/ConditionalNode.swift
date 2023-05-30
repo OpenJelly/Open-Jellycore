@@ -34,18 +34,15 @@ final class ConditionalNode: CoreNode {
         }
         
         if let secondaryResults = getSecondaryNode() {
-            let primitive = PrimitiveFactory.derivePrimitive(node: secondaryResults.node, content: secondaryResults.content)
-            self.secondaryNode = primitive
+            self.secondaryNode = PrimitiveFactory.derivePrimitive(node: secondaryResults.node, content: secondaryResults.content)
         }
         
         if let bodyResults = getBodyNode() {
-            let blockNode = BlockNode(sString: bodyResults.node.string ?? "No sString", content: bodyResults.content, rawValue: bodyResults.node)
-            self.body = blockNode
+            self.body = BlockNode(sString: bodyResults.node.string ?? "No sString", content: bodyResults.content, rawValue: bodyResults.node)
         }
         
         if let elseResults = getElseNode() {
-            let conditionalElseNode = ConditionalElseNode(sString: elseResults.node.string ?? "No sString", content: elseResults.content, rawValue: elseResults.node)
-            self.elseNode = conditionalElseNode
+            self.elseNode = ConditionalElseNode(sString: elseResults.node.string ?? "No sString", content: elseResults.content, rawValue: elseResults.node)
         }
     }
  

@@ -9,8 +9,8 @@ An open source version of the originally closed source Jellycore. This package h
 | Comments                       | ✅             | ✅                |
 | Function Calls                 | ✅             | ✅                |
 | If Statements                  | ✅             | ✅                |
-| Repeat Statements              | ❌             | ✅                |
-| Repeat Each Statements         | ❌             | ✅                |
+| Repeat Statements              | ✅             | ✅                |
+| Repeat Each Statements         | ✅             | ✅                |
 | Menus                          | ❌             | ✅                |
 | Read Icon and Color Flags      | ❌             | ✅                |
 | Import Third Party Libraries   | ❌             | ✅                |

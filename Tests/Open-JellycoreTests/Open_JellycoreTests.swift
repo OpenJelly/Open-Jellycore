@@ -8,7 +8,7 @@ final class Open_JellycoreTests: XCTestCase {
     var testString: String = """
     var interpolation = "Hello"
     
-    if interpolation {
+    repeatEach(interpolation) {
         text(text: "Hello")
     }
     """

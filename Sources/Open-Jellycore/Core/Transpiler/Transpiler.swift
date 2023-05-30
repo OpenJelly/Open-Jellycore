@@ -73,11 +73,23 @@ class Transpiler {
             // TODO: Implement Import Nodes
             break
         case .repeat:
-            // TODO: Implement Repeat Nodes
-            break
+            guard let coreNode = coreNode as? RepeatNode else {
+                throw JellycoreError.typeError(type: "RepeatNode", description: "Node type does not match struct type")
+            }
+
+            let results = try compileRepeat(node: coreNode, scopedVariables: scope)
+            
+            actions.append(contentsOf: results.actions)
+            scope = results.variables
         case .repeatEach:
-            // TODO: Implement Repeat Nodes
-            break
+            guard let coreNode = coreNode as? RepeatEachNode else {
+                throw JellycoreError.typeError(type: "RepeatEachNode", description: "Node type does not match struct type")
+            }
+
+            let results = try compileRepeatEach(node: coreNode, scopedVariables: scope)
+            
+            actions.append(contentsOf: results.actions)
+            scope = results.variables
         case .conditional:
             guard let coreNode = coreNode as? ConditionalNode else {
                 throw JellycoreError.typeError(type: "ConditionalNode", description: "Node type does not match struct type")
@@ -87,9 +99,6 @@ class Transpiler {
             
             actions.append(contentsOf: results.actions)
             scope = results.variables
-        case .conditionalElse:
-            // TODO: Implement Conditional Nodes
-            break
         case .menu:
             // TODO: Implement Menu Nodes
             break
@@ -137,6 +146,79 @@ class Transpiler {
 // MARK: Transpile Individual Nodes
 /// Any functions that transpiler individual CoreNodes into Shortcuts Actions
 extension Transpiler {
+    
+    private func compileRepeatEach(node: RepeatEachNode, scopedVariables: [Variable]) throws -> (actions: [WFAction], variables: [Variable]) {
+        let scopedVariables: [Variable] = scopedVariables
+        var actions: [WFAction] = []
+
+        if let identifier = node.identifier,
+           let variableReference = JellyVariableReference(identifierNode: identifier, scopedVariables: scopedVariables) {
+            let repeatUUID = UUID().uuidString
+            
+            let repeatHeadAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.repeat.each", WFWorkflowActionParameters: [
+                "WFControlFlowMode": QuantumValue(0),
+                "WFInput": QuantumValue(variableReference),
+                "GroupingIdentifier": QuantumValue(repeatUUID)
+            ])
+
+            actions.append(repeatHeadAction)
+
+            if let body = node.body {
+                let compilationResults = compileBlock(root: body.rawValue, variableScope: scopedVariables)
+                actions.append(contentsOf: compilationResults.actions)
+                // TODO: Figure out how shortcuts handles variables within if statements
+//                    scopedVariables.append(contentsOf: compilationResults.scope)
+            }
+            
+            var repeatTailDictionary: [String: QuantumValue] = [
+                "WFControlFlowMode": QuantumValue(2),
+                "GroupingIdentifier": QuantumValue(repeatUUID)
+            ]
+                               
+            let repeatTailAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.repeat.count", WFWorkflowActionParameters: repeatTailDictionary)
+
+            actions.append(repeatTailAction)
+        }
+        
+        return (actions, scopedVariables)
+    }
+
+    private func compileRepeat(node: RepeatNode, scopedVariables: [Variable]) throws -> (actions: [WFAction], variables: [Variable]) {
+        let scopedVariables: [Variable] = scopedVariables
+        var actions: [WFAction] = []
+
+        if let amount = node.amount {
+            let value = amount.getValue()
+            let repeatUUID = UUID().uuidString
+            
+            let repeatHeadAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.repeat.count", WFWorkflowActionParameters: [
+                "WFControlFlowMode": QuantumValue(0),
+                "WFRepeatCount": QuantumValue(value),
+                "GroupingIdentifier": QuantumValue(repeatUUID)
+            ])
+            
+            actions.append(repeatHeadAction)
+
+            if let body = node.body {
+                let compilationResults = compileBlock(root: body.rawValue, variableScope: scopedVariables)
+                actions.append(contentsOf: compilationResults.actions)
+                // TODO: Figure out how shortcuts handles variables within if statements
+//                    scopedVariables.append(contentsOf: compilationResults.scope)
+            }
+            
+            var repeatTailDictionary: [String: QuantumValue] = [
+                "WFControlFlowMode": QuantumValue(2),
+                "GroupingIdentifier": QuantumValue(repeatUUID)
+            ]
+                               
+            let repeatTailAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.repeat.count", WFWorkflowActionParameters: repeatTailDictionary)
+
+            actions.append(repeatTailAction)
+
+        }
+        
+        return (actions, scopedVariables)
+    }
     
     private func compileConditional(node: ConditionalNode, scopedVariables: [Variable]) throws -> (actions: [WFAction], variables: [Variable]) {
         let scopedVariables: [Variable] = scopedVariables
@@ -383,6 +465,10 @@ extension Transpiler {
                 return CommentNode(sString: sString, content: content, rawValue: node)
             case .conditional:
                 return ConditionalNode(sString: sString, content: content, rawValue: node)
+            case .repeat:
+                return RepeatNode(sString: sString, content: content, rawValue: node)
+            case .repeatEach:
+                return RepeatEachNode(sString: sString, content: content, rawValue: node)
             default:
                 print("Unhandled Node on Translate step \(content) - \(sString)")
                 break
