@@ -8,10 +8,8 @@ final class Open_JellycoreTests: XCTestCase {
     var testString: String = """
     var interpolation = "Hello"
     
-    if interpolation == "Hello" {
+    if interpolation {
         text(text: "Hello")
-    } else {
-        text(text: "World")
     }
     """
     /*

@@ -139,7 +139,7 @@ class Transpiler {
 extension Transpiler {
     
     private func compileConditional(node: ConditionalNode, scopedVariables: [Variable]) throws -> (actions: [WFAction], variables: [Variable]) {
-        var scopedVariables: [Variable] = scopedVariables
+        let scopedVariables: [Variable] = scopedVariables
         var actions: [WFAction] = []
 
         if let primaryNode = node.primaryNode,
