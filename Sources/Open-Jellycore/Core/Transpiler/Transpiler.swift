@@ -128,11 +128,10 @@ class Transpiler {
                 throw JellycoreError.typeError(type: "FunctionCallNode", description: "Node type does not match struct type")
             }
 
-            if let functionCallAction = try compileFunctionCall(node: coreNode, scopedVariables: scope) {
-                actions.append(functionCallAction)
-            } else {
-                print("Unable to generate action")
-            }
+            let functionCallResults = try compileFunctionCall(node: coreNode, scopedVariables: scope)
+            
+            actions.append(contentsOf: functionCallResults.actions)
+            scope = functionCallResults.variables
         case .comment, .blockComment:
             guard let coreNode = coreNode as? CommentNode else {
                 throw JellycoreError.typeError(type: "Comment", description: "Node type does not match struct type")
@@ -154,7 +153,7 @@ class Transpiler {
 extension Transpiler {
     
     private func compileMenu(node: MenuNode, scopedVariables: [Variable]) throws -> (actions: [WFAction], variables: [Variable]) {
-        let scopedVariables: [Variable] = scopedVariables
+        var scopedVariables: [Variable] = scopedVariables
         var actions: [WFAction] = []
         
         if let prompt = node.prompt,
@@ -190,6 +189,16 @@ extension Transpiler {
                 "WFControlFlowMode": QuantumValue(2),
                 "GroupingIdentifier": QuantumValue(menuUUID)
             ]
+            
+            if let magicVariableNode = node.magicVariable {
+                let magicVariable = Variable(uuid: UUID().uuidString, name: magicVariableNode.identifier?.content ?? "No Name", valueType: .magicVariable, value: actions.last)
+                scopedVariables.append(magicVariable)
+                
+                menuTailDictionary.merge(["UUID": QuantumValue(magicVariable.uuid), "CustomOutputName": QuantumValue(magicVariable.name)]) { first, _ in
+                    return first
+                }
+            }
+
             let menuTailAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.choosefrommenu", WFWorkflowActionParameters: menuTailDictionary)
             actions.append(menuTailAction)
         }
@@ -198,7 +207,7 @@ extension Transpiler {
     }
     
     private func compileRepeatEach(node: RepeatEachNode, scopedVariables: [Variable]) throws -> (actions: [WFAction], variables: [Variable]) {
-        let scopedVariables: [Variable] = scopedVariables
+        var scopedVariables: [Variable] = scopedVariables
         var actions: [WFAction] = []
 
         if let identifier = node.identifier,
@@ -224,7 +233,16 @@ extension Transpiler {
                 "WFControlFlowMode": QuantumValue(2),
                 "GroupingIdentifier": QuantumValue(repeatUUID)
             ]
-                               
+            
+            if let magicVariableNode = node.magicVariable {
+                let magicVariable = Variable(uuid: UUID().uuidString, name: magicVariableNode.identifier?.content ?? "No Name", valueType: .magicVariable, value: actions.last)
+                scopedVariables.append(magicVariable)
+                
+                repeatTailDictionary.merge(["UUID": QuantumValue(magicVariable.uuid), "CustomOutputName": QuantumValue(magicVariable.name)]) { first, _ in
+                    return first
+                }
+            }
+
             let repeatTailAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.repeat.count", WFWorkflowActionParameters: repeatTailDictionary)
 
             actions.append(repeatTailAction)
@@ -234,7 +252,7 @@ extension Transpiler {
     }
 
     private func compileRepeat(node: RepeatNode, scopedVariables: [Variable]) throws -> (actions: [WFAction], variables: [Variable]) {
-        let scopedVariables: [Variable] = scopedVariables
+        var scopedVariables: [Variable] = scopedVariables
         var actions: [WFAction] = []
 
         if let amount = node.amount {
@@ -260,7 +278,16 @@ extension Transpiler {
                 "WFControlFlowMode": QuantumValue(2),
                 "GroupingIdentifier": QuantumValue(repeatUUID)
             ]
-                               
+            
+            if let magicVariableNode = node.magicVariable {
+                let magicVariable = Variable(uuid: UUID().uuidString, name: magicVariableNode.identifier?.content ?? "No Name", valueType: .magicVariable, value: actions.last)
+                scopedVariables.append(magicVariable)
+                
+                repeatTailDictionary.merge(["UUID": QuantumValue(magicVariable.uuid), "CustomOutputName": QuantumValue(magicVariable.name)]) { first, _ in
+                    return first
+                }
+            }
+
             let repeatTailAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.repeat.count", WFWorkflowActionParameters: repeatTailDictionary)
 
             actions.append(repeatTailAction)
@@ -271,7 +298,7 @@ extension Transpiler {
     }
     
     private func compileConditional(node: ConditionalNode, scopedVariables: [Variable]) throws -> (actions: [WFAction], variables: [Variable]) {
-        let scopedVariables: [Variable] = scopedVariables
+        var scopedVariables: [Variable] = scopedVariables
         var actions: [WFAction] = []
 
         if let primaryNode = node.primaryNode,
@@ -358,10 +385,20 @@ extension Transpiler {
             }
 
             // MARK: Compile Tail
-            let conditionalTailDictionary: [String: QuantumValue] = [
+            var conditionalTailDictionary: [String: QuantumValue] = [
                 "WFControlFlowMode": QuantumValue(2),
                 "GroupingIdentifier": QuantumValue(conditionalUUID)
             ]
+
+            if let magicVariableNode = node.magicVariable {
+                let magicVariable = Variable(uuid: UUID().uuidString, name: magicVariableNode.identifier?.content ?? "No Name", valueType: .magicVariable, value: actions.last)
+                scopedVariables.append(magicVariable)
+                
+                conditionalTailDictionary.merge(["UUID": QuantumValue(magicVariable.uuid), "CustomOutputName": QuantumValue(magicVariable.name)]) { first, _ in
+                    return first
+                }
+            }
+
             let conditionalTailAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.conditional", WFWorkflowActionParameters: conditionalTailDictionary)
 
             actions.append(conditionalTailAction)
@@ -464,10 +501,18 @@ extension Transpiler {
         return ([], [])
     }
     
-    private func compileFunctionCall(node: FunctionCallNode, scopedVariables: [Variable]) throws -> WFAction? {
+    private func compileFunctionCall(node: FunctionCallNode, scopedVariables: [Variable]) throws -> (actions: [WFAction], variables: [Variable]) {
+        var scopedVariables: [Variable] = scopedVariables
+
         if let foundFunction = lookupTable[node.name.lowercased()] {
-            let builtFunction = foundFunction.build(call: node.parameters, magicVariable: nil, scopedVariables: scopedVariables)
-            return builtFunction
+            var magicVariable: Variable? = nil
+            if let magicVariableNode = node.magicVariable {
+                magicVariable = Variable(uuid: UUID().uuidString, name: magicVariableNode.identifier?.content ?? "No Name", valueType: .magicVariable, value: foundFunction)
+                scopedVariables.append(magicVariable!) // Variable has to initialize so it is okay to bang out the variable here
+            }
+
+            let builtFunction = foundFunction.build(call: node.parameters, magicVariable: magicVariable, scopedVariables: scopedVariables)
+            return ([builtFunction], scopedVariables)
         } else {
             // TODO: We have to handle custom user inputted functions
 //            if let customFunction = userDefinedFunctions[node.content] {
@@ -476,7 +521,7 @@ extension Transpiler {
 //                ErrorReporter.shared.report(error: .functionNotFound(functionName: node.content), textPosition: node.textPosition)
 //            }
         }
-        return nil
+        return ([], scopedVariables)
     }
     
     private func compileComment(node: CommentNode) throws -> WFAction {

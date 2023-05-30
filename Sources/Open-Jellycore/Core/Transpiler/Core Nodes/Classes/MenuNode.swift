@@ -14,6 +14,8 @@ final class MenuNode: CoreNode {
     var prompt: StringNode?
     var body: MenuBlockNode?
     
+    var magicVariable: MagicVariableNode?
+
     init(sString: String, content: String, rawValue: TreeSitterNode) {
         self.type = .menu
         self.sString = sString
@@ -27,6 +29,8 @@ final class MenuNode: CoreNode {
         if let bodyResults = getBodyNode() {
             self.body = MenuBlockNode(sString: bodyResults.node.string ?? "No sString", content: bodyResults.content, rawValue: bodyResults.node)
         }
+        
+        collectMagicVariable()
     }
  
     func getPrompt() -> (node: TreeSitterNode, content: String)? {
@@ -43,6 +47,13 @@ final class MenuNode: CoreNode {
             return (node, content)
         }
         return nil
+    }
+    
+    func collectMagicVariable() {
+        if let magicVariableNode = rawValue.getChild(by: "magic_variable") {
+            let content = rawValue.getContents(of: magicVariableNode, in: content)
+            self.magicVariable = MagicVariableNode(sString: magicVariableNode.string ?? "No sString", content: content, rawValue: magicVariableNode)
+        }
     }
 }
 

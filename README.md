@@ -16,3 +16,4 @@ An open source version of the originally closed source Jellycore. This package h
 | Import Third Party Libraries   | ❌             | ✅                |
 | Custom User Functions & Macros | ❌             | ✅                |
 | Magic Variables                | ❌             | ✅                |
+| Test Suite                     | ❌             | ✅                |

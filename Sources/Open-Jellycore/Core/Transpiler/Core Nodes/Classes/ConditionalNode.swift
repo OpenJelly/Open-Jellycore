@@ -18,6 +18,8 @@ final class ConditionalNode: CoreNode {
     var body: BlockNode?
     var elseNode: ConditionalElseNode?
     
+    var magicVariable: MagicVariableNode?
+
     init(sString: String, content: String, rawValue: TreeSitterNode) {
         self.type = .conditional
         self.sString = sString
@@ -44,6 +46,8 @@ final class ConditionalNode: CoreNode {
         if let elseResults = getElseNode() {
             self.elseNode = ConditionalElseNode(sString: elseResults.node.string ?? "No sString", content: elseResults.content, rawValue: elseResults.node)
         }
+        
+        collectMagicVariable()
     }
  
     func getBodyNode() -> (node: TreeSitterNode, content: String)? {
@@ -85,6 +89,13 @@ final class ConditionalNode: CoreNode {
         }
         return nil
     }
+    
+    func collectMagicVariable() {
+        if let magicVariableNode = rawValue.getChild(by: "magic_variable") {
+            let content = rawValue.getContents(of: magicVariableNode, in: content)
+            self.magicVariable = MagicVariableNode(sString: magicVariableNode.string ?? "No sString", content: content, rawValue: magicVariableNode)
+        }
+    }
 }
 
 final class ConditionalElseNode: CoreNode {
@@ -94,6 +105,8 @@ final class ConditionalElseNode: CoreNode {
     var rawValue: TreeSitterNode
     
     var body: BlockNode?
+    
+    var magicVariable: MagicVariableNode?
     
     init(sString: String, content: String, rawValue: TreeSitterNode) {
         self.type = .conditional
@@ -105,6 +118,8 @@ final class ConditionalElseNode: CoreNode {
             let blockNode = BlockNode(sString: bodyResults.node.string ?? "No sString", content: bodyResults.content, rawValue: bodyResults.node)
             self.body = blockNode
         }
+        
+        collectMagicVariable()
     }
  
     func getBodyNode() -> (node: TreeSitterNode, content: String)? {
@@ -113,6 +128,13 @@ final class ConditionalElseNode: CoreNode {
             return (node, content)
         }
         return nil
+    }
+    
+    func collectMagicVariable() {
+        if let magicVariableNode = rawValue.getChild(by: "magic_variable") {
+            let content = rawValue.getContents(of: magicVariableNode, in: content)
+            self.magicVariable = MagicVariableNode(sString: magicVariableNode.string ?? "No sString", content: content, rawValue: magicVariableNode)
+        }
     }
 }
 

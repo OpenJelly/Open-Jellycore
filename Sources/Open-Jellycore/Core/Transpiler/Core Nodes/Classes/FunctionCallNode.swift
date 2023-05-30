@@ -15,6 +15,7 @@ final class FunctionCallNode: CoreNode {
     var name: String = "unnamed"
     
     var parameters: [FunctionCallParameterItem] = []
+    var magicVariable: MagicVariableNode?
     
     init(sString: String, content: String, rawValue: TreeSitterNode) {
         self.type = .functionCall
@@ -26,6 +27,7 @@ final class FunctionCallNode: CoreNode {
         }
         
         collectParameters()
+        collectMagicVariable()
     }
     
     private func collectParameters() {
@@ -48,6 +50,13 @@ final class FunctionCallNode: CoreNode {
             return rawValue.getContents(of: nameNode, in: content)
         }
         return nil
+    }
+    
+    func collectMagicVariable() {
+        if let magicVariableNode = rawValue.getChild(by: "magic_variable") {
+            let content = rawValue.getContents(of: magicVariableNode, in: content)
+            self.magicVariable = MagicVariableNode(sString: magicVariableNode.string ?? "No sString", content: content, rawValue: magicVariableNode)
+        }
     }
 }
 

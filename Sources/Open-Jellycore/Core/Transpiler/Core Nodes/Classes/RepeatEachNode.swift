@@ -15,6 +15,8 @@ final class RepeatEachNode: CoreNode {
     
     var body: BlockNode?
     
+    var magicVariable: MagicVariableNode?
+
     init(sString: String, content: String, rawValue: TreeSitterNode) {
         self.type = .repeatEach
         self.sString = sString
@@ -28,6 +30,8 @@ final class RepeatEachNode: CoreNode {
         if let bodyResults = getBodyNode() {
             self.body = BlockNode(sString: bodyResults.node.string ?? "No sString", content: bodyResults.content, rawValue: bodyResults.node)
         }
+        
+        collectMagicVariable()
     }
  
     func getIdentifierNode() -> (node: TreeSitterNode, content: String)? {
@@ -44,5 +48,12 @@ final class RepeatEachNode: CoreNode {
             return (node, content)
         }
         return nil
+    }
+    
+    func collectMagicVariable() {
+        if let magicVariableNode = rawValue.getChild(by: "magic_variable") {
+            let content = rawValue.getContents(of: magicVariableNode, in: content)
+            self.magicVariable = MagicVariableNode(sString: magicVariableNode.string ?? "No sString", content: content, rawValue: magicVariableNode)
+        }
     }
 }

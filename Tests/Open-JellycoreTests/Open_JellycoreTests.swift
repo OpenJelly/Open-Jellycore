@@ -6,10 +6,7 @@ import XCTest
 
 final class Open_JellycoreTests: XCTestCase {
     var testString: String = """
-    menu "Hello World" {
-        case "Case One":
-            text(text: "Hello World")
-    }
+
     """
     /*
      // A test of the Jellycuts Transpiler
