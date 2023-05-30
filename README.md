@@ -15,5 +15,5 @@ An open source version of the originally closed source Jellycore. This package h
 | Read Icon and Color Flags      | ❌             | ✅                |
 | Import Third Party Libraries   | ❌             | ✅                |
 | Custom User Functions & Macros | ❌             | ✅                |
-| Magic Variables                | ❌             | ✅                |
+| Magic Variables                | ✅             | ✅                |
 | Test Suite                     | ❌             | ✅                |
