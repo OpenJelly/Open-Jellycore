@@ -44,7 +44,7 @@ final class Open_JellycoreTests: XCTestCase {
 //            XCTFail("There were errors present")
             print("Found \(ErrorHandler.shared.errors.count) errors")
             for error in ErrorHandler.shared.errors {
-                print(error.errorDescription, error.recoveryOptions)
+                print(error.errorDescription, error.recoveryStrategy)
             }
         } else {
             print("Successfully Compiled Shortcut")
