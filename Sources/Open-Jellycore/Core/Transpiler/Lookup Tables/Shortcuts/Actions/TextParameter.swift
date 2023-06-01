@@ -15,7 +15,7 @@ struct TextParameter: ParameterProtocol, Codable {
             parameters.WFTextActionText = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             // TODO: Reimplement error handling
-            ErrorHandler.shared.reportError(error: .missingParameter(function: "Text", name: "text"), node: nil)
+            ErrorReporter.shared.reportError(error: .missingParameter(function: "Text", name: "text"), node: nil)
         }
 
         return parameters

@@ -40,10 +40,10 @@ final class Open_JellycoreTests: XCTestCase {
         
         let transpiler = Transpiler()
         let shortcut = try transpiler.compile(with: parser)
-        if !ErrorHandler.shared.errors.isEmpty {
+        if !ErrorReporter.shared.errors.isEmpty {
 //            XCTFail("There were errors present")
-            print("Found \(ErrorHandler.shared.errors.count) errors")
-            for error in ErrorHandler.shared.errors {
+            print("Found \(ErrorReporter.shared.errors.count) errors")
+            for error in ErrorReporter.shared.errors {
                 print(error.errorDescription, error.recoveryStrategy)
             }
         } else {

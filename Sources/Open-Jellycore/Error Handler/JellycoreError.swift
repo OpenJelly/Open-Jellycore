@@ -7,8 +7,8 @@
 
 import Foundation
 
-class JellycoreError: LocalizedError, Identifiable {    
-    var id: UUID = UUID()
+public class JellycoreError: LocalizedError, Identifiable {
+    public var id: UUID = UUID()
     
     enum Level {
         case syntax
@@ -17,7 +17,7 @@ class JellycoreError: LocalizedError, Identifiable {
         case fatal
     }
 
-    enum JellycoreUnderlyingError: CustomStringConvertible {
+    public enum JellycoreUnderlyingError: CustomStringConvertible {
         case unableToGetCString
         case noParserTree
         case invalidTreeSitterType(type: String)
@@ -32,7 +32,7 @@ class JellycoreError: LocalizedError, Identifiable {
         case unableToEncode(identifier: String)
         case generic
         
-        var description: String {
+        public var description: String {
             switch self {
             case .unableToGetCString:
                 return "Unable to create a CString from the input file."
@@ -70,11 +70,11 @@ class JellycoreError: LocalizedError, Identifiable {
     
     var recoveryStrategy: String
     
-    var recoverySuggestion: String? {
+    public var recoverySuggestion: String? {
         return recoveryStrategy
     }
     
-    var errorDescription: String? {
+    public var errorDescription: String? {
         return description
     }
     

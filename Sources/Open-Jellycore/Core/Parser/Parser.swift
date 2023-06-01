@@ -14,14 +14,14 @@ public final class Parser {
     let treeSitterParser: OpaquePointer
     var tree: TreeSitterTree?
     
-    init(contents: String) {
+    public init(contents: String) {
         self.contents = contents
         let jelly = tree_sitter_jelly()
         treeSitterParser = ts_parser_new()
         ts_parser_set_language(treeSitterParser, jelly)
     }
     
-    func parse() throws {
+    public func parse() throws {
         let cstr = try getCString()
         let stringByteLength = contents.count
         let buffer = Array(cstr)

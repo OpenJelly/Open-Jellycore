@@ -92,30 +92,30 @@ final class IdentifierNode: CoreNode, CorePrimitiveNode {
             let propertyNode = VariablePropertyNode(sString: child.string ?? "No sString", content: childContent, rawValue: child)
             
             guard let type = propertyNode.getType() else {
-                ErrorHandler.shared.reportError(error: .generic(description: "Invalid Identifier Property. Can not find the type of the property.", recoveryStrategy: "Make sure you are using a valid identifier property. Valid properties are 'get', 'as' and 'key'.", level: .error), node: propertyNode)
+                ErrorReporter.shared.reportError(error: .generic(description: "Invalid Identifier Property. Can not find the type of the property.", recoveryStrategy: "Make sure you are using a valid identifier property. Valid properties are 'get', 'as' and 'key'.", level: .error), node: propertyNode)
 
                 continue
             }
             if type == "as" {
                 guard let value = propertyNode.getValue() else {
-                    ErrorHandler.shared.reportError(error: .generic(description: "Invalid Identifier Property Value", recoveryStrategy: "Make sure you have included a value in the identifier 'as' property.", level: .error), node: propertyNode)
+                    ErrorReporter.shared.reportError(error: .generic(description: "Invalid Identifier Property Value", recoveryStrategy: "Make sure you have included a value in the identifier 'as' property.", level: .error), node: propertyNode)
                     continue
                 }
                 if let typeCoercion = TypeCoercion(value: value) {
                     aggrandizements.append(Aggrandizement.as(typeCast: typeCoercion))
                 } else {
-                    ErrorHandler.shared.reportError(error: .invalidTypeCoercion(type: value), node: propertyNode)
+                    ErrorReporter.shared.reportError(error: .invalidTypeCoercion(type: value), node: propertyNode)
                 }
             } else if type == "get" {
                 guard let value = propertyNode.getValue() else {
-                    ErrorHandler.shared.reportError(error: .generic(description: "Invalid Identifier Property Value", recoveryStrategy: "Make sure you have included a value in the identifier 'get' property.", level: .error), node: propertyNode)
+                    ErrorReporter.shared.reportError(error: .generic(description: "Invalid Identifier Property Value", recoveryStrategy: "Make sure you have included a value in the identifier 'get' property.", level: .error), node: propertyNode)
                     continue
                 }
                 
                 aggrandizements.append(Aggrandizement.get(property: value))
             } else if type == "key" {
                 guard let value = propertyNode.getValue() else {
-                    ErrorHandler.shared.reportError(error: .generic(description: "Invalid Identifier Property Value", recoveryStrategy: "Make sure you have included a value in the identifier 'key' property.", level: .error), node: propertyNode)
+                    ErrorReporter.shared.reportError(error: .generic(description: "Invalid Identifier Property Value", recoveryStrategy: "Make sure you have included a value in the identifier 'key' property.", level: .error), node: propertyNode)
                     continue
                 }
                 
@@ -197,7 +197,7 @@ final class StringNode: CoreNode, CorePrimitiveNode {
                 self.content = results.content
                 self.identifierNode = IdentifierNode(sString: results.node.string ?? "No sString", content: results.content, rawValue: results.node)
             } else {
-                ErrorHandler.shared.reportError(error: .generic(description: "Empty Interpolation", recoveryStrategy: "Interpolation can not be empty, please add an identifier", level: .error), node: self)
+                ErrorReporter.shared.reportError(error: .generic(description: "Empty Interpolation", recoveryStrategy: "Interpolation can not be empty, please add an identifier", level: .error), node: self)
             }
         }
         

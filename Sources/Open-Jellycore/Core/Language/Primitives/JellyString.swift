@@ -61,7 +61,7 @@ struct JellyString: JellyPrimitiveType {
                 
                 self.value = self.value.replacingOccurrences(of: "\(child.content)", with: "￼")
             } else {
-                ErrorHandler.shared.reportError(error: .variableDoesNotExist(variable: interpolationNode.identifierNode?.content ?? interpolationNode.content), node: interpolationNode)
+                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: interpolationNode.identifierNode?.content ?? interpolationNode.content), node: interpolationNode)
             }
         }
     }

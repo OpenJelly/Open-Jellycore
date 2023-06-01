@@ -29,7 +29,7 @@ struct Action<ParameterType: ParameterProtocol>: AnyAction {
         for parameter in call {
             if parameter.slotName == nil {
                 // TODO: Get the proper slot names
-                ErrorHandler.shared.reportError(error: .missingParameterName(function: name, name: "PLACEHOLDER"), node: parameter)
+                ErrorReporter.shared.reportError(error: .missingParameterName(function: name, name: "PLACEHOLDER"), node: parameter)
             }
         }
                 

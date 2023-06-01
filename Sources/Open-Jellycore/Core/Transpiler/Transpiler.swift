@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Transpiler {
+public final class Transpiler {
     static let globalVariables: [Variable] = [
         Variable(uuid: "", name: "ShortcutInput", valueType: .global, value: ""),
         Variable(uuid: "", name: "Clipboard", valueType: .global, value: ""),
@@ -19,14 +19,17 @@ class Transpiler {
     ]
 
     var contents: String {
-        return currentParser?.contents ?? ""
+        return currentParser.contents
     }
-    var currentParser: Parser? = nil
+    var currentParser: Parser
     var lookupTable: [String: AnyAction] = TranspilerLookupTables.generateLookupTable(importedLibraries: [.shortcuts])
 
-    func compile(with parser: Parser) throws -> String {
-        currentParser = parser
-        guard let tree = parser.tree else {
+    public init(parser: Parser) {
+        self.currentParser = parser
+    }
+    
+    public func compile() throws -> String {
+        guard let tree = currentParser.tree else {
             throw JellycoreError.noParserTree()
         }
         
@@ -60,10 +63,10 @@ class Transpiler {
                 throw JellycoreError.unableToEncode(identifier: "WFShortcut")
             }
         } catch let error as JellycoreError {
-            ErrorHandler.shared.reportError(error: error, node: nil)
+            ErrorReporter.shared.reportError(error: error, node: nil)
             throw error
         } catch {
-            ErrorHandler.shared.reportError(error: .generic(description: error.localizedDescription, recoveryStrategy: "Contact the developer", level: .fatal), node: nil)
+            ErrorReporter.shared.reportError(error: .generic(description: error.localizedDescription, recoveryStrategy: "Contact the developer", level: .fatal), node: nil)
             throw error
         }
     }

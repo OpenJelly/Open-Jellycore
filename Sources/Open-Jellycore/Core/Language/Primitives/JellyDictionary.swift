@@ -52,7 +52,7 @@ struct JellyDictionary: JellyPrimitiveType {
                     self.value = convertFromDictionary(dict: builtDict)
                     print(self.value)
                 } else {
-                    ErrorHandler.shared.reportError(error: .syntax(description: "Invalid Dictionary Builder Dictionary. There is no dictionary named \(value.content)", recoveryStrategy: "Create a dictionary in the dictionary builder with the name \(value.content)"), node: value)
+                    ErrorReporter.shared.reportError(error: .syntax(description: "Invalid Dictionary Builder Dictionary. There is no dictionary named \(value.content)", recoveryStrategy: "Create a dictionary in the dictionary builder with the name \(value.content)"), node: value)
                 }
             }
 
@@ -67,7 +67,7 @@ struct JellyDictionary: JellyPrimitiveType {
                 print(self.value)
 
             } catch let error as NSError {
-                ErrorHandler.shared.reportError(error: JellycoreError.unableToParseJSON(error: error), node: value)
+                ErrorReporter.shared.reportError(error: JellycoreError.unableToParseJSON(error: error), node: value)
             }
         }
     }

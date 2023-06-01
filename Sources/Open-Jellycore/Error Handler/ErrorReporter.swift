@@ -1,5 +1,5 @@
 //
-//  ErrorHandler.swift
+//  ErrorReporter.swift
 //  Open-Jellycore
 //
 //  Created by Taylor Lineman on 5/22/23.
@@ -7,14 +7,14 @@
 
 import Foundation
 
-public class ErrorHandler {
-    var errors: [JellycoreError] = []
+public class ErrorReporter {
+    public var errors: [JellycoreError] = []
     
-    static let shared = ErrorHandler()
+    public static let shared = ErrorReporter()
     
     private init() { }
     
-    func reset() {
+    public func reset() {
         errors.removeAll()
     }
         
