@@ -66,6 +66,7 @@ public struct DocumentationActionEntry: Identifiable {
         
         for (index, item) in parameters.enumerated() {
             example += item.slotName
+            example += ":_"
             if index < parameters.count - 1 {
                 example += ", "
             }
