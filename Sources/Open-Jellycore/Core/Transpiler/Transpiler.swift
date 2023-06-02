@@ -38,7 +38,7 @@ public final class Transpiler {
             throw JellycoreError.invalidRoot()
         }
         
-        let results = compileBlock(root: rootNode, variableScope: [])
+        let results = compileBlock(root: rootNode, variableScope: [], userDefinedFunctions: [:])
         
         print("Got \(results.scope.count) Variables - \(results.scope.map({$0.name}))")
         print("Got \(results.actions.count) Actions - \(results.actions)")
@@ -164,8 +164,10 @@ public final class Transpiler {
             actions.append(contentsOf: results.actions)
             scope = results.variables
         case .function:
-            // TODO: Implement Function Nodes
-            break
+            guard let coreNode = coreNode as? FunctionDefinitionNode else  {
+                throw JellycoreError.typeError(type: "FunctionDefinitionNode", description: "Node type does not match struct type")
+            }
+            
         case .macro:
             // TODO: Implement Macro Nodes
             break
@@ -209,7 +211,7 @@ extension Transpiler {
     
     private func compileFlag(node: FlagNode) throws -> [WFAction] {
         var actions: [WFAction] = []
-        print(node.getFlagName(), node.getFlagValue())
+        
         guard let flagNameValue = node.getFlagName(), let flagName = FlagName(rawValue: flagNameValue) else {
             throw JellycoreError.syntax(description: "Invalid Flag Name", recoveryStrategy: "Ensure that all of your flag's begin with # followed by either 'Icon' or 'Color'")
         }
@@ -652,6 +654,8 @@ extension Transpiler {
                 return RepeatEachNode(sString: sString, content: content, rawValue: node)
             case .menu:
                 return MenuNode(sString: sString, content: content, rawValue: node)
+            case .function:
+                return FunctionDefinitionNode(sString: sString, content: content, rawValue: node)
             default:
                 print("Unhandled Node on Translate step \(content) - \(sString)")
                 break
