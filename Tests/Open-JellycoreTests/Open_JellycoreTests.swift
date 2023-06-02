@@ -10,6 +10,9 @@ final class Open_JellycoreTests: XCTestCase {
     #Icon: sailboat
     #Color: blue
     
+    func hello() {
+        text(text: "Hello")
+    }
     """
     /*
      // A test of the Jellycuts Transpiler

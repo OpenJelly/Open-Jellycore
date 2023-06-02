@@ -33,6 +33,7 @@ public class JellycoreError: LocalizedError, Identifiable {
         case invalidTypeCoercion(type: String)
         case unableToParseJSON(jsonError: Error)
         case unableToEncode(identifier: String)
+        case invalidFunctionRedeclaration(name: String)
         case generic
         
         public var description: String {
@@ -63,6 +64,8 @@ public class JellycoreError: LocalizedError, Identifiable {
                 return "Invalid JSON, underlying error \(jsonError.localizedDescription)."
             case .unableToEncode(let identifier):
                 return "Unable to encode \(identifier)."
+            case .invalidFunctionRedeclaration(let name):
+                return "The function \(name) was declared multiple times. Functions require unique names."
             }
         }
     }
@@ -173,5 +176,9 @@ extension JellycoreError {
     
     static func unableToEncode(identifier: String) -> JellycoreError {
         return JellycoreError(underlyingError: .unableToEncode(identifier: identifier), level: .error, recoveryStrategy: "Ensure that all the characters in your Jelly file are valid Unicode characters.")
+    }
+    
+    static func invalidFunctionRedeclaration(name: String) -> JellycoreError {
+        return JellycoreError(underlyingError: .invalidFunctionRedeclaration(name: name), level: .error, recoveryStrategy: "Rename one of the functions with the name \(name).")
     }
 }

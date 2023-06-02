@@ -292,3 +292,17 @@ final class StringNode: CoreNode, CorePrimitiveNode {
         self.content = tempContent
     }
 }
+
+final class CompilerInsertedNode: CoreNode, CorePrimitiveNode {
+    var type: CoreNodeType
+    var sString: String
+    var content: String
+    var rawValue: TreeSitterNode
+    
+    init(type: CoreNodeType, sString: String, content: String, rawValue: TreeSitterNode) {
+        self.type = type
+        self.sString = sString
+        self.content = content
+        self.rawValue = rawValue
+    }
+}

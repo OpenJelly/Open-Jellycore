@@ -162,6 +162,13 @@ public final class Transpiler {
                 throw JellycoreError.typeError(type: "FunctionDefinitionNode", description: "Node type does not match struct type")
             }
             
+            guard !scope.functions.contains(where: { function in
+                return function.name == coreNode.name
+            }) else {
+                throw JellycoreError.invalidFunctionRedeclaration(name: coreNode.name)
+            }
+            
+            scope.functions.append(coreNode)
         case .macro:
             // TODO: Implement Macro Nodes
             break
