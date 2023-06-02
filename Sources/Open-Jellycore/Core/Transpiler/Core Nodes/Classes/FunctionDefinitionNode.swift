@@ -68,6 +68,7 @@ final class FunctionDefinitionNode: CoreNode {
                 ErrorReporter.shared.reportError(error: .missingParameterName(function: name, name: "PLACEHOLDER"), node: parameter)
             }
         }
+        #warning("Needs to be finished")
         
         // MARK: Create Calling Dictionary
         if let dictionaryFunction = TranspilerLookupTables.shortcutsFunctions["dictionary"] {
@@ -92,8 +93,8 @@ final class FunctionDefinitionNode: CoreNode {
 //                    FunctionCallParameterItem(slotName: "json", item: CompilerInsertedNode(type: .string, sString: "(empty)", content: craftedJSON, rawValue: rawValue))
 //                ]
 //                let builtFunction = foundFunction.build(call: call, magicVariable: magicVariable, scopedVariables: scopedVariables)
-//                
-//                
+//
+//
 //            }
 
 //            let craftedDictionaryParameter = ParameterNode(type: .string, content: craftedJSON, textPosition: textPosition, slotName: "json", childrenNodes: [])
