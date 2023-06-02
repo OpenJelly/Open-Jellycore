@@ -38,13 +38,14 @@ public final class Transpiler {
             throw JellycoreError.invalidRoot()
         }
         
-        let results = compileBlock(root: rootNode, variableScope: [], userDefinedFunctions: [:])
+        let scope = Scope()
+        let actions = compileBlock(root: rootNode, scope: scope)
         
-        print("Got \(results.scope.count) Variables - \(results.scope.map({$0.name}))")
-        print("Got \(results.actions.count) Actions - \(results.actions)")
+        print("Got \(scope.variables.count) Variables - \(scope.variables.map({$0.name}))")
+        print("Got \(actions.count) Actions - \(actions)")
         
         var shortcut = WFShortcut()
-        shortcut.WFWorkflowActions = results.actions
+        shortcut.WFWorkflowActions = actions
         
         if let icon = shortcut.WFWorkflowActions.first(where: { action in
             return action.WFWorkflowActionIdentifier == "jelly.config.icon"
@@ -91,16 +92,14 @@ public final class Transpiler {
         }
     }
 
-    private func compileBlock(root: TreeSitterNode, variableScope: [Variable]) -> (actions: [WFAction], scope: [Variable]){
+    private func compileBlock(root: TreeSitterNode, scope: Scope) -> [WFAction] {
         var shortcutsActions: [WFAction] = []
-        var variableScope: [Variable] = variableScope
 
         for child in root.getChildren() {
             do {
-                let results = try compileNode(node: child, scope: variableScope)
+                let results = try compileNode(node: child, scope: scope)
                 
-                shortcutsActions.append(contentsOf: results.actions)
-                variableScope = results.scope
+                shortcutsActions.append(contentsOf: results)
             } catch let error as JellycoreError {
                 ErrorReporter.shared.reportError(error: error, node: nil)
             }  catch {
@@ -108,22 +107,21 @@ public final class Transpiler {
             }
         }
         
-        return (shortcutsActions, variableScope)
+        return shortcutsActions
     }
     
-    private func compileNode(node: TreeSitterNode, scope: [Variable]) throws -> (actions: [WFAction], scope: [Variable]) {
+    private func compileNode(node: TreeSitterNode, scope: Scope) throws -> [WFAction] {
         let coreNode = try translateNodeFromTreeSitterNode(node: node)
-        guard let coreNode else { print("Unable to get core node - \(node.type ?? "No Type")"); return ([], scope) }
+        guard let coreNode else { print("Unable to get core node - \(node.type ?? "No Type")"); return [] }
         var actions: [WFAction] = []
-        var scope: [Variable] = scope
         
         switch coreNode.type {
         case .flag:
             guard let coreNode = coreNode as? FlagNode else {
-                throw JellycoreError.typeError(type: "FlagNode", description: "Node typue does not match struct type")
+                throw JellycoreError.typeError(type: "FlagNode", description: "Node type does not match struct type")
             }
-            let flagActions = try compileFlag(node: coreNode)
-            actions.append(contentsOf: flagActions)
+            let results = try compileFlag(node: coreNode)
+            actions.append(contentsOf: results)
         case .import:
             // TODO: Implement Import Nodes
             break
@@ -132,37 +130,33 @@ public final class Transpiler {
                 throw JellycoreError.typeError(type: "RepeatNode", description: "Node type does not match struct type")
             }
 
-            let results = try compileRepeat(node: coreNode, scopedVariables: scope)
+            let results = try compileRepeat(node: coreNode, scope: scope)
             
-            actions.append(contentsOf: results.actions)
-            scope = results.variables
+            actions.append(contentsOf: results)
         case .repeatEach:
             guard let coreNode = coreNode as? RepeatEachNode else {
                 throw JellycoreError.typeError(type: "RepeatEachNode", description: "Node type does not match struct type")
             }
 
-            let results = try compileRepeatEach(node: coreNode, scopedVariables: scope)
+            let results = try compileRepeatEach(node: coreNode, scope: scope)
             
-            actions.append(contentsOf: results.actions)
-            scope = results.variables
+            actions.append(contentsOf: results)
         case .conditional:
             guard let coreNode = coreNode as? ConditionalNode else {
                 throw JellycoreError.typeError(type: "ConditionalNode", description: "Node type does not match struct type")
             }
 
-            let results = try compileConditional(node: coreNode, scopedVariables: scope)
+            let results = try compileConditional(node: coreNode, scope: scope)
             
-            actions.append(contentsOf: results.actions)
-            scope = results.variables
+            actions.append(contentsOf: results)
         case .menu:
             guard let coreNode = coreNode as? MenuNode else {
                 throw JellycoreError.typeError(type: "MenuNode", description: "Node type does not match struct type")
             }
 
-            let results = try compileMenu(node: coreNode, scopedVariables: scope)
+            let results = try compileMenu(node: coreNode, scope: scope)
             
-            actions.append(contentsOf: results.actions)
-            scope = results.variables
+            actions.append(contentsOf: results)
         case .function:
             guard let coreNode = coreNode as? FunctionDefinitionNode else  {
                 throw JellycoreError.typeError(type: "FunctionDefinitionNode", description: "Node type does not match struct type")
@@ -176,19 +170,17 @@ public final class Transpiler {
                 throw JellycoreError.typeError(type: "VariableDeclarationNode", description: "Node type does not match struct type")
             }
 
-            let results = try compileVariableDeclaration(node: coreNode, scopedVariables: scope)
+            let results = try compileVariableDeclaration(node: coreNode, scope: scope)
             
-            actions.append(contentsOf: results.actions)
-            scope = results.variables
+            actions.append(contentsOf: results)
         case .functionCall:
             guard let coreNode = coreNode as? FunctionCallNode else {
                 throw JellycoreError.typeError(type: "FunctionCallNode", description: "Node type does not match struct type")
             }
 
-            let functionCallResults = try compileFunctionCall(node: coreNode, scopedVariables: scope)
+            let results = try compileFunctionCall(node: coreNode, scope: scope)
             
-            actions.append(contentsOf: functionCallResults.actions)
-            scope = functionCallResults.variables
+            actions.append(contentsOf: results)
         case .comment, .blockComment:
             guard let coreNode = coreNode as? CommentNode else {
                 throw JellycoreError.typeError(type: "Comment", description: "Node type does not match struct type")
@@ -201,7 +193,7 @@ public final class Transpiler {
             break
         }
         
-        return (actions, scope)
+        return actions
     }
 }
 
@@ -240,8 +232,7 @@ extension Transpiler {
         return actions
     }
     
-    private func compileMenu(node: MenuNode, scopedVariables: [Variable]) throws -> (actions: [WFAction], variables: [Variable]) {
-        var scopedVariables: [Variable] = scopedVariables
+    private func compileMenu(node: MenuNode, scope: Scope) throws -> [WFAction] {
         var actions: [WFAction] = []
         
         if let prompt = node.prompt,
@@ -268,8 +259,8 @@ extension Transpiler {
                 actions.append(caseHeadAction)
 
                 if let body = caseNode.body {
-                    let compilationResults = compileBlock(root: body.rawValue, variableScope: scopedVariables)
-                    actions.append(contentsOf: compilationResults.actions)
+                    let compilationResults = compileBlock(root: body.rawValue, scope: scope)
+                    actions.append(contentsOf: compilationResults)
                 }
             }
 
@@ -280,7 +271,7 @@ extension Transpiler {
             
             if let magicVariableNode = node.magicVariable {
                 let magicVariable = Variable(uuid: UUID().uuidString, name: magicVariableNode.identifier?.content ?? "No Name", valueType: .magicVariable, value: actions.last)
-                scopedVariables.append(magicVariable)
+                scope.variables.append(magicVariable)
                 
                 menuTailDictionary.merge(["UUID": QuantumValue(magicVariable.uuid), "CustomOutputName": QuantumValue(magicVariable.name)]) { first, _ in
                     return first
@@ -291,15 +282,14 @@ extension Transpiler {
             actions.append(menuTailAction)
         }
 
-        return (actions, scopedVariables)
+        return actions
     }
     
-    private func compileRepeatEach(node: RepeatEachNode, scopedVariables: [Variable]) throws -> (actions: [WFAction], variables: [Variable]) {
-        var scopedVariables: [Variable] = scopedVariables
+    private func compileRepeatEach(node: RepeatEachNode, scope: Scope) throws -> [WFAction] {
         var actions: [WFAction] = []
 
         if let identifier = node.identifier,
-           let variableReference = JellyVariableReference(identifierNode: identifier, scopedVariables: scopedVariables) {
+           let variableReference = JellyVariableReference(identifierNode: identifier, scopedVariables: scope.variables) {
             let repeatUUID = UUID().uuidString
             
             let repeatHeadAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.repeat.each", WFWorkflowActionParameters: [
@@ -311,8 +301,8 @@ extension Transpiler {
             actions.append(repeatHeadAction)
 
             if let body = node.body {
-                let compilationResults = compileBlock(root: body.rawValue, variableScope: scopedVariables)
-                actions.append(contentsOf: compilationResults.actions)
+                let compilationResults = compileBlock(root: body.rawValue, scope: scope)
+                actions.append(contentsOf: compilationResults)
                 // TODO: Figure out how shortcuts handles variables within if statements
 //                    scopedVariables.append(contentsOf: compilationResults.scope)
             }
@@ -324,7 +314,7 @@ extension Transpiler {
             
             if let magicVariableNode = node.magicVariable {
                 let magicVariable = Variable(uuid: UUID().uuidString, name: magicVariableNode.identifier?.content ?? "No Name", valueType: .magicVariable, value: actions.last)
-                scopedVariables.append(magicVariable)
+                scope.variables.append(magicVariable)
                 
                 repeatTailDictionary.merge(["UUID": QuantumValue(magicVariable.uuid), "CustomOutputName": QuantumValue(magicVariable.name)]) { first, _ in
                     return first
@@ -336,11 +326,10 @@ extension Transpiler {
             actions.append(repeatTailAction)
         }
         
-        return (actions, scopedVariables)
+        return actions
     }
 
-    private func compileRepeat(node: RepeatNode, scopedVariables: [Variable]) throws -> (actions: [WFAction], variables: [Variable]) {
-        var scopedVariables: [Variable] = scopedVariables
+    private func compileRepeat(node: RepeatNode, scope: Scope) throws -> [WFAction] {
         var actions: [WFAction] = []
 
         if let amount = node.amount {
@@ -356,8 +345,8 @@ extension Transpiler {
             actions.append(repeatHeadAction)
 
             if let body = node.body {
-                let compilationResults = compileBlock(root: body.rawValue, variableScope: scopedVariables)
-                actions.append(contentsOf: compilationResults.actions)
+                let compilationResults = compileBlock(root: body.rawValue, scope: scope)
+                actions.append(contentsOf: compilationResults)
                 // TODO: Figure out how shortcuts handles variables within if statements
 //                    scopedVariables.append(contentsOf: compilationResults.scope)
             }
@@ -369,7 +358,7 @@ extension Transpiler {
             
             if let magicVariableNode = node.magicVariable {
                 let magicVariable = Variable(uuid: UUID().uuidString, name: magicVariableNode.identifier?.content ?? "No Name", valueType: .magicVariable, value: actions.last)
-                scopedVariables.append(magicVariable)
+                scope.variables.append(magicVariable)
                 
                 repeatTailDictionary.merge(["UUID": QuantumValue(magicVariable.uuid), "CustomOutputName": QuantumValue(magicVariable.name)]) { first, _ in
                     return first
@@ -382,15 +371,14 @@ extension Transpiler {
 
         }
         
-        return (actions, scopedVariables)
+        return actions
     }
     
-    private func compileConditional(node: ConditionalNode, scopedVariables: [Variable]) throws -> (actions: [WFAction], variables: [Variable]) {
-        var scopedVariables: [Variable] = scopedVariables
+    private func compileConditional(node: ConditionalNode, scope: Scope) throws -> [WFAction] {
         var actions: [WFAction] = []
 
         if let primaryNode = node.primaryNode,
-           let primaryVariableReference = JellyVariableReference(identifierNode: primaryNode, scopedVariables: scopedVariables) {
+           let primaryVariableReference = JellyVariableReference(identifierNode: primaryNode, scopedVariables: scope.variables) {
             let conditionalUUID = UUID().uuidString
             
             if let operatorNode = node.operatorNode,
@@ -410,10 +398,10 @@ extension Transpiler {
                 
                 // Automatically guess we are taking in a string, if not we will change it in the upcoming switch
                 var parameterType: ConditionalType = .string
-                var inputTwo: QuantumValue = QuantumValue(JellyString(secondaryNode, scopedVariables: scopedVariables))
+                var inputTwo: QuantumValue = QuantumValue(JellyString(secondaryNode, scopedVariables: scope.variables))
                 
                 if secondaryNode.type == .number {
-                    if let double = JellyDouble(secondaryNode, scopedVariables: scopedVariables) {
+                    if let double = JellyDouble(secondaryNode, scopedVariables: scope.variables) {
                         parameterType = .number
                         inputTwo = QuantumValue(double)
                     }
@@ -451,8 +439,8 @@ extension Transpiler {
             
             // MARK: Compile Body
             if let body = node.body {
-                let compilationResults = compileBlock(root: body.rawValue, variableScope: scopedVariables)
-                actions.append(contentsOf: compilationResults.actions)
+                let compilationResults = compileBlock(root: body.rawValue, scope: scope)
+                actions.append(contentsOf: compilationResults)
                 // TODO: Figure out how shortcuts handles variables within if statements
 //                    scopedVariables.append(contentsOf: compilationResults.scope)
             }
@@ -465,8 +453,8 @@ extension Transpiler {
                 actions.append(elseAction)
                 
                 if let body = elseNode.body {
-                    let compilationResults = compileBlock(root: body.rawValue, variableScope: scopedVariables)
-                    actions.append(contentsOf: compilationResults.actions)
+                    let compilationResults = compileBlock(root: body.rawValue, scope: scope)
+                    actions.append(contentsOf: compilationResults)
                     // TODO: Figure out how shortcuts handles variables within if statements
     //                    scopedVariables.append(contentsOf: compilationResults.scope)
                 }
@@ -480,7 +468,7 @@ extension Transpiler {
 
             if let magicVariableNode = node.magicVariable {
                 let magicVariable = Variable(uuid: UUID().uuidString, name: magicVariableNode.identifier?.content ?? "No Name", valueType: .magicVariable, value: actions.last)
-                scopedVariables.append(magicVariable)
+                scope.variables.append(magicVariable)
                 
                 conditionalTailDictionary.merge(["UUID": QuantumValue(magicVariable.uuid), "CustomOutputName": QuantumValue(magicVariable.name)]) { first, _ in
                     return first
@@ -495,20 +483,19 @@ extension Transpiler {
             print("Unable to initialize due to invalid primary node")
         }
         
-        return (actions, scopedVariables)
+        return actions
     }
     
-    private func compileVariableDeclaration(node: VariableAssignmentNode, scopedVariables: [Variable]) throws -> (actions: [WFAction], variables: [Variable]) {
+    private func compileVariableDeclaration(node: VariableAssignmentNode, scope: Scope) throws -> [WFAction] {
         // TODO: Check to make sure variable is available
         if Transpiler.globalVariables.contains(where: { variableNameMatches(variable: $0, name: node.name) }) {
             // TODO: Error Reporting
-            return ([], [])
+            return []
         }
         
-        let existingVariable: Variable? = scopedVariables.first(where: { variableNameMatches(variable: $0, name: node.name) })
+        let existingVariable: Variable? = scope.variables.first(where: { variableNameMatches(variable: $0, name: node.name) })
 
         if let valuePrimitive = node.valuePrimitive {
-            var scopedVariables: [Variable] = scopedVariables
             let nodeType = valuePrimitive.type
             var actions: [WFAction] = []
                         
@@ -520,22 +507,22 @@ extension Transpiler {
                     let call: [FunctionCallParameterItem] = [
                         FunctionCallParameterItem(slotName: "text", item: valuePrimitive)
                     ]
-                    let builtFunction = foundFunction.build(call: call, magicVariable: magicVariable, scopedVariables: scopedVariables)
+                    let builtFunction = foundFunction.build(call: call, magicVariable: magicVariable, scopedVariables: scope.variables)
                     
                     actions.append(builtFunction)
                 }
                 
                 
-                let variableAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.setvariable", WFWorkflowActionParameters: ["WFInput": QuantumValue(JellyVariableReference(magicVariable, scopedVariables: scopedVariables)), "WFVariableName": QuantumValue(node.name)])
+                let variableAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.setvariable", WFWorkflowActionParameters: ["WFInput": QuantumValue(JellyVariableReference(magicVariable, scopedVariables: scope.variables)), "WFVariableName": QuantumValue(node.name)])
                 
                 // Add the magic variable pointing to the string function to the scope
-                scopedVariables.append(magicVariable)
+                scope.variables.append(magicVariable)
                 if let existingVariable {
                     existingVariable.value = node.value
                     existingVariable.valueType = .string
                 } else {
                     // Add the variable we just created to the scope
-                    scopedVariables.append(Variable(uuid: UUID().uuidString, name: node.name, valueType: .string, value: node.value))
+                    scope.variables.append(Variable(uuid: UUID().uuidString, name: node.name, valueType: .string, value: node.value))
                 }
                 actions.append(variableAction)
             } else if nodeType == .number {
@@ -546,28 +533,28 @@ extension Transpiler {
                     let call: [FunctionCallParameterItem] = [
                         FunctionCallParameterItem(slotName: "value", item: valuePrimitive)
                     ]
-                    let builtFunction = foundFunction.build(call: call, magicVariable: magicVariable, scopedVariables: scopedVariables)
+                    let builtFunction = foundFunction.build(call: call, magicVariable: magicVariable, scopedVariables: scope.variables)
                     
                     actions.append(builtFunction)
                 }
                 
                 
-                let variableAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.setvariable", WFWorkflowActionParameters: ["WFInput": QuantumValue(JellyVariableReference(magicVariable, scopedVariables: scopedVariables)), "WFVariableName": QuantumValue(node.name)])
+                let variableAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.setvariable", WFWorkflowActionParameters: ["WFInput": QuantumValue(JellyVariableReference(magicVariable, scopedVariables: scope.variables)), "WFVariableName": QuantumValue(node.name)])
                 
                 // Add the magic variable pointing to the string function to the scope
-                scopedVariables.append(magicVariable)
+                scope.variables.append(magicVariable)
 
                 if let existingVariable {
                     existingVariable.value = node.value
                     existingVariable.valueType = .number
                 } else {
                     // Add the variable we just created to the scope
-                    scopedVariables.append(Variable(uuid: UUID().uuidString, name: node.name, valueType: .number, value: node.value))
+                    scope.variables.append(Variable(uuid: UUID().uuidString, name: node.name, valueType: .number, value: node.value))
                 }
                 
                 actions.append(variableAction)
             } else {
-                if let variableReference = JellyVariableReference(valuePrimitive, scopedVariables: scopedVariables) {
+                if let variableReference = JellyVariableReference(valuePrimitive, scopedVariables: scope.variables) {
                     let variableAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.setvariable", WFWorkflowActionParameters: ["WFInput": QuantumValue(variableReference), "WFVariableName": QuantumValue(valuePrimitive.content)])
                     actions.append(variableAction)
                     
@@ -578,29 +565,27 @@ extension Transpiler {
                         existingVariable.valueType = type
                     } else {
                         // Add the variable we just created to the scope
-                        scopedVariables.append(Variable(uuid: UUID().uuidString, name: node.name, valueType: type, value: node.value))
+                        scope.variables.append(Variable(uuid: UUID().uuidString, name: node.name, valueType: type, value: node.value))
                     }
                 }
             }
 
-            return (actions, scopedVariables)
+            return actions
         }
 
-        return ([], [])
+        return []
     }
     
-    private func compileFunctionCall(node: FunctionCallNode, scopedVariables: [Variable]) throws -> (actions: [WFAction], variables: [Variable]) {
-        var scopedVariables: [Variable] = scopedVariables
-
+    private func compileFunctionCall(node: FunctionCallNode, scope: Scope) throws -> [WFAction] {
         if let foundFunction = lookupTable[node.name.lowercased()] {
             var magicVariable: Variable? = nil
             if let magicVariableNode = node.magicVariable {
                 magicVariable = Variable(uuid: UUID().uuidString, name: magicVariableNode.identifier?.content ?? "No Name", valueType: .magicVariable, value: foundFunction)
-                scopedVariables.append(magicVariable!) // Variable has to initialize so it is okay to bang out the variable here
+                scope.variables.append(magicVariable!) // Variable has to initialize so it is okay to bang out the variable here
             }
 
-            let builtFunction = foundFunction.build(call: node.parameters, magicVariable: magicVariable, scopedVariables: scopedVariables)
-            return ([builtFunction], scopedVariables)
+            let builtFunction = foundFunction.build(call: node.parameters, magicVariable: magicVariable, scopedVariables: scope.variables)
+            return [builtFunction]
         } else {
             // TODO: We have to handle custom user inputted functions
 //            if let customFunction = userDefinedFunctions[node.content] {
@@ -609,7 +594,7 @@ extension Transpiler {
 //                ErrorReporter.shared.report(error: .functionNotFound(functionName: node.content), textPosition: node.textPosition)
 //            }
         }
-        return ([], scopedVariables)
+        return []
     }
     
     private func compileComment(node: CommentNode) throws -> WFAction {
