@@ -5,7 +5,7 @@
 //  Created by Taylor Lineman on 1/7/23.
 //
 
-public enum ShortcutsColor: String, CaseIterable, Identifiable {
+public enum ShortcutColor: String, CaseIterable, Identifiable {
     case red
     case orange
     case tangerine

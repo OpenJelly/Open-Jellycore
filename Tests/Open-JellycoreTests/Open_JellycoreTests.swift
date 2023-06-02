@@ -6,7 +6,10 @@ import XCTest
 
 final class Open_JellycoreTests: XCTestCase {
     var testString: String = """
-    text(text: "Hello World")
+    import Shortcuts
+    #Icon: sailboat
+    #Color: blue
+    
     """
     /*
      // A test of the Jellycuts Transpiler
@@ -38,8 +41,8 @@ final class Open_JellycoreTests: XCTestCase {
         let parser = Parser(contents: testString)
         try parser.parse()
         
-        let transpiler = Transpiler()
-        let shortcut = try transpiler.compile(with: parser)
+        let transpiler = Transpiler(parser: parser)
+        let shortcut = try transpiler.compile()
         if !ErrorReporter.shared.errors.isEmpty {
 //            XCTFail("There were errors present")
             print("Found \(ErrorReporter.shared.errors.count) errors")

@@ -5,6 +5,11 @@
 //  Created by Taylor Lineman on 5/22/23.
 //
 
+enum FlagName: String {
+    case icon = "Icon"
+    case color = "Color"
+}
+
 final class FlagNode: CoreNode {
     var type: CoreNodeType
     var sString: String

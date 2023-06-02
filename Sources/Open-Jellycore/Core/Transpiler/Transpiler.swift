@@ -45,6 +45,26 @@ public final class Transpiler {
         
         var shortcut = WFShortcut()
         shortcut.WFWorkflowActions = results.actions
+        
+        if let icon = shortcut.WFWorkflowActions.first(where: { action in
+            return action.WFWorkflowActionIdentifier == "jelly.config.icon"
+        }) {
+            print("Got Icon")
+            shortcut.WFWorkflowIcon.WFWorkflowIconGlyphNumber = icon.WFWorkflowActionParameters["VALUE"]?.value as? Int ?? ShortcutGlyph.shortcuts.id
+            shortcut.WFWorkflowActions.removeAll { action in
+                return action.WFWorkflowActionIdentifier == "jelly.config.icon"
+            }
+        }
+        
+        if let color = shortcut.WFWorkflowActions.first(where: { action in
+            return action.WFWorkflowActionIdentifier == "jelly.config.color"
+        }) {
+            print("Got Color")
+            shortcut.WFWorkflowIcon.WFWorkflowIconStartColor = color.WFWorkflowActionParameters["VALUE"]?.value as? Int ?? ShortcutColor.red.id
+            shortcut.WFWorkflowActions.removeAll { action in
+                return action.WFWorkflowActionIdentifier == "jelly.config.color"
+            }
+        }
                 
         let encodedShortcut = try encodeShortcut(shortcut: shortcut)
 
@@ -81,8 +101,10 @@ public final class Transpiler {
                 
                 shortcutsActions.append(contentsOf: results.actions)
                 variableScope = results.scope
-            } catch {
-                print("Error Compiling node \(child.string ?? "No String") - \(error.localizedDescription)")
+            } catch let error as JellycoreError {
+                ErrorReporter.shared.reportError(error: error, node: nil)
+            }  catch {
+                ErrorReporter.shared.reportError(error: .generic(description: error.localizedDescription, recoveryStrategy: "Contact the developer", level: .fatal), node: nil)
             }
         }
         
@@ -97,8 +119,11 @@ public final class Transpiler {
         
         switch coreNode.type {
         case .flag:
-            // TODO: Implement Flag Nodes
-            break
+            guard let coreNode = coreNode as? FlagNode else {
+                throw JellycoreError.typeError(type: "FlagNode", description: "Node typue does not match struct type")
+            }
+            let flagActions = try compileFlag(node: coreNode)
+            actions.append(contentsOf: flagActions)
         case .import:
             // TODO: Implement Import Nodes
             break
@@ -181,6 +206,37 @@ public final class Transpiler {
 // MARK: Transpile Individual Nodes
 /// Any functions that transpiler individual CoreNodes into Shortcuts Actions
 extension Transpiler {
+    
+    private func compileFlag(node: FlagNode) throws -> [WFAction] {
+        var actions: [WFAction] = []
+        print(node.getFlagName(), node.getFlagValue())
+        guard let flagNameValue = node.getFlagName(), let flagName = FlagName(rawValue: flagNameValue) else {
+            throw JellycoreError.syntax(description: "Invalid Flag Name", recoveryStrategy: "Ensure that all of your flag's begin with # followed by either 'Icon' or 'Color'")
+        }
+        
+        guard let flagValue = node.getFlagValue() else {
+            throw JellycoreError.syntax(description: "Invalid Flag Value", recoveryStrategy: "Ensure that all of your flag's have a value. Value's should come after a flag's name in the format: #FlagName: FlagValue.")
+        }
+        
+        switch flagName {
+        case .color:
+            if let color = ShortcutColor(rawValue: flagValue) {
+                let action = WFAction(WFWorkflowActionIdentifier: "jelly.config.color", WFWorkflowActionParameters: ["VALUE": QuantumValue(color.id)])
+                actions.append(action)
+            } else {
+                throw JellycoreError.syntax(description: "Invalid Flag Value", recoveryStrategy: "The value \(flagValue) is not a valid shortcut color name. Please look in the documentation for the list of available colors.")
+            }
+        case .icon:
+            if let glyph = ShortcutGlyph(rawValue: flagValue) {
+                let action = WFAction(WFWorkflowActionIdentifier: "jelly.config.icon", WFWorkflowActionParameters: ["VALUE": QuantumValue(glyph.id)])
+                actions.append(action)
+            } else {
+                throw JellycoreError.syntax(description: "Invalid Flag Value", recoveryStrategy: "The value \(flagValue) is not a valid shortcut icon name. Please look in the documentation for the list of available icons.")
+            }
+        }
+        
+        return actions
+    }
     
     private func compileMenu(node: MenuNode, scopedVariables: [Variable]) throws -> (actions: [WFAction], variables: [Variable]) {
         var scopedVariables: [Variable] = scopedVariables
