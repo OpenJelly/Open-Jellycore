@@ -71,7 +71,7 @@ final class FunctionDefinitionNode: CoreNode {
         #warning("Needs to be finished")
         
         // MARK: Create Calling Dictionary
-        if let dictionaryFunction = TranspilerLookupTables.shortcutsFunctions["dictionary"] {
+        if let dictionaryFunction = TranspilerLookupTables.Library.shortcuts.functionTable["dictionary"] {
             var craftedJSON = "{\"FUNCTION_CALL_NAME\":\"\(name)\""
             
             for parameter in call {

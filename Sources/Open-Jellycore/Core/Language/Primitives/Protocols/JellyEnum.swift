@@ -11,3 +11,4 @@ protocol JellyEnum: JellyAny, Codable {
 
     var value: String { get }
 }
+

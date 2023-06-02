@@ -1,0 +1,38 @@
+//
+//  DictateTextParameter.swift
+//  Open-Jellycore
+//
+//  Created by Taylor Lineman on 6/02/23.
+//
+
+struct DictateTextParameter: ParameterProtocol, Codable {
+	var language: Jelly_WFSpeechLanguage?
+	var endTrigger: Jelly_WFDictateTextStopListening?
+
+
+    static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
+        var parameters = DictateTextParameter()
+
+        if let value = call.first(where: { node in return node.slotName == "language" }) {
+            parameters.language = Jelly_WFSpeechLanguage(value, scopedVariables: scopedVariables)
+        } else {
+            ErrorReporter.shared.reportError(error: .missingParameter(function: "dictateText", name: "language"), node: nil)
+        }
+        if let value = call.first(where: { node in return node.slotName == "endTrigger" }) {
+            parameters.endTrigger = Jelly_WFDictateTextStopListening(value, scopedVariables: scopedVariables)
+        } else {
+            ErrorReporter.shared.reportError(error: .missingParameter(function: "dictateText", name: "endTrigger"), node: nil)
+        }
+
+        return parameters
+    }
+     
+    // Need to loop through all properties to build the documentation.
+    static func getDefaultValues() -> [String: String] {
+        return [
+			"language": "en-US",
+			"endTrigger": "After Pause",
+
+        ]
+    }
+}

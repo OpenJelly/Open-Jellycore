@@ -14,6 +14,7 @@ An open source version of the originally closed source Jellycore. This package h
 | Magic Variables                | ✅             | ✅                |
 | Export Shortcut Plist          | ✅             | ✅                |
 | Custom User Functions & Macros | ❌             | ✅                |
+| Objects                        | ❌             | ✅                |
 | Import Third Party Libraries   | ❌             | ✅                |
 | Read Icon and Color Flags      | ✅             | ✅                |
 | Test Suite                     | ❌             | ✅                |

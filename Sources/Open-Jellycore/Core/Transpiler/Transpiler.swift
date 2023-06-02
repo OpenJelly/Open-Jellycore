@@ -510,7 +510,7 @@ extension Transpiler {
                 let textUUID = UUID().uuidString
                 let magicVariable = Variable(uuid: textUUID, name: "Generated Magic Variable \(textUUID)", valueType: .magicVariable, value: "Text")
                 
-                if let foundFunction = TranspilerLookupTables.shortcutsFunctions["text"] {
+                if let foundFunction = TranspilerLookupTables.Library.shortcuts.functionTable["text"] {
                     let call: [FunctionCallParameterItem] = [
                         FunctionCallParameterItem(slotName: "text", item: valuePrimitive)
                     ]
@@ -536,7 +536,7 @@ extension Transpiler {
                 let numberUUID = UUID().uuidString
                 let magicVariable = Variable(uuid: numberUUID, name: "Generated Magic Variable \(numberUUID)", valueType: .magicVariable, value: "Text")
                 
-                if let foundFunction = TranspilerLookupTables.shortcutsFunctions["number"] {
+                if let foundFunction = TranspilerLookupTables.Library.shortcuts.functionTable["number"] {
                     let call: [FunctionCallParameterItem] = [
                         FunctionCallParameterItem(slotName: "value", item: valuePrimitive)
                     ]
