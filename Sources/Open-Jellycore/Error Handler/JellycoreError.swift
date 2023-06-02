@@ -6,6 +6,9 @@
 //
 
 import Foundation
+#if canImport(UIKit)
+import UIKit
+#endif
 
 public class JellycoreError: LocalizedError, Identifiable {
     public var id: UUID = UUID()
@@ -96,6 +99,21 @@ public class JellycoreError: LocalizedError, Identifiable {
         self.description = description
     }
 
+    #if canImport(UIKit)
+    func getAttributedString() -> NSAttributedString {
+        guard let errorDescription else { return NSAttributedString() }
+        
+        let attrString = NSMutableAttributedString(string: "\(errorDescription)\n - \(recoveryStrategy)\n")
+        switch self.level {
+        case .syntax, .error, .fatal:
+            attrString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.systemRed, range: attrString.string.range)
+        case .warning:
+            attrString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.systemOrange, range: attrString.string.range)
+        }
+        
+        return attrString
+    }
+    #endif
 }
 
 // MARK: Static Constructors
