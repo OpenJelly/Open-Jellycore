@@ -25,19 +25,33 @@ public class JellycoreError: LocalizedError, Identifiable {
 
     /// The underlying error enumeration used for storing and creating the descriptions of individual errors.
     public enum JellycoreUnderlyingError: CustomStringConvertible {
+        /// This error is raised when Jellycore is not able to convert a swift string into a list of `CChar`
         case unableToGetCString
+        /// This error is raised when there is no parser tree available to the compiler.
         case noParserTree
+        /// This error is raised when during compilation one of the Core Nodes has an incorrect tree sitter type set for the ``CoreNode/type`` property.
         case invalidTreeSitterType(type: String)
+        /// This error is raised when a Jelly type such as a Boolean or Date can not be extracted from the node that was provided to them for initialization.
         case typeError(type: String, description: String)
+        /// This error is raised when the Jelly source file does not have a root node on the start of compilation
         case invalidRoot
+        /// This error is raised when a Jelly type can not find the correct node content.
         case invalidContent(type: String, description: String)
+        /// This error is raised when a parameter does not include a name. Parameters without names are no longer supported in Jelly.
         case missingParameterName(function: String, name: String)
+        /// This error is used as a warning, and is raised when a function is missing a parameter.
         case missingParameter(function: String, name: String)
+        /// This error is raised when a variable that the user uses has not been initialized anywhere else in the Jelly file.
         case variableDoesNotExist(variable: String)
+        /// This error is raised when an invalid type coercion is detected.
         case invalidTypeCoercion(type: String)
+        /// This error is raised when Swift's `JSONSerialization` is unable to parse user provided JSON
         case unableToParseJSON(jsonError: Error)
+        /// This error is raised when an action or other `Codable` part of the final ``WFShortcut`` is not encodable.
         case unableToEncode(identifier: String)
+        /// This error is raised when a user declares a function with the same name more than once.
         case invalidFunctionRedeclaration(name: String)
+        /// This is a generic error that is used across Jellycore for issues that do not require their own case in this enumeration.
         case generic
         
         /// The description of the error
