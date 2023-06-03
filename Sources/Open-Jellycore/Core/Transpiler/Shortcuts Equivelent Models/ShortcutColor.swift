@@ -5,6 +5,7 @@
 //  Created by Taylor Lineman on 1/7/23.
 //
 
+/// An enumeration that matches all of the possible Shortcuts Icon Backgrounds.
 public enum ShortcutColor: String, CaseIterable, Identifiable {
     case red
     case orange
@@ -22,6 +23,7 @@ public enum ShortcutColor: String, CaseIterable, Identifiable {
     case grayGreen
     case grayBrown
     
+    /// A computed variable that returns the earliest Shortcuts host version the specified color is present in.
     public var version: ShortcutsHostVersion {
         switch self {
         case .red:
@@ -57,6 +59,7 @@ public enum ShortcutColor: String, CaseIterable, Identifiable {
         }
     }
     
+    /// A computed variable that returns the Shortcuts color ID used when converting the color into a PLIST.
     public var id: Int {
         switch self {
         case .red:
@@ -92,6 +95,7 @@ public enum ShortcutColor: String, CaseIterable, Identifiable {
         }
     }
     
+    /// A computed variable that returns a tuple contains the top (Hex Color String) and bottom (Hex Color String) colors in the background colors gradient. Used for displaying the background color to the user.
     public var gradient: (top: String, bottom: String) {
         switch self {
         case .red:

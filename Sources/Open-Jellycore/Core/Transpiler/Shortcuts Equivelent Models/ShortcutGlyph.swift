@@ -5,6 +5,7 @@
 //  Created by Taylor Lineman on 6/2/23.
 //
 
+/// An enumeration that matches all of the possible Shortcuts Icon Glyphs.
 public enum ShortcutGlyph: String, CaseIterable, Identifiable {
     case car
     case carMultiple
@@ -394,6 +395,7 @@ public enum ShortcutGlyph: String, CaseIterable, Identifiable {
     case twoCartoonHearts
     case cloudService
 
+    /// A computed variable that returns the earliest Shortcuts host version the specified gylph is present in.
     public var version: ShortcutsHostVersion {
         switch self {
         case .car:
@@ -1173,6 +1175,7 @@ public enum ShortcutGlyph: String, CaseIterable, Identifiable {
         }
     }
     
+    /// A computed variable that returns the Shortcuts glyph ID used when converting the glyph into a PLIST.
     public var id: Int {
         switch self {
         case .car:
