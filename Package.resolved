@@ -1,0 +1,32 @@
+{
+  "pins" : [
+    {
+      "identity" : "runestone",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/simonbs/Runestone",
+      "state" : {
+        "revision" : "1d0e79051a18d79f12882e9fad0b130e47d4a06b",
+        "version" : "0.3.0"
+      }
+    },
+    {
+      "identity" : "tree-sitter-jelly",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ActuallyTaylor/tree-sitter-jelly",
+      "state" : {
+        "branch" : "main",
+        "revision" : "3a080b47c5ebb73ed2dc71aa653c7b18b7793d3b"
+      }
+    },
+    {
+      "identity" : "tree-sitter-spm",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ActuallyTaylor/tree-sitter-spm",
+      "state" : {
+        "branch" : "master",
+        "revision" : "382a8d5bef3b1f8e99518676c7b86ccd2df5c9e7"
+      }
+    }
+  ],
+  "version" : 2
+}

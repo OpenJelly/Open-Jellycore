@@ -98,7 +98,7 @@ extension TranspilerLookupTables {
                                     
                                 ]),
   "getPodcasts": Action<GetPodcastsParameter>(name: "Get Podcasts", identifier: "is.workflow.actions.getpodcastsfromlibrary", correctTypedFunction: "getPodcasts", description: """
-                                Retreives all the podcasts in your library.
+                                Retrieves all the podcasts in your library.
                                 """, lowestCompatibleHost: .iOS14, presets: [
                                     
                                 ]),
@@ -269,7 +269,7 @@ ActionPreset(path: "WFEncodeMode", value: "Encode"),
                                     
                                 ]),
   "getPodcastEpisodes": Action<GetPodcastEpisodesParameter>(name: "Get Podcast Episodes", identifier: "is.workflow.actions.getepisodesforpodcast", correctTypedFunction: "getPodcastEpisodes", description: """
-                                Retreives the episodes from a podcast.
+                                Retrieves the episodes from a podcast.
                                 """, lowestCompatibleHost: .iOS14, presets: [
                                     
                                 ]),
@@ -412,7 +412,7 @@ ActionPreset(path: "WFEncodeMode", value: "Encode"),
                                     
                                 ]),
   "getCurrentSong": Action<GetCurrentSongParameter>(name: "Get Current Song", identifier: "is.workflow.actions.getcurrentsong", correctTypedFunction: "getCurrentSong", description: """
-                                Retreives the current song playing.
+                                Retrieves the current song playing.
                                 """, lowestCompatibleHost: .iOS14, presets: [
                                     
                                 ]),

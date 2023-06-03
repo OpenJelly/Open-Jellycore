@@ -1,15 +1,18 @@
 //
 //  Aggrandizement.swift
-//  
+//  Open-Jellycore
 //
 //  Created by Taylor Lineman on 11/2/22.
 //
 
+/// Represents the three types of aggrandizements that shortcuts supports.
 enum Aggrandizement: Codable {
     case get(property: String)
     case `as`(typeCast: TypeCoercion)
     case key(key: String)
     
+    /// Encode the aggrandizement to it's shortcut equivalent PLIST entries
+    /// - Parameter encoder: the encoder to encode too
     func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
 
@@ -33,6 +36,7 @@ enum Aggrandizement: Codable {
     }
 }
 
+/// Represents all of the possible shortcuts type coercions.
 enum TypeCoercion: String, CaseIterable, Codable {
     case appstore = "WFAppStoreAppContentItem"
     case article = "WFArticleContentItem"
@@ -59,6 +63,9 @@ enum TypeCoercion: String, CaseIterable, Codable {
     case vcard = "WFVCardContentItem"
     case string = "WFStringContentItem"
     
+    /// An optional initializer that will create itself based on the provided Jelly human readable version of the type coercion.
+    /// If the human readable version provided does not match any of the possible coercions this will return nil.
+    /// - Parameter value: The human readable version of the type coercion
     init?(value: String) {
         switch value.lowercased() {
         case "appstore":
@@ -116,6 +123,8 @@ enum TypeCoercion: String, CaseIterable, Codable {
         }
     }
     
+    /// Encodes the Type coercion based on it's rawValue
+    /// - Parameter encoder: The encoder to encode into.
     func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         try container.encode(self.rawValue)

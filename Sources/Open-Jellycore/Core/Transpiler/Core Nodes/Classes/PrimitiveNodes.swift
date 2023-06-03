@@ -5,7 +5,13 @@
 //  Created by Taylor Lineman on 5/22/23.
 //
 
+/// This structure is used to construct primitive nodes and is mostly for convenience of initializing primitives
 struct PrimitiveFactory {
+    /// A function that derives a primitive node from a given `TreeSitterNode`.
+    /// - Parameters:
+    ///   - node: The `TreeSitterNode` to convert into a primitive node
+    ///   - content: The content of `node` that is retrieved from its parent's content
+    /// - Returns: Possibly returns a `CorePrimitiveNode` if the given `node` is capable of being converted into one.
     static func derivePrimitive(node: TreeSitterNode, content: String) -> CorePrimitiveNode? {
         let sString = node.string ?? "No sString"
         if node.type == CoreNodeType.identifier.rawValue {
@@ -21,20 +27,20 @@ struct PrimitiveFactory {
     }
 }
 
-protocol CorePrimitiveNode {
-    var type: CoreNodeType { get }
-    var content: String { get }
-    var sString: String { get }
-    var rawValue: TreeSitterNode { get }
-}
-
+/// A node that represents an identifier primitive. Identifier primitives are nodes such as variable names.
 final class IdentifierNode: CoreNode, CorePrimitiveNode {
+    /// A variable property node such as .as(), .get(), .key()
     final class VariablePropertyNode: CoreNode, CorePrimitiveNode {
         var type: CoreNodeType
         var sString: String
         var content: String
         var rawValue: TreeSitterNode
         
+        /// Initializes a Variable Property  node.
+        /// - Parameters:
+        ///   - sString: The TreeSitter String representation of the `rawValue` node.
+        ///   - content: The content of the `rawValue`. This is passed in as a constructor because it requires `rawValue`'s parent's content to retrieve it's contents
+        ///   - rawValue: The raw TreeSitter node that this node wraps.
         init(sString: String, content: String, rawValue: TreeSitterNode) {
             self.type = .variableProperty
             self.sString = sString
@@ -42,6 +48,8 @@ final class IdentifierNode: CoreNode, CorePrimitiveNode {
             self.rawValue = rawValue
         }
         
+        /// Retrieves the type of property.
+        /// - Returns: The property type, if available. If not available `nil` is returned
         func getType() -> String? {
             if let node = rawValue.getChild(by: "type") {
                 return rawValue.getContents(of: node, in: content)
@@ -49,6 +57,8 @@ final class IdentifierNode: CoreNode, CorePrimitiveNode {
             return nil
         }
         
+        /// Retrieves the value of the property
+        /// - Returns: The value of the property if available. If not available `nil` is returned
         func getValue() -> String? {
             if let node = rawValue.getChild(by: "value") {
                 return rawValue.getContents(of: node, in: content)
@@ -65,6 +75,11 @@ final class IdentifierNode: CoreNode, CorePrimitiveNode {
     
     var aggrandizements: [Aggrandizement] = []
 
+    /// Initializes a Variable node. Internally fills out the optional values by calling all of this class's get functions.
+    /// - Parameters:
+    ///   - sString: The TreeSitter String representation of the `rawValue` node.
+    ///   - content: The content of the `rawValue`. This is passed in as a constructor because it requires `rawValue`'s parent's content to retrieve it's contents
+    ///   - rawValue: The raw TreeSitter node that this node wraps.
     init(sString: String, content: String, rawValue: TreeSitterNode) {
         self.type = .identifier
         self.sString = sString
@@ -77,15 +92,20 @@ final class IdentifierNode: CoreNode, CorePrimitiveNode {
         if let results = getContentField() {
             self.content = results.content
         }
-    }
         
-    func getContentField() -> (content: String, node: TreeSitterNode)? {
+    }
+    
+    /// Retrieves the identifier content. This would be the variable's name
+    /// - Returns: Returns an optional tuple of node (TreeSitterNode) and content (String). If there is no content this is returned as nil.
+    func getContentField() -> (node: TreeSitterNode, content: String)? {
         if let node = rawValue.getChild(by: "content") {
-            return (rawValue.getContents(of: node, in: originalContent), node)
+            let contents = rawValue.getContents(of: node, in: originalContent)
+            return (node, contents)
         }
         return nil
     }
     
+    /// Collects all of the properties that follow the identifier content.
     func collectValues() {
         for child in rawValue.getChildren().filter({filterChildren($0)}) {
             let childContent = rawValue.getContents(of: child, in: originalContent)
@@ -124,17 +144,26 @@ final class IdentifierNode: CoreNode, CorePrimitiveNode {
         }
     }
     
+    /// Filters the identifier node's children into only variable property children. Used in ``IdentifierNode/collectValues``
+    /// - Parameter node: The node that we are checking on
+    /// - Returns: A boolean which is true if the node type is variable property.
     private func filterChildren(_ node: TreeSitterNode) -> Bool {
         return node.type == CoreNodeType.variableProperty.rawValue
     }
 }
 
+/// A node that represents a number primitive.
 final class NumberNode: CoreNode, CorePrimitiveNode {
     var type: CoreNodeType
     var sString: String
     var content: String
     var rawValue: TreeSitterNode
     
+    /// Initializes a Numer  node.
+    /// - Parameters:
+    ///   - sString: The TreeSitter String representation of the `rawValue` node.
+    ///   - content: The content of the `rawValue`. This is passed in as a constructor because it requires `rawValue`'s parent's content to retrieve it's contents
+    ///   - rawValue: The raw TreeSitter node that this node wraps.
     init(sString: String, content: String, rawValue: TreeSitterNode) {
         self.type = .identifier
         self.sString = sString
@@ -142,12 +171,15 @@ final class NumberNode: CoreNode, CorePrimitiveNode {
         self.rawValue = rawValue
     }
     
-    func getValue() -> Int {
+    /// Retrieves the number value for the node. If there is no value 0 is returned.
+    /// - Returns: The double value for the number.
+    func getValue() -> Double? {
         // TODO: Error Handling
-        return Int(content) ?? 0
+        return Double(content)
     }
 }
 
+/// A node that represents an array primitive. Internal values can be any primitive nodes.
 final class ArrayNode: CoreNode, CorePrimitiveNode {
     var type: CoreNodeType
     var sString: String
@@ -156,6 +188,11 @@ final class ArrayNode: CoreNode, CorePrimitiveNode {
     
     var values: [any CorePrimitiveNode] = []
     
+    /// Initializes an Array node. Internally fills out the optional values by calling all of this class's get functions.
+    /// - Parameters:
+    ///   - sString: The TreeSitter String representation of the `rawValue` node.
+    ///   - content: The content of the `rawValue`. This is passed in as a constructor because it requires `rawValue`'s parent's content to retrieve it's contents
+    ///   - rawValue: The raw TreeSitter node that this node wraps.
     init(sString: String, content: String, rawValue: TreeSitterNode) {
         self.type = .array
         self.sString = sString
@@ -164,6 +201,7 @@ final class ArrayNode: CoreNode, CorePrimitiveNode {
         self.collectValues()
     }
     
+    /// Collects all of the internal array values using the named children of `rawValue`.
     func collectValues() {
         for child in rawValue.getNamedChildren() {
             let contents = rawValue.getContents(of: child, in: content)
@@ -171,11 +209,10 @@ final class ArrayNode: CoreNode, CorePrimitiveNode {
                 values.append(primitive)
             }
         }
-        
-        print("Found \(values.count) values - \(values.map({$0.content}))")
     }
 }
 
+/// A node that represents a string primitive. This is one of the most complex primitive nodes because it needs to deal with string interpolation.
 final class StringNode: CoreNode, CorePrimitiveNode {
     final class InterpolationNode: CoreNode, CorePrimitiveNode {
         var type: CoreNodeType
@@ -239,6 +276,11 @@ final class StringNode: CoreNode, CorePrimitiveNode {
     
     var internalNodes: [InternalNode] = []
     
+    /// Initializes a String node. Internally fills out the optional values by calling all of this class's get functions.
+    /// - Parameters:
+    ///   - sString: The TreeSitter String representation of the `rawValue` node.
+    ///   - content: The content of the `rawValue`. This is passed in as a constructor because it requires `rawValue`'s parent's content to retrieve it's contents
+    ///   - rawValue: The raw TreeSitter node that this node wraps.
     init(sString: String, content: String, rawValue: TreeSitterNode) {
         self.type = .string
         self.sString = sString
@@ -250,17 +292,8 @@ final class StringNode: CoreNode, CorePrimitiveNode {
         self.trimContent()
     }
     
-    init(content: String, rawValue: TreeSitterNode) {
-        self.type = .string
-        self.sString = ""
-        self.originalContent = content
-        self.content = content
-        self.rawValue = rawValue
-        self.trimContent()
-    }
-    
-    // Remove surrounding quotes
-    func trimContent() {
+    /// Remove surrounding quotes from the content of a string.
+    private func trimContent() {
         if content.hasPrefix("\"") {
             content.removeFirst()
         }
@@ -269,7 +302,8 @@ final class StringNode: CoreNode, CorePrimitiveNode {
         }
     }
     
-    func collectValues() {
+    /// Collect all of the interpolation within the string. This function walks through the children of the original node and reconstructs a new content variable based on the internal nodes.
+    private func collectValues() {
         let rawValueStartByte = rawValue.startByte
         let rawValueEndByte = rawValue.endByte
         var tempContent = ""
@@ -293,12 +327,20 @@ final class StringNode: CoreNode, CorePrimitiveNode {
     }
 }
 
+// TODO: Refactor this out and make compiler nodes be generated in an analysis step where the source code is altered to better fit. Or add the ability to re-parse small strings when needed.
+/// A primitive node that is inserted by the compiler. This is never parsed from user input and only inserted by the compiler when needed.
 final class CompilerInsertedNode: CoreNode, CorePrimitiveNode {
     var type: CoreNodeType
     var sString: String
     var content: String
     var rawValue: TreeSitterNode
     
+    /// An initializer that has access to all of the internal variables of `CompilerInsertedNode`. Allows for control over how the rest of the compiler sees this node and how it is treated.
+    /// - Parameters:
+    ///   - type: The type of node this should be treated as
+    ///   - sString: The sString to display for debugging
+    ///   - content: The content of the node
+    ///   - rawValue: The node raw value. Usually the parent node is inserted as `TreeSitterNode`s can not be manually created.
     init(type: CoreNodeType, sString: String, content: String, rawValue: TreeSitterNode) {
         self.type = type
         self.sString = sString

@@ -5,6 +5,7 @@
 //  Created by Taylor Lineman on 5/29/23.
 //
 
+/// A node that represents a shortcuts Menu.
 final class MenuNode: CoreNode {
     var type: CoreNodeType
     var sString: String
@@ -16,6 +17,11 @@ final class MenuNode: CoreNode {
     
     var magicVariable: MagicVariableNode?
 
+    /// Initializes a Menu node. Internally fills out the optional values by calling all of this class's get functions.
+    /// - Parameters:
+    ///   - sString: The TreeSitter String representation of the `rawValue` node.
+    ///   - content: The content of the `rawValue`. This is passed in as a constructor because it requires `rawValue`'s parent's content to retrieve it's contents
+    ///   - rawValue: The raw TreeSitter node that this node wraps.
     init(sString: String, content: String, rawValue: TreeSitterNode) {
         self.type = .menu
         self.sString = sString
@@ -32,7 +38,9 @@ final class MenuNode: CoreNode {
         
         collectMagicVariable()
     }
- 
+    
+    /// Retrieves the prompt for the menu. This is the question which is posed to the user in shortcuts.
+    /// - Returns: An optional tuple contains a node (TreeSitterNode) and content (String). This returns nil if there is no prompt.
     func getPrompt() -> (node: TreeSitterNode, content: String)? {
         if let node = rawValue.getChild(by: "prompt") {
             let content = rawValue.getContents(of: node, in: content)
@@ -40,7 +48,9 @@ final class MenuNode: CoreNode {
         }
         return nil
     }
-
+    
+    /// Retrieves the body of the menu node.
+    /// - Returns: An optional tuple contains a node (TreeSitterNode) and content (String). This returns nil if there is no body.
     func getBodyNode() -> (node: TreeSitterNode, content: String)? {
         if let node = rawValue.getChild(by: "body") {
             let content = rawValue.getContents(of: node, in: content)
@@ -49,6 +59,7 @@ final class MenuNode: CoreNode {
         return nil
     }
     
+    /// Collects the possible magic variable at the end of a menu statement.
     func collectMagicVariable() {
         if let magicVariableNode = rawValue.getChild(by: "magic_variable") {
             let content = rawValue.getContents(of: magicVariableNode, in: content)
@@ -57,6 +68,7 @@ final class MenuNode: CoreNode {
     }
 }
 
+/// A menu block node represents the block of code that is contained within a menu.
 final class MenuBlockNode: CoreNode {
     var type: CoreNodeType
     var sString: String
@@ -65,6 +77,11 @@ final class MenuBlockNode: CoreNode {
     
     var caseNodes: [MenuCaseNode] = []
     
+    /// Initializes a Menu Block node. Internally fills out the optional values by calling all of this class's get functions.
+    /// - Parameters:
+    ///   - sString: The TreeSitter String representation of the `rawValue` node.
+    ///   - content: The content of the `rawValue`. This is passed in as a constructor because it requires `rawValue`'s parent's content to retrieve it's contents
+    ///   - rawValue: The raw TreeSitter node that this node wraps.
     init(sString: String, content: String, rawValue: TreeSitterNode) {
         self.type = .menuBlock
         self.sString = sString
@@ -77,11 +94,14 @@ final class MenuBlockNode: CoreNode {
         })
     }
     
+    /// Retrieves all of the cases present within the block.
+    /// - Returns: The list of TreeSitterNodes which have the type of `menu_case`.
     func getMenuCases() -> [TreeSitterNode] {
         return rawValue.getNamedChildren().filter({ $0.type == CoreNodeType.menuCase.rawValue })
     }
 }
 
+/// Represents an individual menu case inside of a `MenuBlockNode`.
 final class MenuCaseNode: CoreNode {
     var type: CoreNodeType
     var sString: String
@@ -91,6 +111,11 @@ final class MenuCaseNode: CoreNode {
     var caseString: StringNode?
     var body: BlockNode?
 
+    /// Initializes a Menu Case node. Internally fills out the optional values by calling all of this class's get functions.
+    /// - Parameters:
+    ///   - sString: The TreeSitter String representation of the `rawValue` node.
+    ///   - content: The content of the `rawValue`. This is passed in as a constructor because it requires `rawValue`'s parent's content to retrieve it's contents
+    ///   - rawValue: The raw TreeSitter node that this node wraps.
     init(sString: String, content: String, rawValue: TreeSitterNode) {
         self.type = .menuCase
         self.sString = sString
@@ -106,6 +131,8 @@ final class MenuCaseNode: CoreNode {
         }
     }
     
+    /// Get's the case that this case presents to the user. Shortcuts displays this as one of the options the user can select.
+    /// - Returns: An optional tuple contains a node (TreeSitterNode) and content (String). This returns nil if there is no body.
     func getCase() -> (node: TreeSitterNode, content: String)? {
         if let node = rawValue.getChild(by: "case") {
             let content = rawValue.getContents(of: node, in: content)
@@ -113,7 +140,9 @@ final class MenuCaseNode: CoreNode {
         }
         return nil
     }
-
+    
+    /// Returns all of a body node that contains all of the statements that the case node has underneath it.
+    /// - Returns: An optional tuple contains a node (TreeSitterNode) and content (String). This returns nil if there is no body.
     func getBodyNode() -> (node: TreeSitterNode, content: String)? {
         if let node = rawValue.getChild(by: "body") {
             let content = rawValue.getContents(of: node, in: content)
@@ -121,5 +150,4 @@ final class MenuCaseNode: CoreNode {
         }
         return nil
     }
-
 }

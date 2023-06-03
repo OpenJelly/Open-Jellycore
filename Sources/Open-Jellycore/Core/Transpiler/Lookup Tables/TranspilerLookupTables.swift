@@ -5,7 +5,9 @@
 //  Created by Taylor Lineman on 10/28/22.
 //
 
+/// A structure that handles creating lookup tables based on the available libraries
 struct TranspilerLookupTables {
+    /// All of the available Jelly libraries
     enum Library: String, CaseIterable {
         case shortcuts = "Shortcuts"
 //        case dataJar = "DataJar"
@@ -28,6 +30,7 @@ struct TranspilerLookupTables {
 //        case widgetPack = "WidgetPack"
 //        case actions = "Actions"
 
+        /// The function table provided by the individual library
         var functionTable: [String : AnyAction] {
             switch self {
             case .shortcuts:
@@ -73,10 +76,12 @@ struct TranspilerLookupTables {
             }
         }
         
+        /// The pretty printed name of the library. Used for display and documentation
         var prettyName: String {
             rawValue
         }
         
+        /// The description of the library. Used for display and documentation.
         var description: String {
             switch self {
             case .shortcuts:
@@ -123,6 +128,10 @@ struct TranspilerLookupTables {
         }
     }
     
+    
+    /// Generates a lookup table that includes all of the functions from the provided libraries
+    /// - Parameter importedLibraries: The libraries whose functions should be included in the resulting lookup table.
+    /// - Returns: A dictionary keyed by function name with the action as the value.
     static func generateLookupTable(importedLibraries: [Library]) -> [String: AnyAction] {
         var customLookupTable: [String: AnyAction] = [:]
         

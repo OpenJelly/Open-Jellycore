@@ -14,6 +14,8 @@ public final class Parser {
     let treeSitterParser: OpaquePointer
     var tree: TreeSitterTree?
     
+    /// Constructs a TreeSitter  parser and sets up it's language to Jelly
+    /// - Parameter contents: The Jelly code that this parser is looking at.
     public init(contents: String) {
         self.contents = contents
         let jelly = tree_sitter_jelly()
@@ -21,6 +23,7 @@ public final class Parser {
         ts_parser_set_language(treeSitterParser, jelly)
     }
     
+    /// Uses TreeSitter to parse the contents of the parser.
     public func parse() throws {
         let cstr = try getCString()
         let stringByteLength = contents.count

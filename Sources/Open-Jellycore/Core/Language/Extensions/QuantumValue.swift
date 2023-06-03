@@ -7,7 +7,9 @@
 
 import Foundation
 
+/// A custom class with the purpose  of allowing a swift `Any` value to be encoded and decoded. Extremely useful for encoding PLISTs and used all across Jellycore
 struct QuantumValue: Decodable {
+    /// The internal `Any` value
     var value: Any
     
     struct CodingKeys: CodingKey {
@@ -20,10 +22,17 @@ struct QuantumValue: Decodable {
         init?(stringValue: String) { self.stringValue = stringValue }
     }
     
+    
+    /// A basic initializer for a Quantum Value
+    /// - Parameter value: The value that needs to be encoded.
     init(_ value: Any) {
         self.value = value
     }
     
+    
+    /// Initializes a QuantumValue from a decoder.
+    /// The value is decoded based on what it can possibly decode by doing consecutive if let statements to find the matching type.
+    /// - Parameter decoder: The decoder to decode with
     init(from decoder: Decoder) throws {
         if let container = try? decoder.container(keyedBy: CodingKeys.self) {
             var result = [String: Any]()
@@ -58,16 +67,17 @@ struct QuantumValue: Decodable {
 }
 
 extension QuantumValue: Encodable {
+    /// An encoder to encode the internal `value` into an encodable type.
+    /// Finds the type of the internal value by doing consecutive if let statements until one properly encodes.
+    /// - Parameter encoder: The encoder to encode with.
     func encode(to encoder: Encoder) throws {
         if let array = value as? [Any] {
-//            print("Array encoding", value, type(of: value))
             var container = encoder.unkeyedContainer()
             for value in array {
                 let decodable = QuantumValue(value)
                 try container.encode(decodable)
             }
         } else if let dictionary = value as? [String: Any] {
-//            print("Dictionary encodin g", value, type(of: value))
             var container = encoder.container(keyedBy: CodingKeys.self)
             for (key, value) in dictionary {
                 let codingKey = CodingKeys(stringValue: key)!
@@ -75,7 +85,6 @@ extension QuantumValue: Encodable {
                 try container.encode(decodable, forKey: codingKey)
             }
         } else {
-//            print("Encoding: ", value, type(of: value))
             var container = encoder.singleValueContainer()
             if let numberValue = value as? Double {
                 try container.encode(numberValue)

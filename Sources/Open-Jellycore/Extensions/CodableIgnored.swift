@@ -6,7 +6,7 @@
 
 
 @propertyWrapper
-public struct CodableIgnored<T>: Codable {
+struct CodableIgnored<T>: Codable {
     public var wrappedValue: T
         
     public init(wrappedValue: T) {
@@ -23,7 +23,7 @@ public struct CodableIgnored<T>: Codable {
 }
 
 extension KeyedDecodingContainer {
-    public func decode<T>(
+    func decode<T>(
         _ type: CodableIgnored<T>.Type,
         forKey key: Self.Key) throws -> CodableIgnored<T>
     {
@@ -32,7 +32,7 @@ extension KeyedDecodingContainer {
 }
 
 extension KeyedEncodingContainer {
-    public mutating func encode<T>(
+    mutating func encode<T>(
         _ value: CodableIgnored<T>,
         forKey key: KeyedEncodingContainer<K>.Key) throws
     {

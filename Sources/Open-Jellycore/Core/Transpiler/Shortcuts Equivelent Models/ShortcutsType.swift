@@ -5,6 +5,7 @@
 //  Created by Taylor Lineman on 5/29/23.
 //
 
+/// The shortcuts types that are provided by the shortcuts app.
 enum ShortcutsType: String {
     case appstore = "WFAppStoreAppContentItem"
     case article = "WFArticleContentItem"
@@ -32,6 +33,7 @@ enum ShortcutsType: String {
     case vcard = "WFVCardContentItem"
 }
 
+/// The conditional types provided by shortcuts. Used only in shortcuts conditionals.
 enum ConditionalType: String {
     case string = "WFConditionalActionString"
     case number = "WFNumberValue"

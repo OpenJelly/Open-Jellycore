@@ -7,7 +7,9 @@
 
 import Foundation
 
+/// The transpiler that handles compiling Jelly code into Shortcuts code.
 public final class Transpiler {
+    /// The default set of shortcuts variables
     static let globalVariables: [Variable] = [
         Variable(uuid: "", name: "ShortcutInput", valueType: .global, value: ""),
         Variable(uuid: "", name: "Clipboard", valueType: .global, value: ""),
@@ -18,16 +20,23 @@ public final class Transpiler {
         Variable(uuid: "", name: "DeviceDetails", valueType: .global, value: "")
     ]
 
+    /// The contents that the transpiler is parsing off of.
     var contents: String {
         return currentParser.contents
     }
+    /// The current parser being used by the transpiler
     var currentParser: Parser
+    /// A lookup table used to find functions by their name
     var lookupTable: [String: AnyAction] = TranspilerLookupTables.generateLookupTable(importedLibraries: [.shortcuts])
 
+    /// An initializer that provides the current parser to be used by the transpiler.
+    /// - Parameter parser: the parser that the transpiler should use.
     public init(parser: Parser) {
         self.currentParser = parser
     }
     
+    /// Compiles the syntax tree within `currentParser`.
+    /// - Returns: Returns a compiled shortcut PLIST as a string.
     public func compile() throws -> String {
         guard let tree = currentParser.tree else {
             throw JellycoreError.noParserTree()
@@ -72,6 +81,9 @@ public final class Transpiler {
         return encodedShortcut
     }
     
+    /// Encodes a `WFShortcut` into a PLIST that can be saved as a .shortcut file.
+    /// - Parameter shortcut: the shortcut that should be encoded
+    /// - Returns: A PLIST representation of the  `shortcut`.
     private func encodeShortcut(shortcut: WFShortcut) throws -> String {
         let encoder = PropertyListEncoder()
         encoder.outputFormat = .xml
@@ -92,6 +104,11 @@ public final class Transpiler {
         }
     }
 
+    /// Compiles a block of jelly code where all nodes are children of the `root` node.
+    /// - Parameters:
+    ///   - root: The root node to start compiling off of. Should preferably have some children.
+    ///   - scope: The scope that the block has access too.
+    /// - Returns: An array of `WFAction` that represents all of the compiled actions.
     private func compileBlock(root: TreeSitterNode, scope: Scope) -> [WFAction] {
         var shortcutsActions: [WFAction] = []
 
@@ -110,6 +127,11 @@ public final class Transpiler {
         return shortcutsActions
     }
     
+    /// Compiles a single `TreeSitterNode` into it's Shortcut's equivalents
+    /// - Parameters:
+    ///   - node: The tree sitter node to compile
+    ///   - scope: The scope that the node has access too
+    /// - Returns: An array of `WFAction` that represents all of the compiled actions that were retrieved from the `node`
     private func compileNode(node: TreeSitterNode, scope: Scope) throws -> [WFAction] {
         let coreNode = try translateNodeFromTreeSitterNode(node: node)
         guard let coreNode else { print("Unable to get core node - \(node.type ?? "No Type")"); return [] }
@@ -196,7 +218,7 @@ public final class Transpiler {
             let commentAction = try compileComment(node: coreNode)
             actions.append(commentAction)
         default:
-            print("Unhandled Node on Compile step \(coreNode.content) - \(coreNode.sString)")
+            print("Unhandled Node on Compile step \(coreNode.content) - \(coreNode.rawValue.string ?? "(empty)")")
             break
         }
         
@@ -207,7 +229,10 @@ public final class Transpiler {
 // MARK: Transpile Individual Nodes
 /// Any functions that transpiler individual CoreNodes into Shortcuts Actions
 extension Transpiler {
-    
+    /// Compiles a `FlagNode` into whatever flag it represents. Does not return normal Shortcuts actions.
+    /// It returns Jellycuts config nodes that are removed later in transpiling.
+    /// - Parameter node: The `FlagNode` that was found in the `compileNode` function.
+    /// - Returns: The actions compiled from the Flag node.
     private func compileFlag(node: FlagNode) throws -> [WFAction] {
         var actions: [WFAction] = []
         
@@ -239,6 +264,12 @@ extension Transpiler {
         return actions
     }
     
+    /// Compiles a `MenuNode` into a set of actions that represents a shortcuts menu.
+    /// This function also handles all of the cases within a Menu so this function returns the menu and all of it's cases compiled.
+    /// - Parameters:
+    ///   - node: The `MenuNode` that was found in the `compileNode` function.
+    ///   - scope: The scope available to the node.
+    /// - Returns: A menu node and all of the cases and their nodes included.
     private func compileMenu(node: MenuNode, scope: Scope) throws -> [WFAction] {
         var actions: [WFAction] = []
         
@@ -292,6 +323,11 @@ extension Transpiler {
         return actions
     }
     
+    /// Compiles a `RepeatEachNode` into a shortcuts repeat statement.
+    /// - Parameters:
+    ///   - node: The `RepeatEachNode` that was found in the `compileNode` function.
+    ///   - scope: The scope available to the node.
+    /// - Returns: The compiled repeat node with all of it's internal nodes included.
     private func compileRepeatEach(node: RepeatEachNode, scope: Scope) throws -> [WFAction] {
         var actions: [WFAction] = []
 
@@ -335,7 +371,12 @@ extension Transpiler {
         
         return actions
     }
-
+    
+    /// Compiles a  `RepeatNode` into a shortcuts repeat statement
+    /// - Parameters:
+    ///   - node: The `RepeatNode` that was found in the `compileNode` function.
+    ///   - scope: The scope available to the node.
+    /// - Returns: The repeat node and its internal block nodes
     private func compileRepeat(node: RepeatNode, scope: Scope) throws -> [WFAction] {
         var actions: [WFAction] = []
 
@@ -345,7 +386,7 @@ extension Transpiler {
             
             let repeatHeadAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.repeat.count", WFWorkflowActionParameters: [
                 "WFControlFlowMode": QuantumValue(0),
-                "WFRepeatCount": QuantumValue(value),
+                "WFRepeatCount": QuantumValue(value ?? 0),
                 "GroupingIdentifier": QuantumValue(repeatUUID)
             ])
             
@@ -381,6 +422,11 @@ extension Transpiler {
         return actions
     }
     
+    /// Compiles a `ConditionNode` into a shortcuts if statement and else statement if present
+    /// - Parameters:
+    ///   - node: The `ConditionalNode` that was found in the `compileNode` function.
+    ///   - scope: The scope available to the node.
+    /// - Returns: The compiled node containing the shortcuts if statement, and else (if present) actions.
     private func compileConditional(node: ConditionalNode, scope: Scope) throws -> [WFAction] {
         var actions: [WFAction] = []
 
@@ -493,6 +539,12 @@ extension Transpiler {
         return actions
     }
     
+    /// Compiles a `VariableAssignmentNode` into a shortcuts variable assignment.
+    /// This function handles both creating variables with var syntax or set the value of a variable when the var keyword is not present.
+    /// - Parameters:
+    ///   - node: The `VariableAssignmentNode` that was found in the `compileNode` function.
+    ///   - scope: The scope available to the node.
+    /// - Returns: The shortcuts variable assignment
     private func compileVariableDeclaration(node: VariableAssignmentNode, scope: Scope) throws -> [WFAction] {
         // TODO: Check to make sure variable is available
         if Transpiler.globalVariables.contains(where: { variableNameMatches(variable: $0, name: node.name) }) {
@@ -583,6 +635,14 @@ extension Transpiler {
         return []
     }
     
+    
+    /// Compiles a function call into it's given shortcut equivalent.
+    /// When the function called is from Shortcuts or an installed app that integrates with Shortcuts the function is directly added from the lookup table.
+    /// When the function called is user defined function or macro, it is added to the scope. Macros are automatically inserted into the actions returned. Functions are dealt with later in compilation as it requires reorganizing the entire shortcut structure
+    /// - Parameters:
+    ///   - node: The `FunctionCallNode` that was found in the `compileNode` function.
+    ///   - scope: The scope available to the node.
+    /// - Returns: The actions that make up the function that was called.
     private func compileFunctionCall(node: FunctionCallNode, scope: Scope) throws -> [WFAction] {
         if let foundFunction = lookupTable[node.name.lowercased()] {
             var magicVariable: Variable? = nil
@@ -604,6 +664,9 @@ extension Transpiler {
         return []
     }
     
+    /// Compiles a `CommentNode` into a Shortcuts comment
+    /// - Parameter node: The comment node
+    /// - Returns: The action that makes up the comment.
     private func compileComment(node: CommentNode) throws -> WFAction {
         guard let content = node.getContent() else {
             throw JellycoreError.invalidContent(type: "Comment", description: "No comment content was found")
@@ -618,6 +681,9 @@ extension Transpiler {
 // MARK: Transpiling Helpers
 /// Any functions that are directly helpful to transpiling
 extension Transpiler {
+    /// Translates a basic `TreeSitterNode` into it's Core Node representation that is used by Jelly
+    /// - Parameter node: The node that needs to be translated
+    /// - Returns: A translated node, if one is possible. If not it will return nil.
     private func translateNodeFromTreeSitterNode(node: TreeSitterNode) throws -> CoreNode? {
         if let type = node.type {
             guard let nodeType = CoreNodeType(rawValue: type) else {
@@ -662,7 +728,13 @@ extension Transpiler {
 
 // MARK: Filters and Array searches
 extension Transpiler {
+    /// A connivence function used in searching to make it more compact. Just checks whether a variable name is equal to the given name.
+    /// - Parameters:
+    ///   - variable: The variable to check
+    ///   - name: The name to check against
+    /// - Returns: Boolean whether or not the variable name matches.
     private func variableNameMatches(variable: Variable, name: String) -> Bool {
         return variable.name == name
     }
 }
+ 

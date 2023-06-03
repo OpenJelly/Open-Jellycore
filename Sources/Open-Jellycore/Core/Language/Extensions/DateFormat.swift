@@ -2,13 +2,15 @@
 //  DateFormat.swift
 //  Jellycore
 //
-//  Created by Taylor lineman on 8/17/21.
+//  Author Unknown
 //
 
 import Foundation
 
+/// The job of this extension is to allow for us to get a string of basically any format from a string.
 extension String {
-    public enum DateFormatType {
+    public enum DateFormatType: CaseIterable {
+        public static var allCases: [String.DateFormatType] = [.isoYear, .isoYearMonth, .isoDate, .isoDateTime, .isoDateTimeSec, .isoDateTimeMilliSec, .dotNet, .rss, .altRSS, .httpHeader, .standard, .localDateTimeSec, .localDate, .localTimeWithNoon, .localPhotoSave, .birthDateFormatOne, .birthDateFormatTwo, .messageRetrieveFormat, .emailTimePreview]
         
         /// The ISO8601 formatted year "yyyy" i.e. 1997
         case isoYear
@@ -42,10 +44,7 @@ extension String {
         
         /// A generic standard format date i.e. "EEE MMM dd HH:mm:ss Z yyyy"
         case standard
-        
-        /// A custom date format string
-        case custom(String)
-        
+                
         /// The local formatted date and time "yyyy-MM-dd HH:mm:ss" i.e. 1997-07-16 19:20:00
         case localDateTimeSec
         
@@ -62,11 +61,12 @@ extension String {
         
         case birthDateFormatTwo
         
-        ///
         case messageRetrieveFormat
         
-        ///
         case emailTimePreview
+        
+        /// A custom date format string
+        case custom(String)
         
         public var stringFormat: String {
             switch self {
@@ -97,6 +97,9 @@ extension String {
         }
     }
     
+    /// Create's a data with the provided `DateFormatType`
+    /// - Parameter format: format descriptionThe format that the date should be created in
+    /// - Returns: A possible date. If the string is not in the given format this will return nil
     func toDate(_ format: String.DateFormatType) -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format.stringFormat
@@ -104,12 +107,12 @@ extension String {
         return date
     }
     
+    /// Loops through all of the possible date format's and finds the a date that fits the string's format
+    /// - Returns: A possible date if the string format matches one of the available `DateFormatType`s
     func getDate() -> Date? {
-        let allDateFormats: [String.DateFormatType] = [.isoYear, .isoYearMonth, .isoDate, .isoDateTime, .isoDateTimeSec, .isoDateTimeMilliSec, .dotNet, .rss, .altRSS, .httpHeader, .standard, .localDateTimeSec, .localDate, .localTimeWithNoon, .localPhotoSave, .birthDateFormatOne, .birthDateFormatTwo, .messageRetrieveFormat, .emailTimePreview]
-
         let dateFormatter = DateFormatter()
 
-        for format in allDateFormats {
+        for format in DateFormatType.allCases {
             dateFormatter.dateFormat = format.stringFormat
             let date = dateFormatter.date(from: self)
             

@@ -10,9 +10,12 @@ import Foundation
 import UIKit
 #endif
 
+/// A swift `LocalizedError` that represents an error that has occurred in Jellycore. This class wraps the internal ``JellycoreUnderlyingError`` and ads extra functionality that an enumeration can not handle.
 public class JellycoreError: LocalizedError, Identifiable {
+    /// A unique identifier for the Error.
     public var id: UUID = UUID()
     
+    /// The level of severity of the error.
     enum Level {
         case syntax
         case warning
@@ -20,6 +23,7 @@ public class JellycoreError: LocalizedError, Identifiable {
         case fatal
     }
 
+    /// The underlying error enumeration used for storing and creating the descriptions of individual errors.
     public enum JellycoreUnderlyingError: CustomStringConvertible {
         case unableToGetCString
         case noParserTree
@@ -36,6 +40,7 @@ public class JellycoreError: LocalizedError, Identifiable {
         case invalidFunctionRedeclaration(name: String)
         case generic
         
+        /// The description of the error
         public var description: String {
             switch self {
             case .unableToGetCString:
@@ -70,22 +75,34 @@ public class JellycoreError: LocalizedError, Identifiable {
         }
     }
     
+    /// The underlying error enumeration that this error represents
     var underlyingError: JellycoreUnderlyingError
+    /// An optional relevant node that can be used to point the user towards the error.
     var relevantNode: CoreNode? = nil
+    /// The severity level of this error.
     var level: JellycoreError.Level
-    
+    /// A recovery strategy that is presented to the user. This strategy should instruct the user on how to fix the issue.
     var recoveryStrategy: String
-    
+    /// The description of what the error is.
+    var description: String
+
+    /// `LocalizedErrors`s recoverySuggestion, which is analogous to `recoveryStrategy`
     public var recoverySuggestion: String? {
         return recoveryStrategy
     }
     
+    /// `LocalizedErrors`s recoverySuggestion, which is analogous to `description`
     public var errorDescription: String? {
         return description
     }
     
-    var description: String
     
+    /// An initializer that takes the error description from the ``JellycoreUnderlyingError``.
+    /// - Parameters:
+    ///   - underlyingError: The ``JellycoreUnderlyingError`` that this error is wrapping.
+    ///   - relevantNode: The possible relevant node for this error.
+    ///   - level: The level of severity of this error.
+    ///   - recoveryStrategy: A recovery strategy for the user to use for trouble shooting.
     init(underlyingError: JellycoreUnderlyingError, relevantNode: CoreNode? = nil, level: JellycoreError.Level, recoveryStrategy: String) {
         self.underlyingError = underlyingError
         self.relevantNode = relevantNode
@@ -94,6 +111,13 @@ public class JellycoreError: LocalizedError, Identifiable {
         self.description = underlyingError.description
     }
     
+    /// An initializer that allows for a custom error description not taken from the ``JellycoreUnderlyingError``
+    /// - Parameters:
+    ///   - underlyingError: The ``JellycoreUnderlyingError`` that this error is wrapping.
+    ///   - relevantNode: The possible relevant node for this error.
+    ///   - level: The level of severity of this error.
+    ///   - description: A description of what the error is so the user can understand the issue.
+    ///   - recoveryStrategy: A recovery strategy for the user to use for trouble shooting.
     init(underlyingError: JellycoreUnderlyingError, relevantNode: CoreNode? = nil, level: JellycoreError.Level, description: String, recoveryStrategy: String) {
         self.underlyingError = underlyingError
         self.relevantNode = relevantNode
@@ -102,7 +126,9 @@ public class JellycoreError: LocalizedError, Identifiable {
         self.description = description
     }
 
-    #if canImport(UIKit)
+#if canImport(UIKit)
+    /// Constructs an `NSAttributedString` that represents this error. Used by ``ErrorReporter/getErrorText()``. This is only available when UIKit is available
+    /// - Returns: An `NSAttributedString` that represents this error.
     func getAttributedString() -> NSAttributedString {
         guard let errorDescription else { return NSAttributedString() }
         
@@ -122,62 +148,117 @@ public class JellycoreError: LocalizedError, Identifiable {
 // MARK: Static Constructors
 // Basically an error factory that allows for dot initialization of errors.
 extension JellycoreError {
+    /// A Jellycore error that represents the ``JellycoreUnderlyingError/unableToGetCString`` underlying error.
+    /// - Returns: A JellycoreError that has been completed based on the type of error.
     static func unableToGetCString() -> JellycoreError {
         return JellycoreError(underlyingError: .unableToGetCString, level: .fatal, recoveryStrategy: "Please check your document's encoding format. Ensure that it is encoded in UTF-8.")
     }
     
+    /// A Jellycore error that represents the ``JellycoreUnderlyingError/noParserTree`` underlying error.
+    /// - Returns: A JellycoreError that has been completed based on the type of error.
     static func noParserTree() -> JellycoreError {
         return JellycoreError(underlyingError: .noParserTree, level: .fatal, recoveryStrategy: "Please ensure that your document contains valid Jelly code.")
     }
     
+    /// A Jellycore error that represents the ``JellycoreUnderlyingError/invalidTreeSitterType(type:)`` underlying error.
+    /// - Parameter type: The type that caused the issue.
+    /// - Returns: A JellycoreError that has been completed based on the type of error.
     static func invalidTreeSitterType(type: String) -> JellycoreError {
         return JellycoreError(underlyingError: .invalidTreeSitterType(type: type), level: .fatal, recoveryStrategy: "Check if CoreNodeTypes match the type present in the Jelly grammar.")
     }
     
+    /// A Jellycore error that represents the ``JellycoreUnderlyingError/typeError(type:description:)`` underlying error.
+    /// - Parameters:
+    ///   - type: The type that is not accurate or having issues.
+    ///   - description: The description of why this type error occurred.
+    /// - Returns: A JellycoreError that has been completed based on the type of error.
     static func typeError(type: String, description: String) -> JellycoreError {
         return JellycoreError(underlyingError: .typeError(type: type, description: description), level: .error, recoveryStrategy: "Make sure the type is accurate for the input")
     }
     
+    /// A Jellycore error that represents the ``JellycoreUnderlyingError/invalidRoot`` underlying error.
+    /// - Returns: A JellycoreError that has been completed based on the type of error.
     static func invalidRoot() -> JellycoreError {
         return JellycoreError(underlyingError: .invalidRoot, level: .fatal, recoveryStrategy: "Make sure your file contain's valid Jelly code")
     }
     
+    /// A Jellycore error that represents the ``JellycoreUnderlyingError/invalidContent(type:description:)`` underlying error.
+    /// - Parameters:
+    ///   - type: The type that does not contain the correct content. Usually due to a syntax error but has resulted in the compiler being unable to continue.
+    ///   - description: The description of why the type has invalid content.
+    /// - Returns: A JellycoreError that has been completed based on the type of error.
     static func invalidContent(type: String, description: String) -> JellycoreError {
         return JellycoreError(underlyingError: .invalidContent(type: type, description: description), level: .error, recoveryStrategy: "Make sure the content for the node \(type) contains the correct syntax")
     }
     
+    /// A Jellycore error that represents the ``JellycoreUnderlyingError/generic`` underlying error. Used for submitting generic errors that do not require their own underlying error type.
+    /// - Parameters:
+    ///   - description: The description of the generic error.
+    ///   - recoveryStrategy: A strategy to recover from the given error.
+    ///   - level: The level of severity of the error.
+    /// - Returns: A JellycoreError that has been completed based on the type of error.
     static func generic(description: String, recoveryStrategy: String, level: Level) -> JellycoreError {
         return JellycoreError(underlyingError: .generic, level: level, description: description, recoveryStrategy: recoveryStrategy)
     }
     
+    /// A Jellycore error that represents the ``JellycoreUnderlyingError/missingParameterName(function:name:)`` underlying error.
+    /// - Parameters:
+    ///   - function: The function that is missing a parameter.
+    ///   - name: The name of the parameter that is missing.
+    /// - Returns: A JellycoreError that has been completed based on the type of error.
     static func missingParameterName(function: String, name: String) -> JellycoreError {
         return JellycoreError(underlyingError: .missingParameterName(function: function, name: name), level: .error, recoveryStrategy: "Jelly no longer supports unnamed parameters. You need to include the parameter name - (\(name):) in the function: (\(function))")
     }
     
+    /// A Jellycore error that represents the ``JellycoreUnderlyingError/missingParameter(function:name:)`` underlying error.
+    /// - Parameters:
+    ///   - function: The function that is missing a parameter.
+    ///   - name: The name of the parameter that is missing.
+    /// - Returns: A JellycoreError that has been completed based on the type of error.
     static func missingParameter(function: String, name: String) -> JellycoreError {
         return JellycoreError(underlyingError: .missingParameter(function: function, name: name), level: .warning, recoveryStrategy: "Make sure that you have included all of the parameters you wish in the function \(function)")
     }
     
+    /// A Jellycore error that represents the ``JellycoreUnderlyingError/variableDoesNotExist(variable:)`` underlying error.
+    /// - Parameter variable: The name of the variable that does not exist.
+    /// - Returns: A JellycoreError that has been completed based on the type of error.
     static func variableDoesNotExist(variable: String) -> JellycoreError {
         return JellycoreError(underlyingError: .variableDoesNotExist(variable: variable), level: .error, recoveryStrategy: "Make sure that you have initialized the variable \(variable)")
     }
     
+    /// A Jellycore error that represents the ``JellycoreUnderlyingError/invalidTypeCoercion(type:)`` underlying error.
+    /// - Parameter type: The type that was not valid for Type Coercion
+    /// - Returns: A JellycoreError that has been completed based on the type of error.
     static func invalidTypeCoercion(type: String) -> JellycoreError {
         return JellycoreError(underlyingError: .invalidTypeCoercion(type: type), level: .error, recoveryStrategy: "Make sure you have entered a valid type coercion value for the as property.")
     }
     
+    /// A Jellycore error that represents the ``JellycoreUnderlyingError/generic`` but inserts it at the syntax level of severity.
+    /// - Parameters:
+    ///   - description: The description of the syntax error.
+    ///   - recoveryStrategy: A recovery strategy to fix the error.
+    /// - Returns: A JellycoreError that has been completed based on the type of error.
     static func syntax(description: String, recoveryStrategy: String) -> JellycoreError {
         return JellycoreError(underlyingError: .generic, level: .syntax, description: description, recoveryStrategy: recoveryStrategy)
     }
-
+    
+    /// A Jellycore error that represents the ``JellycoreUnderlyingError/unableToParseJSON(jsonError:)`` underlying error.
+    /// - Parameter error: The Swift `Error` that was reported by the JSON parser.
+    /// - Returns: A JellycoreError that has been completed based on the type of error.
     static func unableToParseJSON(error: Error) -> JellycoreError {
         return JellycoreError(underlyingError: .unableToParseJSON(jsonError: error), level: .error, recoveryStrategy: "Check your JSON Structure for invalid syntax")
     }
     
+    /// A Jellycore error that represents the ``JellycoreUnderlyingError/unableToEncode(identifier:)`` underlying error.
+    /// - Parameter identifier: The identifier of the action or process that was unable to be encoded.
+    /// - Returns: A JellycoreError that has been completed based on the type of error.
     static func unableToEncode(identifier: String) -> JellycoreError {
         return JellycoreError(underlyingError: .unableToEncode(identifier: identifier), level: .error, recoveryStrategy: "Ensure that all the characters in your Jelly file are valid Unicode characters.")
     }
     
+    /// A Jellycore error that represents the ``JellycoreUnderlyingError/invalidFunctionRedeclaration(name:)`` underlying error.
+    /// - Parameter name: The name of the function that was declared twice
+    /// - Returns: A JellycoreError that has been completed based on the type of error.
     static func invalidFunctionRedeclaration(name: String) -> JellycoreError {
         return JellycoreError(underlyingError: .invalidFunctionRedeclaration(name: name), level: .error, recoveryStrategy: "Rename one of the functions with the name \(name).")
     }

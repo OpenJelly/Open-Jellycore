@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// These are analogous to the nodes defined in `grammar.js` in the `tree-sitter-jelly` package. They are used to pull parsed nodes directly from the tree sitter tree. Any new nodes added in `grammar.js` need to be added here
+/// These are analogous to the nodes defined in `grammar.js` in the `tree-sitter-jelly` package. They are used to pull parsed nodes directly from the tree sitter tree.
 enum CoreNodeType: String {
     case flag = "flag"
     case `import` = "import"

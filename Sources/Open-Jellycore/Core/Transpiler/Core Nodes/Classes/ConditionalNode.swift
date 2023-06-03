@@ -5,6 +5,7 @@
 //  Created by Taylor Lineman on 5/29/23.
 //
 
+/// A node that represents a shortcuts conditional statements. Contains both the if statement and a reference to a possible else statement.
 final class ConditionalNode: CoreNode {
     var type: CoreNodeType
     var sString: String
@@ -20,6 +21,11 @@ final class ConditionalNode: CoreNode {
     
     var magicVariable: MagicVariableNode?
 
+    /// Initializes a Conditional node. Internally fills out the optional values by calling all of this class's get functions.
+    /// - Parameters:
+    ///   - sString: The TreeSitter String representation of the `rawValue` node.
+    ///   - content: The content of the `rawValue`. This is passed in as a constructor because it requires `rawValue`'s parent's content to retrieve it's contents
+    ///   - rawValue: The raw TreeSitter node that this node wraps.
     init(sString: String, content: String, rawValue: TreeSitterNode) {
         self.type = .conditional
         self.sString = sString
@@ -49,7 +55,9 @@ final class ConditionalNode: CoreNode {
         
         collectMagicVariable()
     }
- 
+    
+    /// Retrieves the body of the conditional statement
+    /// - Returns: Returns an optional tuple of node (TreeSitterNode) and content (String). Node is the node that represents the body of the conditional statement. And contents is the string contents of that node.
     func getBodyNode() -> (node: TreeSitterNode, content: String)? {
         if let node = rawValue.getChild(by: "body") {
             let content = rawValue.getContents(of: node, in: content)
@@ -58,6 +66,8 @@ final class ConditionalNode: CoreNode {
         return nil
     }
     
+    /// Returns the primary conditional node. This node is often the main condition we are checking against.
+    /// - Returns: Returns an optional tuple of node (TreeSitterNode) and content (String).
     func getPrimaryNode() -> (node: TreeSitterNode, content: String)? {
         if let node = rawValue.getChild(by: "primary") {
             let content = rawValue.getContents(of: node, in: content)
@@ -66,6 +76,8 @@ final class ConditionalNode: CoreNode {
         return nil
     }
     
+    /// Returns the operator being used in the conditional.. If the user is using boolean conditional this will return nill
+    /// - Returns: Returns an optional tuple of node (TreeSitterNode) and content (String)
     func getOperatorNode() -> (node: TreeSitterNode, content: String)? {
         if let node = rawValue.getChild(by: "operator") {
             let content = rawValue.getContents(of: node, in: content)
@@ -74,6 +86,8 @@ final class ConditionalNode: CoreNode {
         return nil
     }
     
+    /// Returns the secondary node that we are checking against.
+    /// - Returns: Returns an optional tuple of node (TreeSitterNode) and content (String)
     func getSecondaryNode() -> (node: TreeSitterNode, content: String)? {
         if let node = rawValue.getChild(by: "secondary") {
             let content = rawValue.getContents(of: node, in: content)
@@ -82,6 +96,8 @@ final class ConditionalNode: CoreNode {
         return nil
     }
     
+    /// Returns the possible else node that follows a conditional statement.
+    /// - Returns: Returns an optional tuple of node (TreeSitterNode) and content (String)
     func getElseNode() -> (node: TreeSitterNode, content: String)? {
         if let node = rawValue.getChild(by: "else") {
             let content = rawValue.getContents(of: node, in: content)
@@ -90,6 +106,7 @@ final class ConditionalNode: CoreNode {
         return nil
     }
     
+    /// Collects the magic variable that can appear at the end of an if statement.
     func collectMagicVariable() {
         if let magicVariableNode = rawValue.getChild(by: "magic_variable") {
             let content = rawValue.getContents(of: magicVariableNode, in: content)
@@ -98,6 +115,7 @@ final class ConditionalNode: CoreNode {
     }
 }
 
+/// A node that represents a conditional else statement. Should not be initialized by itself, these are initialized by a `ConditionalNode` when it retrieves it's else statement.
 final class ConditionalElseNode: CoreNode {
     var type: CoreNodeType
     var sString: String
@@ -108,6 +126,11 @@ final class ConditionalElseNode: CoreNode {
     
     var magicVariable: MagicVariableNode?
     
+    /// Initializes a Conditional Else node. Internally fills out the optional values by calling all of this class's get functions.
+    /// - Parameters:
+    ///   - sString: The TreeSitter String representation of the `rawValue` node.
+    ///   - content: The content of the `rawValue`. This is passed in as a constructor because it requires `rawValue`'s parent's content to retrieve it's contents
+    ///   - rawValue: The raw TreeSitter node that this node wraps.
     init(sString: String, content: String, rawValue: TreeSitterNode) {
         self.type = .conditional
         self.sString = sString
@@ -122,6 +145,8 @@ final class ConditionalElseNode: CoreNode {
         collectMagicVariable()
     }
  
+    /// Retrieves the body of the conditional statement
+    /// - Returns: Returns an optional tuple of node (TreeSitterNode) and content (String). Node is the node that represents the body of the conditional statement. And contents is the string contents of that node.
     func getBodyNode() -> (node: TreeSitterNode, content: String)? {
         if let node = rawValue.getChild(by: "body") {
             let content = rawValue.getContents(of: node, in: content)
@@ -130,6 +155,7 @@ final class ConditionalElseNode: CoreNode {
         return nil
     }
     
+    /// Collects the magic variable that can appear at the end of an if statement.
     func collectMagicVariable() {
         if let magicVariableNode = rawValue.getChild(by: "magic_variable") {
             let content = rawValue.getContents(of: magicVariableNode, in: content)
@@ -138,7 +164,9 @@ final class ConditionalElseNode: CoreNode {
     }
 }
 
+/// A node that represents a conditional statement's operator node.
 final class OperatorNode: CoreNode {
+    /// An enumeration that represents all of the available operator types
     enum OperatorType: String, CustomStringConvertible {
         case and = "&&"
         case or = "||"
@@ -160,10 +188,12 @@ final class OperatorNode: CoreNode {
         case beginsWith = "$$"
         case endsWith = "$!"
         
+        /// A description for the operator type
         var description: String {
             rawValue
         }
         
+        /// The equivalent shortcuts condition number. This is used when the condition is compiled into a shortcut action.
         var shortcutsConditionNumber: Int {
             switch self {
             case .and:
@@ -203,6 +233,11 @@ final class OperatorNode: CoreNode {
     
     var operatorType: OperatorType
     
+    /// Initializes an Operator  node. Internally fills out the optional values by calling all of this class's get functions.
+    /// - Parameters:
+    ///   - sString: The TreeSitter String representation of the `rawValue` node.
+    ///   - content: The content of the `rawValue`. This is passed in as a constructor because it requires `rawValue`'s parent's content to retrieve it's contents
+    ///   - rawValue: The raw TreeSitter node that this node wraps.
     init?(sString: String, content: String, rawValue: TreeSitterNode) {
         self.type = .operator
         self.sString = sString

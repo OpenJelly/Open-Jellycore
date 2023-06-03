@@ -15,7 +15,9 @@ An open source version of the originally closed source Jellycore. This package h
 | Export Shortcut Plist          | ✅             | ✅                |
 | Custom User Functions & Macros | ❌             | ✅                |
 | Objects                        | ❌             | ✅                |
+| Repeat Statement Variables     | ❌             | ✅                |
 | Import Third Party Libraries   | ❌             | ✅                |
 | Read Icon and Color Flags      | ✅             | ✅                |
 | Test Suite                     | ❌             | ✅                |
 | Full Error Handling            | ❌             | ✅                |
+| Full Source Documentation      | ✅             | ❌                |

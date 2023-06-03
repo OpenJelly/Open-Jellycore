@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// An error originating from the Jellycore implementation of Tree Sitter.
 enum JellycoreTreeSitterError: Error {
     case invalidPointer(type: String)
 }

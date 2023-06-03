@@ -1,11 +1,11 @@
 //
 //  ShortcutsHostVersion.swift
-//  
+//  Open-Jellycore
 //
 //  Created by Taylor Lineman on 10/20/22.
 //
 
-// MARK: Shortcuts host versions
+/// Represents the host versions that shortcuts supported
 public enum ShortcutsHostVersion: Int, Encodable, CaseIterable {
     case iOS13
     case iOS14
@@ -13,6 +13,7 @@ public enum ShortcutsHostVersion: Int, Encodable, CaseIterable {
     case iOS16
     case macOS12
     
+    /// The custom version number. Used for detecting if versions are less than one or the other.
     public var version: Int {
         switch self {
         case .iOS13:
@@ -28,6 +29,7 @@ public enum ShortcutsHostVersion: Int, Encodable, CaseIterable {
         }
     }
     
+    /// The name of the version used for display.
     public var name: String {
         switch self {
         case .iOS13:
