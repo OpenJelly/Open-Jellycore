@@ -10,12 +10,12 @@ An open source version of the originally closed source Jellycore. This package h
 | If Statements                  | ✅             | ✅                |
 | Repeat Statements              | ✅             | ✅                |
 | Repeat Each Statements         | ✅             | ✅                |
+| Repeat Statement Variables     | ❌             | ✅                |
 | Menus                          | ✅             | ✅                |
 | Magic Variables                | ✅             | ✅                |
 | Export Shortcut Plist          | ✅             | ✅                |
 | Custom User Functions & Macros | ❌             | ✅                |
 | Objects                        | ❌             | ✅                |
-| Repeat Statement Variables     | ❌             | ✅                |
 | Import Third Party Libraries   | ❌             | ✅                |
 | Read Icon and Color Flags      | ✅             | ✅                |
 | Test Suite                     | ❌             | ✅                |
