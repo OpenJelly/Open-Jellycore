@@ -49,12 +49,13 @@ public final class Transpiler {
         
         let scope = Scope()
         let actions = compileBlock(root: rootNode, scope: scope)
+        let actionsWithFunctions = compileFunctions(for: scope, with: actions)
         
         print("Got \(scope.variables.count) Variables - \(scope.variables.map({$0.name}))")
-        print("Got \(actions.count) Actions - \(actions)")
+        print("Got \(actionsWithFunctions.count) Actions - \(actionsWithFunctions)")
         
         var shortcut = WFShortcut()
-        shortcut.WFWorkflowActions = actions
+        shortcut.WFWorkflowActions = actionsWithFunctions
         
         if let icon = shortcut.WFWorkflowActions.first(where: { action in
             return action.WFWorkflowActionIdentifier == "jelly.config.icon"
@@ -81,6 +82,23 @@ public final class Transpiler {
         return encodedShortcut
     }
     
+    /// This function allows for compiling a Jelly file without converting it to a shortcut.
+    /// This is useful for when the compiler needs to dispatch its own internal compilers to generate code.
+    /// - Returns: The list of  ``WFAction``s that make up the compiled Jelly file.
+    private func getCompiledActions(scope: Scope) throws -> [WFAction] {
+        guard let tree = currentParser.tree else {
+            throw JellycoreError.noParserTree()
+        }
+        
+        let rootNode = tree.rootNode()
+        guard rootNode.type == "source_file" else {
+            throw JellycoreError.invalidRoot()
+        }
+        
+        let actions = compileBlock(root: rootNode, scope: scope)
+        return actions
+    }
+    
     /// Encodes a `WFShortcut` into a PLIST that can be saved as a .shortcut file.
     /// - Parameter shortcut: the shortcut that should be encoded
     /// - Returns: A PLIST representation of the  `shortcut`.
@@ -103,7 +121,7 @@ public final class Transpiler {
             throw error
         }
     }
-
+    
     /// Compiles a block of jelly code where all nodes are children of the `root` node.
     /// - Parameters:
     ///   - root: The root node to start compiling off of. Should preferably have some children.
@@ -533,6 +551,7 @@ extension Transpiler {
             actions.append(conditionalTailAction)
 
         } else {
+            // TODO: Throw a proper error
             print("Unable to initialize due to invalid primary node")
         }
         
@@ -548,6 +567,7 @@ extension Transpiler {
     private func compileVariableDeclaration(node: VariableAssignmentNode, scope: Scope) throws -> [WFAction] {
         // TODO: Check to make sure variable is available
         if Transpiler.globalVariables.contains(where: { variableNameMatches(variable: $0, name: node.name) }) {
+            print("Failed to init because variable is global")
             // TODO: Error Reporting
             return []
         }
@@ -626,10 +646,15 @@ extension Transpiler {
                         // Add the variable we just created to the scope
                         scope.variables.append(Variable(uuid: UUID().uuidString, name: node.name, valueType: type, value: node.value))
                     }
+                } else {
+                    ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: valuePrimitive.content), node: valuePrimitive as? CoreNode)
                 }
             }
 
             return actions
+        } else {
+            // TODO: Error Handling
+            print("No Value Primitive")
         }
 
         return []
@@ -687,7 +712,12 @@ extension Transpiler {
     private func translateNodeFromTreeSitterNode(node: TreeSitterNode) throws -> CoreNode? {
         if let type = node.type {
             guard let nodeType = CoreNodeType(rawValue: type) else {
-                throw JellycoreError.invalidTreeSitterType(type: type)
+                // TODO: Fix the grammar so this hack is not needed for empty if statements.
+                if type != "{" && type != "}" {
+                    throw JellycoreError.invalidTreeSitterType(type: type)
+                } else {
+                    return nil
+                }
             }
             
             let sString = node.string ?? "(empty)"
@@ -724,6 +754,105 @@ extension Transpiler {
         
         return nil
     }
+}
+
+// MARK: Function Handlers
+/// Any functions that are related to compiling functions.
+extension Transpiler {
+    private func compileFunctions(for scope: Scope, with actions: [WFAction]) -> [WFAction] {
+        var actions: [WFAction] = actions
+        let functionScope = Scope()
+        
+        do {
+            let variableResults = try createFunctionsGlobalVariable(scope: functionScope)
+            let variableActions = variableResults.actions
+
+            let globalFunctionDispatchVariableName = variableResults.variableName
+            
+            for function in scope.functions {
+                guard let body = function.body else {
+                    throw JellycoreError.generic(description: "No function body was found", recoveryStrategy: "Please make sure all of your functions are properly typed.", level: .fatal)
+                }
+
+                // Make an if statement for us to harvest it's compiled actions. These will be used for routing the function call.
+                let functionDispatchIfStatement = """
+                if \(globalFunctionDispatchVariableName) == "\(function.name)" {
+
+                } else {
+
+                }
+                """
+ 
+                let internalParser = Parser(contents: functionDispatchIfStatement)
+                try internalParser.parse()
+                let internalTranspiler = Transpiler(parser: internalParser)
+                let functionIfStatementActions = try internalTranspiler.getCompiledActions(scope: functionScope)
+                
+                guard functionIfStatementActions.count == 3 else {
+                    throw JellycoreError.generic(description: "An invalid number of actions was returned while creating function routing.", recoveryStrategy: "Please make sure there are no syntax errors in the Jelly document.", level: .fatal)
+                }
+                
+                let conditionalHeadAction = functionIfStatementActions[0]
+                let conditionalElseAction = functionIfStatementActions[1]
+                let conditionalTailAction = functionIfStatementActions[2]
+                
+                var functionActions = compileBlock(root: body.rawValue, scope: Scope())
+
+                let headerText = """
+                ====
+                Start \(function.name) Function)
+                ====
+                """
+    
+                let footerText = """
+                ====
+                End \(function.name) Function
+                ====
+                """
+    
+                let headerComment: WFAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.comment", WFWorkflowActionParameters: ["WFCommentActionText": QuantumValue(headerText)])
+
+                let footerComment: WFAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.comment", WFWorkflowActionParameters: ["WFCommentActionText": QuantumValue(footerText)])
+
+                functionActions.insert(headerComment, at: 0)
+                functionActions.append(footerComment)
+                
+                // Insert the head of the if statement as the very first action
+                actions.insert(conditionalHeadAction, at: 0)
+                // Insert the else action right after that.
+                actions.insert(conditionalElseAction, at: 2)
+                // Then insert all of the body actions right before the else action. This allows us to just not count the body actions.
+                actions.insert(contentsOf: functionActions, at: 2)
+                // Append the end to the very end of all of the actions
+                actions.append(conditionalTailAction)
+            }
+            
+            // We have to insert the variable last so it will always be the first action
+            actions.insert(contentsOf: variableActions, at: 0)
+        } catch let error as JellycoreError {
+            ErrorReporter.shared.reportError(error: error, node: nil)
+        }  catch {
+            ErrorReporter.shared.reportError(error: .generic(description: error.localizedDescription, recoveryStrategy: "Contact the developer", level: .fatal), node: nil)
+        }
+        
+        return actions
+    }
+    
+    private func createFunctionsGlobalVariable(scope: Scope) throws -> (actions: [WFAction], variableName: String) {
+        let globalFunctionDispatchVariableUUID = UUID().uuidString
+        let globalFunctionDispatchVariableName = "function-dispatch-\(globalFunctionDispatchVariableUUID)"
+        let globalFunctionDispatchVariableCode = "var \(globalFunctionDispatchVariableName) = ShortcutInput.as(Dictionary).key(FUNCTION_CALL_NAME)"
+    
+        let internalParser = Parser(contents: globalFunctionDispatchVariableCode)
+        try internalParser.parse()
+        let internalTranspiler = Transpiler(parser: internalParser)
+
+        let variableActions = try internalTranspiler.getCompiledActions(scope: scope)
+        
+        return (variableActions, globalFunctionDispatchVariableName)
+        
+    }
+
 }
 
 // MARK: Filters and Array searches

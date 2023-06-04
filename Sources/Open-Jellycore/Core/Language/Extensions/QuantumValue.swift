@@ -118,10 +118,11 @@ extension QuantumValue: Encodable {
                 try container.encode(variableReference)
             } else if let aggrandizement = value as? Aggrandizement {
                 try container.encode(aggrandizement)
+            } else if let variableType = value as? JellyVariableReference.VariableType {
+                try container.encode(variableType)
             } else {
-                throw EncodingError.invalidValue(value, EncodingError.Context.init(codingPath: encoder.codingPath, debugDescription: "The value is not encodable"))
+                throw EncodingError.invalidValue(value, EncodingError.Context.init(codingPath: encoder.codingPath, debugDescription: "(Quantum Value Encoding) The value is not encodable"))
             }
-            
         }
     }
 }

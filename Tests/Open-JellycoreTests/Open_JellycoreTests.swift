@@ -10,7 +10,9 @@ final class Open_JellycoreTests: XCTestCase {
     #Icon: sailboat
     #Color: blue
     
-    text(text: "Hello")
+    func hello() {
+        
+    }
     """
 
     func testExample() throws {

@@ -50,7 +50,6 @@ struct JellyDictionary: JellyPrimitiveType {
                     dict.name.replacingOccurrences(of: " ", with: "") == value.content
                 }) {
                     self.value = convertFromDictionary(dict: builtDict)
-                    print(self.value)
                 } else {
                     ErrorReporter.shared.reportError(error: .syntax(description: "Invalid Dictionary Builder Dictionary. There is no dictionary named \(value.content)", recoveryStrategy: "Create a dictionary in the dictionary builder with the name \(value.content)"), node: value)
                 }
@@ -64,7 +63,6 @@ struct JellyDictionary: JellyPrimitiveType {
                     throw JellycoreError.generic(description: "Invalid JSON Structure", recoveryStrategy: "Check your JSON Structure", level: .error)
                 }
                 self.value = convertJSONObjectToShortcutsDictionary(object: jsonDictionary, scopedVariables: scopedVariables)
-                print(self.value)
 
             } catch let error as NSError {
                 ErrorReporter.shared.reportError(error: JellycoreError.unableToParseJSON(error: error), node: value)

@@ -8,13 +8,40 @@
 import Foundation
 
 struct JellyVariableReference: JellyAny, Codable {
+    enum VariableType: String, Codable {
+        case variable = "Variable"
+        case shortcutInput = "ExtensionInput"
+        case clipboard = "Clipboard"
+        case currentDate = "CurrentDate"
+        case ask = "Ask"
+        case deviceDetails = "DeviceDetails"
+        case magicVariable = "ActionOutput"
+        
+        init?(jellyValue: String) {
+            switch jellyValue {
+            case "ShortcutInput":
+                self = .shortcutInput
+            case "Clipboard":
+                self = .clipboard
+            case "CurrentDate":
+                self = .currentDate
+            case "Ask":
+                self = .ask
+            case "DeviceDetails":
+                self = .deviceDetails
+            default:
+                self = .variable
+            }
+        }
+    }
+    
     var name: String
     var uuid: String
 
     var aggrandizements: [Aggrandizement] = []
     var needsValueKey: Bool = true
     var needsSerialization: Bool = true
-    var variableType: String = "Variable"
+    var variableType: VariableType = .variable
     
     private enum EncodingKey: String, CodingKey {
         case value = "Value"
@@ -39,7 +66,19 @@ struct JellyVariableReference: JellyAny, Codable {
         if let variable = scopedVariables.first(where: { variableNameFilter(variable: $0, name: name) }) {
             self.name = variable.name
             self.uuid = variable.uuid
+            
+            if variable.valueType == .magicVariable {
+                variableType = .magicVariable
+            }
+        } else if let globalVariable = Transpiler.globalVariables.first(where: { variableNameFilter(variable: $0, name: name) }) {
+            if let type = VariableType(jellyValue: globalVariable.name) {
+                self.variableType = type
+            } else {
+                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: self.name), node: value)
+                return nil
+            }
         } else {
+            ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: self.name), node: value)
             return nil
         }
     }
@@ -52,7 +91,19 @@ struct JellyVariableReference: JellyAny, Codable {
             self.name = variable.name
             self.uuid = variable.uuid
             self.aggrandizements = identifierNode.aggrandizements
+            
+            if variable.valueType == .magicVariable {
+                variableType = .magicVariable
+            }
+        } else if let globalVariable = Transpiler.globalVariables.first(where: { variableNameFilter(variable: $0, name: name) }) {
+            if let type = VariableType(jellyValue: globalVariable.name) {
+                self.variableType = type
+            } else {
+                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: self.name), node: identifierNode)
+                return nil
+            }
         } else {
+            ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: self.name), node: identifierNode)
             return nil
         }
     }
@@ -67,7 +118,19 @@ struct JellyVariableReference: JellyAny, Codable {
             self.name = variable.name
             self.uuid = variable.uuid
             self.aggrandizements = interpolationNode.identifierNode?.aggrandizements ?? []
+            
+            if variable.valueType == .magicVariable {
+                variableType = .magicVariable
+            }
+        } else if let globalVariable = Transpiler.globalVariables.first(where: { variableNameFilter(variable: $0, name: name) }) {
+            if let type = VariableType(jellyValue: globalVariable.name) {
+                self.variableType = type
+            } else {
+                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: self.name), node: interpolationNode)
+                return nil
+            }
         } else {
+            ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: self.name), node: interpolationNode)
             return nil
         }
     }
@@ -80,7 +143,7 @@ struct JellyVariableReference: JellyAny, Codable {
         var container = encoder.container(keyedBy: EncodingKey.self)
 
         if needsValueKey {
-            if variableType == "ActionOutput" {
+            if variableType == .magicVariable {
                 let variableDictioanry: [String: QuantumValue] = [
                     EncodingKey.type.rawValue : QuantumValue(variableType),
                     EncodingKey.outputName.rawValue : QuantumValue(name),
@@ -99,7 +162,7 @@ struct JellyVariableReference: JellyAny, Codable {
                 try container.encode(variableDictioanry, forKey: .value)
             }
         } else {
-            if variableType == "ActionOutput" {
+            if variableType == .magicVariable {
                 try container.encode(name, forKey: .outputName)
                 try container.encode(uuid, forKey: .outputUUID)
             } else {

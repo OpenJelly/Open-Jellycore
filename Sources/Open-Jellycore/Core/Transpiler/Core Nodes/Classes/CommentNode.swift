@@ -5,6 +5,7 @@
 //  Created by Taylor Lineman on 5/22/23.
 //
 
+/// A node that represents a comment. Used to convert Jelly comments to Shortcuts comments.
 final class CommentNode: CoreNode {
     var type: CoreNodeType
     var sString: String

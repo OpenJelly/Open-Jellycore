@@ -62,13 +62,14 @@ final class FunctionDefinitionNode: CoreNode {
         return nil
     }
     
+    
+    
     func build(call: [FunctionCallParameterItem], magicVariable: Variable?, scopedVariables: [Variable]) {
         for parameter in call {
             if parameter.slotName == nil {
                 ErrorReporter.shared.reportError(error: .missingParameterName(function: name, name: "PLACEHOLDER"), node: parameter)
             }
         }
-        #warning("Needs to be finished")
         
         // MARK: Create Calling Dictionary
         if let dictionaryFunction = TranspilerLookupTables.Library.shortcuts.functionTable["dictionary"] {
@@ -87,19 +88,17 @@ final class FunctionDefinitionNode: CoreNode {
                     craftedJSON += "\"\(parameter.slotName ?? "nil")\":\"\(parameter.content)\","
                 }
             }
-//
-//            if let foundFunction = TranspilerLookupTables.shortcutsFunctions["text"] {
+            craftedJSON += "}"
+
+//            if let foundFunction = TranspilerLookupTables.Library.shortcuts.functionTable["dictionary"] {
 //                let call: [FunctionCallParameterItem] = [
 //                    FunctionCallParameterItem(slotName: "json", item: CompilerInsertedNode(type: .string, sString: "(empty)", content: craftedJSON, rawValue: rawValue))
 //                ]
 //                let builtFunction = foundFunction.build(call: call, magicVariable: magicVariable, scopedVariables: scopedVariables)
-//
+//                print(builtFunction)
 //
 //            }
 
-//            let craftedDictionaryParameter = ParameterNode(type: .string, content: craftedJSON, textPosition: textPosition, slotName: "json", childrenNodes: [])
-//
-//            let dictionaryAction = dictionaryFunction.build(textPosition: textPosition, call: [craftedDictionaryParameter], magicVariable: nil, scopedVariables: [])
         } else {
 //            ErrorReporter.shared.report(error: .unableToEncode(identifier: "custom.function", description: "Unable to encode custom function (Code 1)."), textPosition: textPosition)
         }
