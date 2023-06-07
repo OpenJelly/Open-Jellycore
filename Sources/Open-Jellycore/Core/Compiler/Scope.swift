@@ -48,11 +48,56 @@ public class Scope {
         self.lookupTable = parentScope.lookupTable
     }
     
+    /// Adds a shortcut app library into the lookup table scope.
+    /// - Parameter library: the ``CompilerLookupTables/Library`` to add to the scope.
     func addLibrary(library: CompilerLookupTables.Library) {
         let libraryTable = library.functionTable
         
         lookupTable.merge(libraryTable) { first, _ in
             return first
+        }
+    }
+    
+    /// Creates variables that are present within repeat statements. Supports different nested depths of repeat statements,
+    func createRepeatNumberVariables() {
+        var repeatDepth = 0
+        for variable in variables {
+            if variable.name.starts(with: "RepeatIndex") {
+                repeatDepth += 1
+            }
+        }
+        
+        print(repeatDepth)
+        if repeatDepth == 0 {
+            let name = "RepeatIndex"
+            variables.append(Variable(uuid: name, name: name, valueType: .global, value: nil))
+        } else {
+            let name = "RepeatIndex\(repeatDepth)"
+            variables.append(Variable(uuid: name, name: name, valueType: .global, value: nil))
+        }
+    }
+    
+    /// Creates variables that are present within repeat each statements. Supports different nested depths of repeat each statements,
+    func createRepeatEachVariables() {
+        var repeatDepth = 0
+        for variable in variables {
+            if variable.name.starts(with: "RepeatIndex") {
+                repeatDepth += 1
+            }
+        }
+        
+        if repeatDepth == 0 {
+            let indexName = "RepeatIndex"
+            let itemName = "RepeatItem"
+
+            variables.append(Variable(uuid: indexName, name: indexName, valueType: .global, value: nil))
+            variables.append(Variable(uuid: itemName, name: itemName, valueType: .global, value: nil))
+        } else {
+            let indexName = "RepeatIndex\(repeatDepth)"
+            let itemName = "RepeatItem\(repeatDepth)"
+
+            variables.append(Variable(uuid: indexName, name: indexName, valueType: .global, value: nil))
+            variables.append(Variable(uuid: itemName, name: itemName, valueType: .global, value: nil))
         }
     }
 }

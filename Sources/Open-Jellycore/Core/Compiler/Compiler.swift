@@ -371,8 +371,12 @@ extension Compiler {
             actions.append(repeatHeadAction)
 
             if let body = node.body {
-                let compilationResults = compileBlock(root: body.rawValue, scope: scope)
+                let repeatScope = Scope(parentScope: scope)
+                repeatScope.createRepeatEachVariables()
+
+                let compilationResults = compileBlock(root: body.rawValue, scope: repeatScope)
                 actions.append(contentsOf: compilationResults)
+
                 // TODO: Figure out how shortcuts handles variables within if statements
 //                    scopedVariables.append(contentsOf: compilationResults.scope)
             }
@@ -420,7 +424,10 @@ extension Compiler {
             actions.append(repeatHeadAction)
 
             if let body = node.body {
-                let compilationResults = compileBlock(root: body.rawValue, scope: scope)
+                let repeatScope = Scope(parentScope: scope)
+                repeatScope.createRepeatNumberVariables()
+                
+                let compilationResults = compileBlock(root: body.rawValue, scope: repeatScope)
                 actions.append(contentsOf: compilationResults)
                 // TODO: Figure out how shortcuts handles variables within if statements
 //                    scopedVariables.append(contentsOf: compilationResults.scope)

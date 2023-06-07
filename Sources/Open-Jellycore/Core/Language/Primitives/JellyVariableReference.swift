@@ -90,6 +90,7 @@ struct JellyVariableReference: JellyAny, Codable {
         case .parameterInput:
             variableType = .magicVariable
         case .global:
+            spaceVariableName(name: value.name)
             self.variableType = VariableType(jellyValue: value.name)
         }
     }
@@ -116,6 +117,7 @@ struct JellyVariableReference: JellyAny, Codable {
             case .parameterInput:
                 variableType = .magicVariable
             case .global:
+                spaceVariableName(name: variable.name)
                 self.variableType = VariableType(jellyValue: variable.name)
             }
         } else if let globalVariable = Compiler.globalVariables.first(where: { variableNameFilter(variable: $0, name: name) }) {
@@ -149,6 +151,7 @@ struct JellyVariableReference: JellyAny, Codable {
             case .parameterInput:
                 variableType = .magicVariable
             case .global:
+                spaceVariableName(name: variable.name)
                 self.variableType = VariableType(jellyValue: variable.name)
             }
         } else if let globalVariable = Compiler.globalVariables.first(where: { variableNameFilter(variable: $0, name: name) }) {
@@ -184,6 +187,7 @@ struct JellyVariableReference: JellyAny, Codable {
             case .parameterInput:
                 variableType = .magicVariable
             case .global:
+                spaceVariableName(name: variable.name)
                 self.variableType = VariableType(jellyValue: variable.name)
             }
         } else if let globalVariable = Compiler.globalVariables.first(where: { variableNameFilter(variable: $0, name: name) }) {
@@ -231,7 +235,29 @@ struct JellyVariableReference: JellyAny, Codable {
             self.init(parameterItem, scopedVariables: scopedVariables)
         }
     }
-
+    
+    /// This function expands variable names such as RepeatIndex into the shortcuts version of Repeat Index
+    /// - Parameter name: the name of the variable to expand.
+    mutating private func spaceVariableName(name: String) {
+        if name.starts(with: "RepeatIndex") {
+            let index = name.replacingOccurrences(of: "RepeatIndex", with: "")
+            if index.isEmpty {
+                self.name = "Repeat Index"
+            } else {
+                self.name = "Repeat Index \(index)"
+            }
+        }
+        
+        if name.starts(with: "RepeatItem") {
+            let index = name.replacingOccurrences(of: "RepeatItem", with: "")
+            if index.isEmpty {
+                self.name = "Repeat Item"
+            } else {
+                self.name = "Repeat Item \(index)"
+            }
+        }
+    }
+    
     /// The filter used to check to see if a variable's name is equal to the given name.
     /// - Parameters:
     ///   - variable: The variable to check.

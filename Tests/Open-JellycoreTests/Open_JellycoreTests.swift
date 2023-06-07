@@ -8,19 +8,20 @@ final class Open_JellycoreTests: XCTestCase {
     var testString: String = """
     import Shortcuts
     
-    macro hello() {
-        text(text: "Hello World")
+    repeat 1 {
+        var x = RepeatIndex
+        repeat 2 {
+            var y = RepeatIndex1
+        }
     }
-    
-    hello()
     """
 
     func testExample() throws {
         let parser = Parser(contents: testString)
         try parser.parse()
         
-        let transpiler = Transpiler(parser: parser)
-        let shortcut = try transpiler.compile(named: "Test Shortcut")
+        let compiler = Compiler(parser: parser)
+        let shortcut = try compiler.compile(named: "Test Shortcut")
         if ErrorReporter.shared.numberOfErrors > 0 {
             for error in ErrorReporter.shared.errors {
                 print(error.errorDescription ?? "No Description", error.recoveryStrategy)

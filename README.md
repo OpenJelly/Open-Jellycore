@@ -21,7 +21,7 @@ Because this is a brand new version of Jellycore, it does not currently support 
 | If Statements                  | ✅             | ✅                |
 | Repeat Statements              | ✅             | ✅                |
 | Repeat Each Statements         | ✅             | ✅                |
-| Repeat Statement Variables     | ❌             | ✅                |
+| Repeat Statement Variables     | ✅             | ✅                |
 | Menus                          | ✅             | ✅                |
 | Magic Variables                | ✅             | ✅                |
 | Export Shortcut Plist          | ✅             | ✅                |
