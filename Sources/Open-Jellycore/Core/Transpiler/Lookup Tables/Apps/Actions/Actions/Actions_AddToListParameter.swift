@@ -1,0 +1,51 @@
+//
+//  Actions_AddToListParameter.swift
+//  Open-Jellycore
+//
+//  Created by Taylor Lineman on 6/02/23.
+//
+
+struct Actions_AddToListParameter: ParameterProtocol, Codable {
+	var list: JellyArray<JellyVariableReference>?
+	var item: JellyVariableReference?
+	var prepend: JellyBoolean?
+
+
+    static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
+        var parameters = Actions_AddToListParameter()
+
+        if let value = call.first(where: { node in return node.slotName == "list" }) {
+            parameters.list = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
+        } else {
+            ErrorReporter.shared.reportError(error: .missingParameter(function: "addToList", name: "list"), node: nil)
+        }
+        if let variableCall = call.first(where: { node in return node.slotName == "item" }) {
+            if let variable = scopedVariables.first(where: { variable in
+                return variable.name == variableCall.content
+            }) {
+                parameters.item = JellyVariableReference(variable, scopedVariables: scopedVariables)
+            } else {
+                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+            }
+        } else {
+            ErrorReporter.shared.reportError(error: .missingParameter(function: "addToList", name: "item"), node: nil)
+        }
+        if let value = call.first(where: { node in return node.slotName == "prepend" }) {
+            parameters.prepend = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
+        } else {
+            ErrorReporter.shared.reportError(error: .missingParameter(function: "addToList", name: "prepend"), node: nil)
+        }
+
+        return parameters
+    }
+     
+    // Need to loop through all properties to build the documentation.
+    static func getDefaultValues() -> [String: String] {
+        return [
+			"list": "[ShortcutInput, CurrentDate]",
+			"item": "Clipboard",
+			"prepend": "false",
+
+        ]
+    }
+}

@@ -26,8 +26,6 @@ public final class Transpiler {
     }
     /// The current parser being used by the transpiler
     var currentParser: Parser
-    /// A lookup table used to find functions by their name
-    var lookupTable: [String: AnyAction] = TranspilerLookupTables.generateLookupTable(importedLibraries: [.shortcuts])
 
     /// An initializer that provides the current parser to be used by the transpiler.
     /// - Parameter parser: the parser that the transpiler should use.
@@ -159,8 +157,14 @@ public final class Transpiler {
             let results = try compileFlag(node: coreNode)
             actions.append(contentsOf: results)
         case .import:
-            // TODO: Implement Import Nodes
-            break
+            guard let coreNode = coreNode as? ImportNode else {
+                throw JellycoreError.typeError(type: "ImportNode", description: "Node type does not match struct type")
+            }
+            if let libraryName = coreNode.getImportedLibrary(),
+               let library = TranspilerLookupTables.Library(rawValue: libraryName) {
+                scope.addLibrary(library: library)
+                print("Added library")
+            }
         case .repeat:
             guard let coreNode = coreNode as? RepeatNode else {
                 throw JellycoreError.typeError(type: "RepeatNode", description: "Node type does not match struct type")
@@ -676,7 +680,7 @@ extension Transpiler {
     private func compileFunctionCall(node: FunctionCallNode, scope: Scope) throws -> [WFAction] {
         var magicVariable: Variable? = nil
 
-        if let foundFunction = lookupTable[node.name] {
+        if let foundFunction = scope.lookupTable[node.name] {
             if let magicVariableNode = node.magicVariable {
                 magicVariable = Variable(uuid: UUID().uuidString, name: magicVariableNode.identifier?.content ?? "No Name", valueType: .magicVariable, value: foundFunction)
                 scope.variables.append(magicVariable!) // Variable has to initialize so it is okay to bang out the variable here
@@ -714,7 +718,7 @@ extension Transpiler {
         
                     let footerText = """
                     ====
-                    End \(customMacro.name) Function
+                    End \(customMacro.name) Macro
                     ====
                     """
         
@@ -729,7 +733,7 @@ extension Transpiler {
                 }
             } else {
                 // TODO: Error Handlings
-//                ErrorReporter.shared.reportError(error: ., node: <#T##CoreNode?#>)
+                ErrorReporter.shared.reportError(error: .undefinedFunction(name: node.name), node: node)
             }
         }
         return []

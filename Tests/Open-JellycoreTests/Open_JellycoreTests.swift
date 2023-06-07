@@ -7,8 +7,6 @@ import XCTest
 final class Open_JellycoreTests: XCTestCase {
     var testString: String = """
     import Shortcuts
-    #Icon: sailboat
-    #Color: blue
     
     macro hello() {
         text(text: "Hello World")

@@ -7,12 +7,20 @@
 
 /// A model that represents the scope of a block of Jelly code.
 public class Scope {
+    /// The variables that the user has defined in this scope.
     var variables: [Variable]
+    /// The functions that the user has defined in this scope.
     var functions: [FunctionDefinitionNode]
+    /// The macros that the user has defined in this scope.
     var macros: [MacroDefinitionNode]
+    /// The filename of the currently compiling Jellycut,
     var fileName: String
-    
-    /// A generic initializer used for initially creating a scope
+    /// The libraries that the user has imported
+    private var importedLibraries: [TranspilerLookupTables.Library] = []
+    /// A lookup table used to find functions by their name.
+    var lookupTable: [String: AnyAction] = [:]
+
+    /// A generic initializer used for initially creating a scope.
     init() {
         self.variables = []
         self.functions = []
@@ -20,6 +28,8 @@ public class Scope {
         self.fileName = ""
     }
     
+    /// An initializer that takes in the file name
+    /// - Parameter fileName: The name of the file that is being compiled.
     init(fileName: String) {
         self.variables = []
         self.functions = []
@@ -27,24 +37,22 @@ public class Scope {
         self.fileName = fileName
     }
     
-    /// Allows you to initialize a scope using a set of variables and functions
-    /// - Parameters:
-    ///   - variables: the variables to include in the scope
-    ///   - functions: the functions to include in the scope
-    ///   - fileName: the name of the Jelly file.
-    init(variables: [Variable], functions: [FunctionDefinitionNode], macros: [MacroDefinitionNode], fileName: String) {
-        self.variables = variables
-        self.functions = functions
-        self.macros = macros
-        self.fileName = fileName
-    }
-    
     /// Allows you to initialize a scope based on another scope. Useful for initializing scopes for inner blocks.
-    /// - Parameter parentScope: the scope to initialize off of
+    /// - Parameter parentScope: the scope to initialize based on.
     init(parentScope: Scope) {
         self.variables = parentScope.variables
         self.functions = parentScope.functions
         self.macros = parentScope.macros
         self.fileName = parentScope.fileName
+        self.importedLibraries = parentScope.importedLibraries
+        self.lookupTable = parentScope.lookupTable
+    }
+    
+    func addLibrary(library: TranspilerLookupTables.Library) {
+        let libraryTable = library.functionTable
+        
+        lookupTable.merge(libraryTable) { first, _ in
+            return first
+        }
     }
 }

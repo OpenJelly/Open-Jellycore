@@ -27,8 +27,9 @@ Because this is a brand new version of Jellycore, it does not currently support 
 | Export Shortcut Plist          | ✅             | ✅                |
 | Custom User Functions          | ✅             | ✅                |
 | Custom User Macros             | ✅             | ✅                |
+| Return Statements              | ❌             | ✅                |
 | Objects                        | ❌             | ✅                |
-| Import Third Party Libraries   | ❌             | ✅                |
+| Import Third Party Libraries   | ✅             | ✅                |
 | Read Icon and Color Flags      | ✅             | ✅                |
 | Test Suite                     | ❌             | ✅                |
 | Full Error Handling            | ❌             | ❌                |
