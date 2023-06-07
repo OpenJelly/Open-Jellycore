@@ -9,10 +9,7 @@ struct SelectedEmailParameter: ParameterProtocol, Codable {
 
 
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
-        var parameters = SelectedEmailParameter()
-
-
-        return parameters
+        return SelectedEmailParameter()
     }
      
     // Need to loop through all properties to build the documentation.

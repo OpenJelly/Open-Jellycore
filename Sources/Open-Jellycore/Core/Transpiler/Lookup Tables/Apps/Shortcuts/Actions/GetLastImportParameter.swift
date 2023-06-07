@@ -9,10 +9,7 @@ struct GetLastImportParameter: ParameterProtocol, Codable {
 
 
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
-        var parameters = GetLastImportParameter()
-
-
-        return parameters
+        return GetLastImportParameter()
     }
      
     // Need to loop through all properties to build the documentation.

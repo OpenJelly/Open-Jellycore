@@ -9,10 +9,7 @@ struct NothingParameter: ParameterProtocol, Codable {
 
 
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
-        var parameters = NothingParameter()
-
-
-        return parameters
+        return NothingParameter()
     }
      
     // Need to loop through all properties to build the documentation.

@@ -9,10 +9,7 @@ struct FindWindowsParameter: ParameterProtocol, Codable {
 
 
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
-        var parameters = FindWindowsParameter()
-
-
-        return parameters
+        return FindWindowsParameter()
     }
      
     // Need to loop through all properties to build the documentation.

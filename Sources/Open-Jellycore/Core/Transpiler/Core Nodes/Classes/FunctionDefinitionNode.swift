@@ -102,11 +102,9 @@ final class FunctionDefinitionNode: CoreNode {
         let internalTranspiler = Transpiler(parser: internalParser)
 
         let scope = Scope(variables: scopedVariables, functions: [], fileName: fileName)
-        let variableActions = try internalTranspiler.getCompiledActions(scope: scope)
-        
-        print("Variables", scope.variables.map({$0.name}))
-        
-        return variableActions
+        let callActions = try internalTranspiler.getCompiledActions(scope: scope)
+                
+        return callActions
     }
 }
 

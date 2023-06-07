@@ -9,10 +9,7 @@ struct GetShortcutsParameter: ParameterProtocol, Codable {
 
 
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
-        var parameters = GetShortcutsParameter()
-
-
-        return parameters
+        return GetShortcutsParameter()
     }
      
     // Need to loop through all properties to build the documentation.

@@ -9,10 +9,7 @@ struct ShazamItParameter: ParameterProtocol, Codable {
 
 
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
-        var parameters = ShazamItParameter()
-
-
-        return parameters
+        return ShazamItParameter()
     }
      
     // Need to loop through all properties to build the documentation.

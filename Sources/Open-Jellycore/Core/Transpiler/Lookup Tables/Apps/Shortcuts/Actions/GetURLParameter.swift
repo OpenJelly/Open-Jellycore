@@ -9,10 +9,7 @@ struct GetURLParameter: ParameterProtocol, Codable {
 
 
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
-        var parameters = GetURLParameter()
-
-
-        return parameters
+        return GetURLParameter()
     }
      
     // Need to loop through all properties to build the documentation.
