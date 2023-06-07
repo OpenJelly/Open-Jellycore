@@ -707,7 +707,30 @@ extension Transpiler {
                     scope.variables.append(magicVariable!) // Variable has to initialize so it is okay to bang out the variable here
                 }
                 
-                // TODO: HANDLE MACROS
+                if let body = customMacro.body {
+                    var actions = compileBlock(root: body.rawValue, scope: scope)
+                    
+                    let headerText = """
+                    ====
+                    Start \(customMacro.name) Macro
+                    ====
+                    """
+        
+                    let footerText = """
+                    ====
+                    End \(customMacro.name) Function
+                    ====
+                    """
+        
+                    let headerComment: WFAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.comment", WFWorkflowActionParameters: ["WFCommentActionText": QuantumValue(headerText)])
+
+                    let footerComment: WFAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.comment", WFWorkflowActionParameters: ["WFCommentActionText": QuantumValue(footerText)])
+
+                    actions.insert(headerComment, at: 0)
+                    actions.append(footerComment)
+                    
+                    return actions
+                }
             } else {
                 // TODO: Error Handlings
 //                ErrorReporter.shared.reportError(error: ., node: <#T##CoreNode?#>)

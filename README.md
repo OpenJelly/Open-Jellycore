@@ -25,7 +25,8 @@ Because this is a brand new version of Jellycore, it does not currently support 
 | Menus                          | ✅             | ✅                |
 | Magic Variables                | ✅             | ✅                |
 | Export Shortcut Plist          | ✅             | ✅                |
-| Custom User Functions & Macros | ❌             | ✅                |
+| Custom User Functions          | ✅             | ✅                |
+| Custom User Macros             | ✅             | ✅                |
 | Objects                        | ❌             | ✅                |
 | Import Third Party Libraries   | ❌             | ✅                |
 | Read Icon and Color Flags      | ✅             | ✅                |
