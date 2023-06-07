@@ -13,7 +13,7 @@ extension Encodable {
             let data = try JSONEncoder().encode(self)
             
             guard let dictionary = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
-                print("Unable to encode")
+                print("Unable to encode \(self)")
                 return [:]
             }
             
@@ -24,8 +24,7 @@ extension Encodable {
             
             return quantumDictionary
         } catch {
-            print(self)
-            print(error)
+            print(self, error)
             return [:]
         }
     }

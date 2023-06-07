@@ -23,12 +23,16 @@ final class Open_JellycoreTests: XCTestCase {
         
         let transpiler = Transpiler(parser: parser)
         let shortcut = try transpiler.compile(named: "Test Shortcut")
-        if !ErrorReporter.shared.errors.isEmpty {
+        if ErrorReporter.shared.numberOfErrors > 0 {
             for error in ErrorReporter.shared.errors {
                 print(error.errorDescription ?? "No Description", error.recoveryStrategy)
             }
             XCTFail("Found \(ErrorReporter.shared.errors.count) errors")
         } else {
+            for error in ErrorReporter.shared.errors {
+                print(error.errorDescription ?? "No Description", error.recoveryStrategy)
+            }
+            
             print("Successfully Compiled Shortcut")
             print(shortcut)
         }

@@ -245,7 +245,6 @@ struct JellyVariableReference: JellyAny, Codable {
     /// - Parameter encoder: the encoder to encode into.
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: EncodingKey.self)
-        print(variableType)
         
         if needsValueKey {
             if variableType == .magicVariable {

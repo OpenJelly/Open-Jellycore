@@ -51,9 +51,6 @@ public final class Transpiler {
         let actions = compileBlock(root: rootNode, scope: scope)
         let actionsWithFunctions = compileFunctions(for: scope, with: actions)
         
-        print("Got \(scope.variables.count) Variables - \(scope.variables.map({$0.name}))")
-        print("Got \(actionsWithFunctions.count) Actions - \(actionsWithFunctions)")
-        
         var shortcut = WFShortcut()
         shortcut.WFWorkflowActions = actionsWithFunctions
         
@@ -76,7 +73,6 @@ public final class Transpiler {
         }
                 
         let encodedShortcut = try encodeShortcut(shortcut: shortcut)
-        print(encodedShortcut)
         
         return encodedShortcut
     }
