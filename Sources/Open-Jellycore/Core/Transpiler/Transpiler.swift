@@ -211,8 +211,17 @@ public final class Transpiler {
             
             scope.functions.append(coreNode)
         case .macro:
-            // TODO: Implement Macro Nodes
-            break
+            guard let coreNode = coreNode as? MacroDefinitionNode else  {
+                throw JellycoreError.typeError(type: "FunctionDefinitionNode", description: "Node type does not match struct type")
+            }
+            
+            guard !scope.macros.contains(where: { macro in
+                return macro.name == coreNode.name
+            }) else {
+                throw JellycoreError.invalidMacroRedeclaration(name: coreNode.name)
+            }
+            
+            scope.macros.append(coreNode)
         case .variableDeclaration, .setVariable:
             guard let coreNode = coreNode as? VariableAssignmentNode else {
                 throw JellycoreError.typeError(type: "VariableDeclarationNode", description: "Node type does not match struct type")
@@ -661,7 +670,6 @@ extension Transpiler {
         return []
     }
     
-    
     /// Compiles a function call into it's given shortcut equivalent.
     /// When the function called is from Shortcuts or an installed app that integrates with Shortcuts the function is directly added from the lookup table.
     /// When the function called is user defined function or macro, it is added to the scope. Macros are automatically inserted into the actions returned. Functions are dealt with later in compilation as it requires reorganizing the entire shortcut structure
@@ -690,7 +698,16 @@ extension Transpiler {
                     scope.variables.append(magicVariable!) // Variable has to initialize so it is okay to bang out the variable here
                 }
 
-                return try customFunction.build(call: node.parameters, magicVariable: magicVariable, scopedVariables: scope.variables, fileName: scope.fileName)
+                return try customFunction.build(call: node.parameters, magicVariable: magicVariable, scope: scope)
+            } else if let customMacro = scope.macros.first(where: { macro in
+                return macro.name == node.name
+            }) {
+                if let magicVariableNode = node.magicVariable {
+                    magicVariable = Variable(uuid: UUID().uuidString, name: magicVariableNode.identifier?.content ?? "No Name", valueType: .magicVariable, value: customMacro)
+                    scope.variables.append(magicVariable!) // Variable has to initialize so it is okay to bang out the variable here
+                }
+
+                
             } else {
                 // TODO: Error Handlings
 //                ErrorReporter.shared.reportError(error: ., node: <#T##CoreNode?#>)
@@ -754,6 +771,8 @@ extension Transpiler {
                 return MenuNode(sString: sString, content: content, rawValue: node)
             case .function:
                 return FunctionDefinitionNode(sString: sString, content: content, rawValue: node)
+            case .macro:
+                return MacroDefinitionNode(sString: sString, content: content, rawValue: node)
             default:
                 print("Unhandled Node on Translate step \(content) - \(sString)")
                 break

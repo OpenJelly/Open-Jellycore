@@ -54,7 +54,7 @@ final class FunctionCallNode: CoreNode {
     }
     
     /// Retrieves the name of the function
-    /// - Returns: If the name exists, the name is returned as a string. IF there is no name nil is returned..
+    /// - Returns: If the name exists, the name is returned as a string. If there is no name nil is returned..
     func getFunctionName() -> String? {
         if let nameNode = rawValue.getChild(by: "name") {
             return rawValue.getContents(of: nameNode, in: content)

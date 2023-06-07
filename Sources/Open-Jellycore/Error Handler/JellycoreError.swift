@@ -51,6 +51,8 @@ public class JellycoreError: LocalizedError, Identifiable {
         case unableToEncode(identifier: String)
         /// This error is raised when a user declares a function with the same name more than once.
         case invalidFunctionRedeclaration(name: String)
+        /// This error is raised when a user declares a macro with the same name more than once.
+        case invalidMacroRedeclaration(name: String)
         /// This is a generic error that is used across Jellycore for issues that do not require their own case in this enumeration.
         case generic
         
@@ -85,6 +87,8 @@ public class JellycoreError: LocalizedError, Identifiable {
                 return "Unable to encode \(identifier)."
             case .invalidFunctionRedeclaration(let name):
                 return "The function \(name) was declared multiple times. Functions require unique names."
+            case .invalidMacroRedeclaration(let name):
+                return "The macro \(name) was declared multiple times. Macros require unique names."
             }
         }
     }
@@ -275,5 +279,12 @@ extension JellycoreError {
     /// - Returns: A JellycoreError that has been completed based on the type of error.
     static func invalidFunctionRedeclaration(name: String) -> JellycoreError {
         return JellycoreError(underlyingError: .invalidFunctionRedeclaration(name: name), level: .error, recoveryStrategy: "Rename one of the functions with the name \(name).")
+    }
+    
+    /// A Jellycore error that represents the ``JellycoreUnderlyingError/invalidFunctionRedeclaration(name:)`` underlying error.
+    /// - Parameter name: The name of the function that was declared twice
+    /// - Returns: A JellycoreError that has been completed based on the type of error.
+    static func invalidMacroRedeclaration(name: String) -> JellycoreError {
+        return JellycoreError(underlyingError: .invalidMacroRedeclaration(name: name), level: .error, recoveryStrategy: "Rename one of the macro with the name \(name).")
     }
 }

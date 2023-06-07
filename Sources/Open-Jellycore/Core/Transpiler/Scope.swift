@@ -9,18 +9,21 @@
 public class Scope {
     var variables: [Variable]
     var functions: [FunctionDefinitionNode]
+    var macros: [MacroDefinitionNode]
     var fileName: String
     
     /// A generic initializer used for initially creating a scope
     init() {
         self.variables = []
         self.functions = []
+        self.macros = []
         self.fileName = ""
     }
     
     init(fileName: String) {
         self.variables = []
         self.functions = []
+        self.macros = []
         self.fileName = fileName
     }
     
@@ -29,9 +32,10 @@ public class Scope {
     ///   - variables: the variables to include in the scope
     ///   - functions: the functions to include in the scope
     ///   - fileName: the name of the Jelly file.
-    init(variables: [Variable], functions: [FunctionDefinitionNode], fileName: String) {
+    init(variables: [Variable], functions: [FunctionDefinitionNode], macros: [MacroDefinitionNode], fileName: String) {
         self.variables = variables
         self.functions = functions
+        self.macros = macros
         self.fileName = fileName
     }
     
@@ -40,6 +44,7 @@ public class Scope {
     init(parentScope: Scope) {
         self.variables = parentScope.variables
         self.functions = parentScope.functions
+        self.macros = parentScope.macros
         self.fileName = parentScope.fileName
     }
 }
