@@ -118,7 +118,7 @@ struct JellyVariableReference: JellyAny, Codable {
             case .global:
                 self.variableType = VariableType(jellyValue: variable.name)
             }
-        } else if let globalVariable = Transpiler.globalVariables.first(where: { variableNameFilter(variable: $0, name: name) }) {
+        } else if let globalVariable = Compiler.globalVariables.first(where: { variableNameFilter(variable: $0, name: name) }) {
             self.variableType = VariableType(jellyValue: globalVariable.name)
         } else {
             ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: self.name), node: value)
@@ -151,7 +151,7 @@ struct JellyVariableReference: JellyAny, Codable {
             case .global:
                 self.variableType = VariableType(jellyValue: variable.name)
             }
-        } else if let globalVariable = Transpiler.globalVariables.first(where: { variableNameFilter(variable: $0, name: name) }) {
+        } else if let globalVariable = Compiler.globalVariables.first(where: { variableNameFilter(variable: $0, name: name) }) {
             self.variableType = VariableType(jellyValue: globalVariable.name)
             self.aggrandizements = identifierNode.aggrandizements
         } else {
@@ -186,7 +186,7 @@ struct JellyVariableReference: JellyAny, Codable {
             case .global:
                 self.variableType = VariableType(jellyValue: variable.name)
             }
-        } else if let globalVariable = Transpiler.globalVariables.first(where: { variableNameFilter(variable: $0, name: name) }) {
+        } else if let globalVariable = Compiler.globalVariables.first(where: { variableNameFilter(variable: $0, name: name) }) {
             self.variableType = VariableType(jellyValue: globalVariable.name)
             self.aggrandizements = interpolationNode.identifierNode?.aggrandizements ?? []
         } else {

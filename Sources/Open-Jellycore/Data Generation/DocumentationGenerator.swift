@@ -12,7 +12,7 @@ public struct DocumentationGenerator {
     public static func generateDocumentation() -> [DocumentationLibraryEntry] {
         var libraries: [DocumentationLibraryEntry] = []
         
-        for library in TranspilerLookupTables.Library.allCases {
+        for library in CompilerLookupTables.Library.allCases {
             var actions: [DocumentationActionEntry] = []
             let anyActions = library.functionTable.compactMap({$0.value})
             
