@@ -135,7 +135,7 @@ struct TranspilerLookupTables {
     static func generateLookupTable(importedLibraries: [Library]) -> [String: AnyAction] {
         var customLookupTable: [String: AnyAction] = [:]
         
-        Library.allCases.forEach({
+        importedLibraries.forEach({
             customLookupTable.merge($0.functionTable) { _, new in
                 return new
             }

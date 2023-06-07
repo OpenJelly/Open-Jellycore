@@ -12,7 +12,7 @@ struct KeysFromParameter: ParameterProtocol, Codable {
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
         var parameters = KeysFromParameter()
 
-        if let variableCall = call.first(where: { node in return node.slotName == "dictionary" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "dictionary" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {

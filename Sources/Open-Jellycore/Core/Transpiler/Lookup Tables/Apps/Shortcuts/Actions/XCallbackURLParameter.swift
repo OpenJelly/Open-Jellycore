@@ -24,7 +24,7 @@ struct XCallbackURLParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "xCallbackURL", name: "url"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "custom" }) {
-            parameters.WFXCallbackCustomCallbackEnabled = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.WFXCallbackCustomCallbackEnabled = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "xCallbackURL", name: "custom"), node: nil)
         }
@@ -44,7 +44,7 @@ struct XCallbackURLParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "xCallbackURL", name: "error"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "customXSuccess" }) {
-            parameters.WFXCallbackCustomSuccessURLEnabled = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.WFXCallbackCustomSuccessURLEnabled = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "xCallbackURL", name: "customXSuccess"), node: nil)
         }

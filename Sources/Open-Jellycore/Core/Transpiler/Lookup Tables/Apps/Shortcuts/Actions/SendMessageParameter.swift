@@ -19,7 +19,7 @@ struct SendMessageParameter: ParameterProtocol, Codable {
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "sendMessage", name: "message"), node: nil)
         }
-        if let variableCall = call.first(where: { node in return node.slotName == "recipient" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "recipient" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {
@@ -31,7 +31,7 @@ struct SendMessageParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "sendMessage", name: "recipient"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "show" }) {
-            parameters.ShowWhenRun = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.ShowWhenRun = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "sendMessage", name: "show"), node: nil)
         }

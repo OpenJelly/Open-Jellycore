@@ -14,12 +14,12 @@ struct SelectFileParameter: ParameterProtocol, Codable {
         var parameters = SelectFileParameter()
 
         if let value = call.first(where: { node in return node.slotName == "type" }) {
-            parameters.type = Jelly_WFPickingMode(value, scopedVariables: scopedVariables)
+            parameters.type = Jelly_WFPickingMode(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "selectFile", name: "type"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "multiple" }) {
-            parameters.SelectMultiple = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.SelectMultiple = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "selectFile", name: "multiple"), node: nil)
         }

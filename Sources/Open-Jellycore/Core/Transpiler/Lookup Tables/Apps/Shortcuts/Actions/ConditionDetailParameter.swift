@@ -14,11 +14,11 @@ struct ConditionDetailParameter: ParameterProtocol, Codable {
         var parameters = ConditionDetailParameter()
 
         if let value = call.first(where: { node in return node.slotName == "detail" }) {
-            parameters.detail = Jelly_WFContentItemPropertyName(value, scopedVariables: scopedVariables)
+            parameters.detail = Jelly_WFContentItemPropertyName(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "conditionDetail", name: "detail"), node: nil)
         }
-        if let variableCall = call.first(where: { node in return node.slotName == "condition" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "condition" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {

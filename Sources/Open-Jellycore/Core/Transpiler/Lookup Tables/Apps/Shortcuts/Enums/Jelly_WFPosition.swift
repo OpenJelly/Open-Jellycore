@@ -17,11 +17,10 @@ enum Jelly_WFPosition: String, JellyEnum, Codable {
 	case BottomRight
 	case Coordinates
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .TopLeft:

@@ -9,7 +9,10 @@ struct ContinueInShortcutsParameter: ParameterProtocol, Codable {
 
 
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
-        return ContinueInShortcutsParameter()
+        var parameters = ContinueInShortcutsParameter()
+
+
+        return parameters
     }
      
     // Need to loop through all properties to build the documentation.

@@ -17,11 +17,10 @@ enum Jelly_Shell: String, JellyEnum, Codable {
 	case usrbinruby
 	case usrbinswift
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .binbash:

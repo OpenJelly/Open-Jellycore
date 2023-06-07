@@ -9,7 +9,10 @@ struct SkipForwardParameter: ParameterProtocol, Codable {
 
 
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
-        return SkipForwardParameter()
+        var parameters = SkipForwardParameter()
+
+
+        return parameters
     }
      
     // Need to loop through all properties to build the documentation.

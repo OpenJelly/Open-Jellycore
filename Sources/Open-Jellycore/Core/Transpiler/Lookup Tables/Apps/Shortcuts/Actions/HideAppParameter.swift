@@ -13,7 +13,7 @@ struct HideAppParameter: ParameterProtocol, Codable {
         var parameters = HideAppParameter()
 
         if let value = call.first(where: { node in return node.slotName == "app" }) {
-            parameters.WFApp = ShortcutsApp(value, scopedVariables: scopedVariables)
+            parameters.WFApp = ShortcutsApp(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "hideApp", name: "app"), node: nil)
         }

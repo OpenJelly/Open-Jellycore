@@ -15,11 +15,10 @@ enum Jelly_WFTimeUntilUnit: String, JellyEnum, Codable {
 	case Months
 	case Years
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .TotalTime:

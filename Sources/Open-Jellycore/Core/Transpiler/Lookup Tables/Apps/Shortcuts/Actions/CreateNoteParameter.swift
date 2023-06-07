@@ -19,7 +19,7 @@ struct CreateNoteParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "createNote", name: "text"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "show" }) {
-            parameters.ShowWhenRun = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.ShowWhenRun = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "createNote", name: "show"), node: nil)
         }

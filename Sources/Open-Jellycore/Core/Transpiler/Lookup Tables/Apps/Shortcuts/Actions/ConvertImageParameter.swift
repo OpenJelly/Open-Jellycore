@@ -15,7 +15,7 @@ struct ConvertImageParameter: ParameterProtocol, Codable {
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
         var parameters = ConvertImageParameter()
 
-        if let variableCall = call.first(where: { node in return node.slotName == "image" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "image" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {
@@ -27,17 +27,17 @@ struct ConvertImageParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "convertImage", name: "image"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "format" }) {
-            parameters.format = Jelly_WFImageFormat(value, scopedVariables: scopedVariables)
+            parameters.format = Jelly_WFImageFormat(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "convertImage", name: "format"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "metadata" }) {
-            parameters.WFImagePreserveMetadata = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.WFImagePreserveMetadata = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "convertImage", name: "metadata"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "quality" }) {
-            parameters.WFImageCompressionQuality = JellyDouble(value, scopedVariables: scopedVariables)
+            parameters.WFImageCompressionQuality = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "convertImage", name: "quality"), node: nil)
         }

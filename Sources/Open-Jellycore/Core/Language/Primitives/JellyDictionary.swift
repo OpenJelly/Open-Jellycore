@@ -25,10 +25,10 @@ struct JellyDictionary: JellyPrimitiveType {
         case value = "Value"
         case serializationType = "WFSerializationType"
     }
-
+    
     var value: [String: QuantumValue]
     var variable: JellyVariableReference? = nil
-
+    
     init(_ value: T) {
         self.value = value
     }
@@ -39,12 +39,25 @@ struct JellyDictionary: JellyPrimitiveType {
     
     init(_ value: CoreNode, scopedVariables: [Variable]) {
         self.value = [:]
-        // TODO: Re-setup dictionary type
-        if !value.content.contains("{") {
+        
+        if value.content.contains("{") {
+            // Parse JSON
+            let deEscaped = value.content.replacingOccurrences(of: #"\""#, with: #"""#)
+            let data = Data(deEscaped.utf8)
+            do {
+                guard let jsonDictionary = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else {
+                    throw JellycoreError.generic(description: "Invalid JSON Structure", recoveryStrategy: "Check your JSON Structure", level: .error)
+                }
+                self.value = convertJSONObjectToShortcutsDictionary(object: jsonDictionary, scopedVariables: scopedVariables)
+                
+            } catch let error as NSError {
+                ErrorReporter.shared.reportError(error: JellycoreError.unableToParseJSON(error: error), node: value)
+            }
+        } else {
             if UserDefaults.standard.object(forKey: "Dicts") != nil {
                 let storedObject: Data = UserDefaults.standard.object(forKey: "Dicts") as? Data ?? Data()
                 let storedList: [Dictionary]? = try? PropertyListDecoder().decode([Dictionary].self, from: storedObject)
-
+                
                 let dicts = storedList ?? [Dictionary]()
                 if let builtDict = dicts.first(where: { (dict) -> Bool in return
                     dict.name.replacingOccurrences(of: " ", with: "") == value.content
@@ -54,28 +67,15 @@ struct JellyDictionary: JellyPrimitiveType {
                     ErrorReporter.shared.reportError(error: .syntax(description: "Invalid Dictionary Builder Dictionary. There is no dictionary named \(value.content)", recoveryStrategy: "Create a dictionary in the dictionary builder with the name \(value.content)"), node: value)
                 }
             }
-
-        } else {
-            // Parse JSON
-            let data = Data(value.content.utf8)
-            do {
-                guard let jsonDictionary = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else {
-                    throw JellycoreError.generic(description: "Invalid JSON Structure", recoveryStrategy: "Check your JSON Structure", level: .error)
-                }
-                self.value = convertJSONObjectToShortcutsDictionary(object: jsonDictionary, scopedVariables: scopedVariables)
-
-            } catch let error as NSError {
-                ErrorReporter.shared.reportError(error: JellycoreError.unableToParseJSON(error: error), node: value)
-            }
         }
     }
-
+    
     func convertJSONObjectToShortcutsDictionary(object: [String: Any], scopedVariables: [Variable]) -> [String: QuantumValue] {
         var shortcutsFieldValueItems: [QuantumValue] = []
-
+        
         for item in object {
             let keyDictionary = JellyString(item.key)
-                        
+            
             if let value = item.value as? [Any] {
                 let convertedArray = convertJSONArrayToShortcutsDictionaryArray(array: value, scopeVariables: scopedVariables)
                 let valueDictionary: [String: Any] = [
@@ -111,7 +111,7 @@ struct JellyDictionary: JellyPrimitiveType {
                     "WFValue": valueDictionary
                 ]
                 shortcutsFieldValueItems.append(QuantumValue(fieldValueItem))
-
+                
             } else if let value = item.value as? Double {
                 let valueDictionary = JellyString("\(value)")
                 let fieldValueItem: [String: Any] = [
@@ -138,7 +138,7 @@ struct JellyDictionary: JellyPrimitiveType {
     
     func convertJSONArrayToShortcutsDictionaryArray(array: [Any], scopeVariables: [Variable]) -> [QuantumValue] {
         var shortcutsFieldValueItems: [QuantumValue] = []
-
+        
         for item in array {
             if let value = item as? [Any] {
                 let convertedArray = convertJSONArrayToShortcutsDictionaryArray(array: value, scopeVariables: scopeVariables)
@@ -172,7 +172,7 @@ struct JellyDictionary: JellyPrimitiveType {
                     "WFValue": valueDictionary
                 ]
                 shortcutsFieldValueItems.append(QuantumValue(fieldValueItem))
-
+                
             } else if let value = item as? Double {
                 let valueDictionary = JellyString("\(value)")
                 let fieldValueItem: [String: Any] = [
@@ -197,7 +197,7 @@ struct JellyDictionary: JellyPrimitiveType {
     //Convert from dictionary made in the dictionary builder to a shortcuts dictionary
     func convertFromDictionary(dict: Dictionary) -> [String: QuantumValue] {
         var shortcutsFieldValueItems: [QuantumValue] = []
-
+        
         for item in dict.items {
             let keyDictionary = JellyString(item.key)
             
@@ -232,7 +232,7 @@ struct JellyDictionary: JellyPrimitiveType {
                     "WFValue": valueDictionary
                 ]
                 shortcutsFieldValueItems.append(QuantumValue(fieldValueItem))
-
+                
             case "Text":
                 let valueDictionary = JellyString(item.value)
                 let fieldValueItem: [String: Any] = [
@@ -263,7 +263,7 @@ struct JellyDictionary: JellyPrimitiveType {
                 break
             }
         }
-
+        
         return ["WFDictionaryFieldValueItems": QuantumValue(shortcutsFieldValueItems)]
     }
     
@@ -273,12 +273,12 @@ struct JellyDictionary: JellyPrimitiveType {
         let jsonObjects = try? decoder.decode([DictionaryItem].self, from: dictionary.data(using: .utf8) ?? Data())
         return jsonObjects ?? []
     }
-
-
+    
+    
     //Convert from array made in the dictionary builder to a shortcuts array
     func convertFromArray(array: [DictionaryItem]) -> [QuantumValue] {
         var shortcutsFieldValueItems: [QuantumValue] = []
-
+        
         for item in array {
             switch item.type {
             case "Dictionary":
@@ -309,7 +309,7 @@ struct JellyDictionary: JellyPrimitiveType {
                     "WFValue": valueDictionary
                 ]
                 shortcutsFieldValueItems.append(QuantumValue(fieldValueItem))
-
+                
             case "Text":
                 let valueDictionary = JellyString(item.value)
                 let fieldValueItem: [String: Any] = [
@@ -336,16 +336,16 @@ struct JellyDictionary: JellyPrimitiveType {
             default:
                 break
             }
-
+            
         }
-
+        
         return shortcutsFieldValueItems
     }
-
+    
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: EncodingKeys.self)
-
+        
         try container.encode(value, forKey: .value)
     }
 }

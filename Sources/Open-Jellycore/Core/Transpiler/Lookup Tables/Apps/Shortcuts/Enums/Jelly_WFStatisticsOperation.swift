@@ -15,11 +15,10 @@ enum Jelly_WFStatisticsOperation: String, JellyEnum, Codable {
 	case Range
 	case StandardDeviation
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .Average:

@@ -13,7 +13,7 @@ struct FlipImageParameter: ParameterProtocol, Codable {
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
         var parameters = FlipImageParameter()
 
-        if let variableCall = call.first(where: { node in return node.slotName == "image" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "image" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {
@@ -25,7 +25,7 @@ struct FlipImageParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "flipImage", name: "image"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "mode" }) {
-            parameters.mode = Jelly_WFImageFlipDirection(value, scopedVariables: scopedVariables)
+            parameters.mode = Jelly_WFImageFlipDirection(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "flipImage", name: "mode"), node: nil)
         }

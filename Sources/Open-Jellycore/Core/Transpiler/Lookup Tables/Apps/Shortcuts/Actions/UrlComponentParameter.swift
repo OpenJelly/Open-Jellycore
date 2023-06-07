@@ -19,7 +19,7 @@ struct UrlComponentParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "urlComponent", name: "url"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "component" }) {
-            parameters.component = Jelly_WFURLComponent(value, scopedVariables: scopedVariables)
+            parameters.component = Jelly_WFURLComponent(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "urlComponent", name: "component"), node: nil)
         }

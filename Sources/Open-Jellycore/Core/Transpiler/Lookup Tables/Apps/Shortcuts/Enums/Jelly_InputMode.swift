@@ -9,11 +9,10 @@ enum Jelly_InputMode: String, JellyEnum, Codable {
 	case asarguments
 	case tostdin
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .asarguments:

@@ -10,11 +10,10 @@ enum Jelly_WFPhotoPickerTypes: String, JellyEnum, Codable {
 	case Images
 	case Videos
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .LivePhotos:

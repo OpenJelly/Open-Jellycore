@@ -19,7 +19,7 @@ struct ChangeCaseParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "changeCase", name: "text"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "case" }) {
-            parameters.case = Jelly_WFCaseType(value, scopedVariables: scopedVariables)
+            parameters.case = Jelly_WFCaseType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "changeCase", name: "case"), node: nil)
         }

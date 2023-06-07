@@ -16,11 +16,10 @@ enum Jelly_WFSearchWebDestination: String, JellyEnum, Codable {
 	case Yahoo
 	case YouTube
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .Amazon:

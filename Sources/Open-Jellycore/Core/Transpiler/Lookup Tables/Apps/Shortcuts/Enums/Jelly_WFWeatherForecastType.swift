@@ -9,11 +9,10 @@ enum Jelly_WFWeatherForecastType: String, JellyEnum, Codable {
 	case Hourly
 	case Daily
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .Hourly:

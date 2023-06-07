@@ -13,7 +13,7 @@ struct ConnectToServersParameter: ParameterProtocol, Codable {
         var parameters = ConnectToServersParameter()
 
         if let value = call.first(where: { node in return node.slotName == "servers" }) {
-            parameters.WFInput = JellyArray<JellyString>(value, scopedVariables: scopedVariables)
+            parameters.WFInput = JellyArray<JellyString>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "connectToServers", name: "servers"), node: nil)
         }

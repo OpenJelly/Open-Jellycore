@@ -14,12 +14,12 @@ struct QuitAppParameter: ParameterProtocol, Codable {
         var parameters = QuitAppParameter()
 
         if let value = call.first(where: { node in return node.slotName == "app" }) {
-            parameters.WFApp = ShortcutsApp(value, scopedVariables: scopedVariables)
+            parameters.WFApp = ShortcutsApp(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "quitApp", name: "app"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "askToSave" }) {
-            parameters.WFAskToSaveChanges = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.WFAskToSaveChanges = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "quitApp", name: "askToSave"), node: nil)
         }

@@ -44,11 +44,10 @@ enum Jelly_WFSpeakTextLanguage: String, JellyEnum, Codable {
 	case thTH
 	case trTR
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .arSA:

@@ -10,11 +10,10 @@ enum Jelly_WFCellularDetail: String, JellyEnum, Codable {
 	case RadioTechnology
 	case CountryCode
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .CarrierName:

@@ -22,22 +22,22 @@ struct SpokenAudioFromTextParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "spokenAudioFromText", name: "text"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "language" }) {
-            parameters.language = Jelly_WFSpeakTextLanguage(value, scopedVariables: scopedVariables)
+            parameters.language = Jelly_WFSpeakTextLanguage(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "spokenAudioFromText", name: "language"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "pitch" }) {
-            parameters.WFSpeakTextPitch = JellyDouble(value, scopedVariables: scopedVariables)
+            parameters.WFSpeakTextPitch = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "spokenAudioFromText", name: "pitch"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "rate" }) {
-            parameters.WFSpeakTextRate = JellyDouble(value, scopedVariables: scopedVariables)
+            parameters.WFSpeakTextRate = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "spokenAudioFromText", name: "rate"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "voice" }) {
-            parameters.voice = Jelly_WFSpeakTextVoice(value, scopedVariables: scopedVariables)
+            parameters.voice = Jelly_WFSpeakTextVoice(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "spokenAudioFromText", name: "voice"), node: nil)
         }

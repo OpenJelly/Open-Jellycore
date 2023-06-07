@@ -14,12 +14,12 @@ struct GetIPParameter: ParameterProtocol, Codable {
         var parameters = GetIPParameter()
 
         if let value = call.first(where: { node in return node.slotName == "source" }) {
-            parameters.source = Jelly_WFIPAddressSourceOption(value, scopedVariables: scopedVariables)
+            parameters.source = Jelly_WFIPAddressSourceOption(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "getIP", name: "source"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "type" }) {
-            parameters.type = Jelly_WFIPAddressTypeOption(value, scopedVariables: scopedVariables)
+            parameters.type = Jelly_WFIPAddressTypeOption(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "getIP", name: "type"), node: nil)
         }

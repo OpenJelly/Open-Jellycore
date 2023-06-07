@@ -13,7 +13,7 @@ struct SetOrientationLockParameter: ParameterProtocol, Codable {
         var parameters = SetOrientationLockParameter()
 
         if let value = call.first(where: { node in return node.slotName == "state" }) {
-            parameters.OnValue = JellyIntegerBoolean(value, scopedVariables: scopedVariables)
+            parameters.OnValue = JellyIntegerBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "setOrientationLock", name: "state"), node: nil)
         }

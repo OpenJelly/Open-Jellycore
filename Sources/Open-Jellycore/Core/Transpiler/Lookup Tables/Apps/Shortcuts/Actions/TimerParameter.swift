@@ -13,7 +13,7 @@ struct TimerParameter: ParameterProtocol, Codable {
         var parameters = TimerParameter()
 
         if let value = call.first(where: { node in return node.slotName == "duration" }) {
-            parameters.WFDuration = ShortcutsQuantity(value, scopedVariables: scopedVariables)
+            parameters.WFDuration = ShortcutsQuantity(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "timer", name: "duration"), node: nil)
         }

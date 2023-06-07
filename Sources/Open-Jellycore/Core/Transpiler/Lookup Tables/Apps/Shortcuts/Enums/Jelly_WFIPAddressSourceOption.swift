@@ -9,11 +9,10 @@ enum Jelly_WFIPAddressSourceOption: String, JellyEnum, Codable {
 	case Local
 	case External
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .Local:

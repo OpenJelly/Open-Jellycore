@@ -14,11 +14,11 @@ struct GetTextFromPDFParameter: ParameterProtocol, Codable {
         var parameters = GetTextFromPDFParameter()
 
         if let value = call.first(where: { node in return node.slotName == "textType" }) {
-            parameters.textType = Jelly_WFGetTextFromPDFTextType(value, scopedVariables: scopedVariables)
+            parameters.textType = Jelly_WFGetTextFromPDFTextType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "getTextFromPDF", name: "textType"), node: nil)
         }
-        if let variableCall = call.first(where: { node in return node.slotName == "pdf" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "pdf" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {

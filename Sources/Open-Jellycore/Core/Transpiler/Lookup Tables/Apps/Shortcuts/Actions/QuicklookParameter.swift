@@ -12,7 +12,7 @@ struct QuicklookParameter: ParameterProtocol, Codable {
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
         var parameters = QuicklookParameter()
 
-        if let variableCall = call.first(where: { node in return node.slotName == "input" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "input" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {

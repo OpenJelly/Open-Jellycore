@@ -10,9 +10,11 @@ final class Open_JellycoreTests: XCTestCase {
     #Icon: sailboat
     #Color: blue
     
-    func hello() {
+    func hello(text) {
         
     }
+    
+    hello(text: "World")
     """
 
     func testExample() throws {
@@ -20,7 +22,7 @@ final class Open_JellycoreTests: XCTestCase {
         try parser.parse()
         
         let transpiler = Transpiler(parser: parser)
-        let shortcut = try transpiler.compile()
+        let shortcut = try transpiler.compile(named: "Test Shortcut")
         if !ErrorReporter.shared.errors.isEmpty {
             for error in ErrorReporter.shared.errors {
                 print(error.errorDescription ?? "No Description", error.recoveryStrategy)

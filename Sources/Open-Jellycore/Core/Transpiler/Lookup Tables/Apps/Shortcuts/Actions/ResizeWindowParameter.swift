@@ -16,7 +16,7 @@ struct ResizeWindowParameter: ParameterProtocol, Codable {
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
         var parameters = ResizeWindowParameter()
 
-        if let variableCall = call.first(where: { node in return node.slotName == "window" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "window" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {
@@ -28,22 +28,22 @@ struct ResizeWindowParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "resizeWindow", name: "window"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "config" }) {
-            parameters.config = Jelly_WFConfiguration(value, scopedVariables: scopedVariables)
+            parameters.config = Jelly_WFConfiguration(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "resizeWindow", name: "config"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "bringToFront" }) {
-            parameters.WFBringToFront = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.WFBringToFront = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "resizeWindow", name: "bringToFront"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "height" }) {
-            parameters.WFHeight = JellyDouble(value, scopedVariables: scopedVariables)
+            parameters.WFHeight = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "resizeWindow", name: "height"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "width" }) {
-            parameters.WFWidth = JellyDouble(value, scopedVariables: scopedVariables)
+            parameters.WFWidth = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "resizeWindow", name: "width"), node: nil)
         }

@@ -15,11 +15,10 @@ enum Jelly_WFDateFormatStyle: String, JellyEnum, Codable {
 	case ISOeightthousandsixhundredone
 	case Custom
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .None:

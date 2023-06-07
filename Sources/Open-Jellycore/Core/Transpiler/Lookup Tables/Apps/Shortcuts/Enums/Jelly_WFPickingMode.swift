@@ -9,11 +9,10 @@ enum Jelly_WFPickingMode: String, JellyEnum, Codable {
 	case Files
 	case Folders
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .Files:

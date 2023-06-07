@@ -12,7 +12,7 @@ struct ShowInStoreParameter: ParameterProtocol, Codable {
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
         var parameters = ShowInStoreParameter()
 
-        if let variableCall = call.first(where: { node in return node.slotName == "product" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "product" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {

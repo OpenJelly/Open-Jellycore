@@ -17,7 +17,7 @@ struct AddFrameToGIFParameter: ParameterProtocol, Codable {
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
         var parameters = AddFrameToGIFParameter()
 
-        if let variableCall = call.first(where: { node in return node.slotName == "photo" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "photo" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {
@@ -28,7 +28,7 @@ struct AddFrameToGIFParameter: ParameterProtocol, Codable {
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "addFrameToGIF", name: "photo"), node: nil)
         }
-        if let variableCall = call.first(where: { node in return node.slotName == "gif" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "gif" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {
@@ -40,22 +40,22 @@ struct AddFrameToGIFParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "addFrameToGIF", name: "gif"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "delay" }) {
-            parameters.WFGIFDelayTime = JellyDouble(value, scopedVariables: scopedVariables)
+            parameters.WFGIFDelayTime = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "addFrameToGIF", name: "delay"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "autoSize" }) {
-            parameters.WFGIFAutoSize = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.WFGIFAutoSize = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "addFrameToGIF", name: "autoSize"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "width" }) {
-            parameters.WFGIFManualSizeWidth = JellyDouble(value, scopedVariables: scopedVariables)
+            parameters.WFGIFManualSizeWidth = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "addFrameToGIF", name: "width"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "height" }) {
-            parameters.WFGIFManualSizeHeight = JellyDouble(value, scopedVariables: scopedVariables)
+            parameters.WFGIFManualSizeHeight = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "addFrameToGIF", name: "height"), node: nil)
         }

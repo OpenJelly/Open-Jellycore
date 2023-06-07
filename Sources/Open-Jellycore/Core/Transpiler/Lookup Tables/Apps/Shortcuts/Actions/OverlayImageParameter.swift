@@ -19,7 +19,7 @@ struct OverlayImageParameter: ParameterProtocol, Codable {
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
         var parameters = OverlayImageParameter()
 
-        if let variableCall = call.first(where: { node in return node.slotName == "image1" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "image1" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {
@@ -30,7 +30,7 @@ struct OverlayImageParameter: ParameterProtocol, Codable {
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "overlayImage", name: "image1"), node: nil)
         }
-        if let variableCall = call.first(where: { node in return node.slotName == "image2" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "image2" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {
@@ -42,7 +42,7 @@ struct OverlayImageParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "overlayImage", name: "image2"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "editor" }) {
-            parameters.WFShouldShowImageEditor = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.WFShouldShowImageEditor = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "overlayImage", name: "editor"), node: nil)
         }
@@ -57,7 +57,7 @@ struct OverlayImageParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "overlayImage", name: "width"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "position" }) {
-            parameters.WFImagePosition = Jelly_WFImagePosition(value, scopedVariables: scopedVariables)
+            parameters.WFImagePosition = Jelly_WFImagePosition(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "overlayImage", name: "position"), node: nil)
         }

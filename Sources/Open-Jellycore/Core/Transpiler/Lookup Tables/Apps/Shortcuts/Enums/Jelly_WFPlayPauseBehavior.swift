@@ -10,11 +10,10 @@ enum Jelly_WFPlayPauseBehavior: String, JellyEnum, Codable {
 	case Pause
 	case PlayPause
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .Play:

@@ -15,11 +15,11 @@ struct GetMatchGroupParameter: ParameterProtocol, Codable {
         var parameters = GetMatchGroupParameter()
 
         if let value = call.first(where: { node in return node.slotName == "type" }) {
-            parameters.type = Jelly_WFGetGroupType(value, scopedVariables: scopedVariables)
+            parameters.type = Jelly_WFGetGroupType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "getMatchGroup", name: "type"), node: nil)
         }
-        if let variableCall = call.first(where: { node in return node.slotName == "matches" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "matches" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {

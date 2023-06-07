@@ -10,11 +10,10 @@ enum Jelly_WFDictateTextStopListening: String, JellyEnum, Codable {
 	case AfterShortPause
 	case OnTap
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .AfterPause:

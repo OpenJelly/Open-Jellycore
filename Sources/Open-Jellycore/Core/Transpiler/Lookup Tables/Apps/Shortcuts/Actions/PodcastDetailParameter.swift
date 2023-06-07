@@ -14,11 +14,11 @@ struct PodcastDetailParameter: ParameterProtocol, Codable {
         var parameters = PodcastDetailParameter()
 
         if let value = call.first(where: { node in return node.slotName == "detail" }) {
-            parameters.detail = Jelly_WFContentItemPropertyName(value, scopedVariables: scopedVariables)
+            parameters.detail = Jelly_WFContentItemPropertyName(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "podcastDetail", name: "detail"), node: nil)
         }
-        if let variableCall = call.first(where: { node in return node.slotName == "show" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "show" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {

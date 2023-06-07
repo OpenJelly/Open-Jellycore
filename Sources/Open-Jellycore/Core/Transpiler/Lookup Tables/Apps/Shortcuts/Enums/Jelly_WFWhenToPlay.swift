@@ -9,11 +9,10 @@ enum Jelly_WFWhenToPlay: String, JellyEnum, Codable {
 	case Next
 	case Later
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .Next:

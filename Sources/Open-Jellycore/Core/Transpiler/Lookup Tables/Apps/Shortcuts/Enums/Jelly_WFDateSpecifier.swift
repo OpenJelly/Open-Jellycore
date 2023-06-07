@@ -11,11 +11,10 @@ enum Jelly_WFDateSpecifier: String, JellyEnum, Codable {
 	case Tomorrow
 	case SpecifiedDay
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .Today:

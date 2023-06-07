@@ -22,22 +22,22 @@ struct SearchPodcastsParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "searchPodcasts", name: "query"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "by" }) {
-            parameters.by = Jelly_WFAttribute(value, scopedVariables: scopedVariables)
+            parameters.by = Jelly_WFAttribute(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "searchPodcasts", name: "by"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "results" }) {
-            parameters.results = Jelly_WFEntity(value, scopedVariables: scopedVariables)
+            parameters.results = Jelly_WFEntity(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "searchPodcasts", name: "results"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "country" }) {
-            parameters.country = Jelly_WFCountry(value, scopedVariables: scopedVariables)
+            parameters.country = Jelly_WFCountry(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "searchPodcasts", name: "country"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "items" }) {
-            parameters.WFItemLimit = JellyDouble(value, scopedVariables: scopedVariables)
+            parameters.WFItemLimit = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "searchPodcasts", name: "items"), node: nil)
         }

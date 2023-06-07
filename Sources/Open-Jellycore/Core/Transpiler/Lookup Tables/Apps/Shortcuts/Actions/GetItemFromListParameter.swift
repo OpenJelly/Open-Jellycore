@@ -16,7 +16,7 @@ struct GetItemFromListParameter: ParameterProtocol, Codable {
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
         var parameters = GetItemFromListParameter()
 
-        if let variableCall = call.first(where: { node in return node.slotName == "list" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "list" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {
@@ -28,7 +28,7 @@ struct GetItemFromListParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "getItemFromList", name: "list"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "type" }) {
-            parameters.type = Jelly_WFItemSpecifier(value, scopedVariables: scopedVariables)
+            parameters.type = Jelly_WFItemSpecifier(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "getItemFromList", name: "type"), node: nil)
         }

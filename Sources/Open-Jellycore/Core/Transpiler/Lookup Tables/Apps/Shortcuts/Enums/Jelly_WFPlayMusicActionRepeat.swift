@@ -10,11 +10,10 @@ enum Jelly_WFPlayMusicActionRepeat: String, JellyEnum, Codable {
 	case One
 	case All
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .None:

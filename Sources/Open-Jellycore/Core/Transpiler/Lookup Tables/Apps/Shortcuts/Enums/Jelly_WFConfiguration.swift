@@ -17,11 +17,10 @@ enum Jelly_WFConfiguration: String, JellyEnum, Codable {
 	case BottomRightQuarter
 	case Dimensions
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .FitScreen:

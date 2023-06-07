@@ -14,7 +14,7 @@ struct MaskImageParameter: ParameterProtocol, Codable {
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
         var parameters = MaskImageParameter()
 
-        if let variableCall = call.first(where: { node in return node.slotName == "image" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "image" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {
@@ -26,11 +26,11 @@ struct MaskImageParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "maskImage", name: "image"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "mode" }) {
-            parameters.mode = Jelly_WFMaskType(value, scopedVariables: scopedVariables)
+            parameters.mode = Jelly_WFMaskType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "maskImage", name: "mode"), node: nil)
         }
-        if let variableCall = call.first(where: { node in return node.slotName == "mask" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "mask" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {

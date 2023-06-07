@@ -26,11 +26,11 @@ struct SendNotificationParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "sendNotification", name: "title"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "sound" }) {
-            parameters.WFNotificationActionSound = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.WFNotificationActionSound = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "sendNotification", name: "sound"), node: nil)
         }
-        if let variableCall = call.first(where: { node in return node.slotName == "attachment" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "attachment" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {

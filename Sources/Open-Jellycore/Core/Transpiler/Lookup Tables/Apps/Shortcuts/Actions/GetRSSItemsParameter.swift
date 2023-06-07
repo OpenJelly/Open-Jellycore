@@ -19,7 +19,7 @@ struct GetRSSItemsParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "getRSSItems", name: "url"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "count" }) {
-            parameters.WFRSSItemQuantity = JellyDouble(value, scopedVariables: scopedVariables)
+            parameters.WFRSSItemQuantity = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "getRSSItems", name: "count"), node: nil)
         }

@@ -14,7 +14,7 @@ struct SetVoiceDataParameter: ParameterProtocol, Codable {
         var parameters = SetVoiceDataParameter()
 
         if let value = call.first(where: { node in return node.slotName == "mode" }) {
-            parameters.mode = Jelly_RatMode(value, scopedVariables: scopedVariables)
+            parameters.mode = Jelly_RatMode(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "setVoiceData", name: "mode"), node: nil)
         }

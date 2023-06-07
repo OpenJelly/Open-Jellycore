@@ -13,7 +13,7 @@ struct HtmlFromRichTextParameter: ParameterProtocol, Codable {
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
         var parameters = HtmlFromRichTextParameter()
 
-        if let variableCall = call.first(where: { node in return node.slotName == "text" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "text" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {
@@ -25,7 +25,7 @@ struct HtmlFromRichTextParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "htmlFromRichText", name: "text"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "fullDocument" }) {
-            parameters.WFMakeFullDocument = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.WFMakeFullDocument = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "htmlFromRichText", name: "fullDocument"), node: nil)
         }

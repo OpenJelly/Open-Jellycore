@@ -18,7 +18,7 @@ struct AppendNoteParameter: ParameterProtocol, Codable {
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "appendNote", name: "text"), node: nil)
         }
-        if let variableCall = call.first(where: { node in return node.slotName == "note" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "note" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {

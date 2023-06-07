@@ -18,7 +18,7 @@ struct ValueForParameter: ParameterProtocol, Codable {
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "valueFor", name: "key"), node: nil)
         }
-        if let variableCall = call.first(where: { node in return node.slotName == "dictionary" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "dictionary" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {

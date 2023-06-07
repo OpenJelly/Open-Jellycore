@@ -9,7 +9,10 @@ struct WaitToReturnParameter: ParameterProtocol, Codable {
 
 
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
-        return WaitToReturnParameter()
+        var parameters = WaitToReturnParameter()
+
+
+        return parameters
     }
      
     // Need to loop through all properties to build the documentation.

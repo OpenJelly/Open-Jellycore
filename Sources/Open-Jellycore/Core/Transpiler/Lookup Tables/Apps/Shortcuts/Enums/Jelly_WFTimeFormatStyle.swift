@@ -12,11 +12,10 @@ enum Jelly_WFTimeFormatStyle: String, JellyEnum, Codable {
 	case Long
 	case Relative
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .None:

@@ -15,11 +15,10 @@ enum Jelly_WFArchiveFormat: String, JellyEnum, Codable {
 	case cpio
 	case iso
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .zip:

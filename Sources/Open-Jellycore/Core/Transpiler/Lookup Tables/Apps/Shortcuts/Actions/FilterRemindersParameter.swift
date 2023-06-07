@@ -9,7 +9,10 @@ struct FilterRemindersParameter: ParameterProtocol, Codable {
 
 
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
-        return FilterRemindersParameter()
+        var parameters = FilterRemindersParameter()
+
+
+        return parameters
     }
      
     // Need to loop through all properties to build the documentation.

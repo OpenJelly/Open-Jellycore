@@ -13,7 +13,7 @@ struct GetNumbersFromParameter: ParameterProtocol, Codable {
         var parameters = GetNumbersFromParameter()
 
         if let value = call.first(where: { node in return node.slotName == "text" }) {
-            parameters.WFInput = JellyDouble(value, scopedVariables: scopedVariables)
+            parameters.WFInput = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "getNumbersFrom", name: "text"), node: nil)
         }

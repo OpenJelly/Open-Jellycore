@@ -16,7 +16,7 @@ struct OverlayTextParameter: ParameterProtocol, Codable {
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
         var parameters = OverlayTextParameter()
 
-        if let variableCall = call.first(where: { node in return node.slotName == "image" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "image" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {
@@ -33,17 +33,17 @@ struct OverlayTextParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "overlayText", name: "text"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "position" }) {
-            parameters.position = Jelly_WFTextPosition(value, scopedVariables: scopedVariables)
+            parameters.position = Jelly_WFTextPosition(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "overlayText", name: "position"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "xCoordinate" }) {
-            parameters.WFImageX = JellyDouble(value, scopedVariables: scopedVariables)
+            parameters.WFImageX = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "overlayText", name: "xCoordinate"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "yCoordinate" }) {
-            parameters.WFImageY = JellyDouble(value, scopedVariables: scopedVariables)
+            parameters.WFImageY = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "overlayText", name: "yCoordinate"), node: nil)
         }

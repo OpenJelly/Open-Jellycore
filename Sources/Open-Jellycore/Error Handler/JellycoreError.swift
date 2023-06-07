@@ -80,7 +80,7 @@ public class JellycoreError: LocalizedError, Identifiable {
             case .invalidTypeCoercion(let type):
                 return "\(type) is not a valid 'as' coercion."
             case .unableToParseJSON(let jsonError):
-                return "Invalid JSON, underlying error \(jsonError.localizedDescription)."
+                return "Invalid JSON, underlying error \(jsonError.localizedDescription)"
             case .unableToEncode(let identifier):
                 return "Unable to encode \(identifier)."
             case .invalidFunctionRedeclaration(let name):

@@ -21,7 +21,7 @@ struct EncodeAudioParameter: ParameterProtocol, Codable {
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
         var parameters = EncodeAudioParameter()
 
-        if let variableCall = call.first(where: { node in return node.slotName == "media" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "media" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {
@@ -33,12 +33,12 @@ struct EncodeAudioParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "encodeAudio", name: "media"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "format" }) {
-            parameters.format = Jelly_WFMediaAudioFormat(value, scopedVariables: scopedVariables)
+            parameters.format = Jelly_WFMediaAudioFormat(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "encodeAudio", name: "format"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "speed" }) {
-            parameters.speed = Jelly_WFMediaSpeed(value, scopedVariables: scopedVariables)
+            parameters.speed = Jelly_WFMediaSpeed(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "encodeAudio", name: "speed"), node: nil)
         }
@@ -68,11 +68,11 @@ struct EncodeAudioParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "encodeAudio", name: "genre"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "year" }) {
-            parameters.WFMetadataYear = JellyDouble(value, scopedVariables: scopedVariables)
+            parameters.WFMetadataYear = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "encodeAudio", name: "year"), node: nil)
         }
-        if let variableCall = call.first(where: { node in return node.slotName == "artwork" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "artwork" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {

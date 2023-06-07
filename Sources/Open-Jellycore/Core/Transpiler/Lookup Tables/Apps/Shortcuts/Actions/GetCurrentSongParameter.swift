@@ -9,7 +9,10 @@ struct GetCurrentSongParameter: ParameterProtocol, Codable {
 
 
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
-        return GetCurrentSongParameter()
+        var parameters = GetCurrentSongParameter()
+
+
+        return parameters
     }
      
     // Need to loop through all properties to build the documentation.

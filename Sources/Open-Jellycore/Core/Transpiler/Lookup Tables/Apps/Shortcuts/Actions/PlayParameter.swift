@@ -14,11 +14,11 @@ struct PlayParameter: ParameterProtocol, Codable {
         var parameters = PlayParameter()
 
         if let value = call.first(where: { node in return node.slotName == "behavior" }) {
-            parameters.behavior = Jelly_WFPlayPauseBehavior(value, scopedVariables: scopedVariables)
+            parameters.behavior = Jelly_WFPlayPauseBehavior(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "play", name: "behavior"), node: nil)
         }
-        if let variableCall = call.first(where: { node in return node.slotName == "source" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "source" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {

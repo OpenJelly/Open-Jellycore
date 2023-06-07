@@ -12,11 +12,10 @@ enum Jelly_WFHTTPMethod: String, JellyEnum, Codable {
 	case PATCH
 	case DELETE
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .GET:

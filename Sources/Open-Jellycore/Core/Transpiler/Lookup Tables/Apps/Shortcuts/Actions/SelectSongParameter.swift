@@ -13,7 +13,7 @@ struct SelectSongParameter: ParameterProtocol, Codable {
         var parameters = SelectSongParameter()
 
         if let value = call.first(where: { node in return node.slotName == "multiple" }) {
-            parameters.WFExportSongActionSelectMultiple = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.WFExportSongActionSelectMultiple = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "selectSong", name: "multiple"), node: nil)
         }

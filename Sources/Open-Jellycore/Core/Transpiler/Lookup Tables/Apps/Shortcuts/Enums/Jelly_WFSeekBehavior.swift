@@ -10,11 +10,10 @@ enum Jelly_WFSeekBehavior: String, JellyEnum, Codable {
 	case ForwardBy
 	case BackwardBy
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .ToTime:

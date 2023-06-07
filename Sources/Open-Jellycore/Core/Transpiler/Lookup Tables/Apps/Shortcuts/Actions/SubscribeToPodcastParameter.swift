@@ -13,7 +13,7 @@ struct SubscribeToPodcastParameter: ParameterProtocol, Codable {
         var parameters = SubscribeToPodcastParameter()
 
         if let value = call.first(where: { node in return node.slotName == "feedURL" }) {
-            parameters.WFInput = JellyArray<JellyVariableReference>(value, scopedVariables: scopedVariables)
+            parameters.WFInput = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "subscribeToPodcast", name: "feedURL"), node: nil)
         }

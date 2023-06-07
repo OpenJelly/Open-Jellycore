@@ -9,11 +9,10 @@ enum Jelly_WFFaceTimeType: String, JellyEnum, Codable {
 	case Video
 	case Audio
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .Video:

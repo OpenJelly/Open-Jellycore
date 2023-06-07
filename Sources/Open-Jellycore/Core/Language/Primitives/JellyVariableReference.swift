@@ -84,6 +84,7 @@ struct JellyVariableReference: JellyAny, Codable {
     }
     
     init?(identifierNode: IdentifierNode, scopedVariables: [Variable]) {
+        print("Init \(identifierNode.content) \(identifierNode.sString)")
         self.name = identifierNode.content
         self.uuid = ""
         
@@ -134,7 +135,7 @@ struct JellyVariableReference: JellyAny, Codable {
             return nil
         }
     }
-    
+
     private func variableNameFilter(variable: Variable, name: String) -> Bool {
         return variable.name == name
     }

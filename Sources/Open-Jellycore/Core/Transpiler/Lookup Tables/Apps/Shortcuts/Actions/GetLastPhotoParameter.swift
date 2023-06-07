@@ -14,12 +14,12 @@ struct GetLastPhotoParameter: ParameterProtocol, Codable {
         var parameters = GetLastPhotoParameter()
 
         if let value = call.first(where: { node in return node.slotName == "count" }) {
-            parameters.WFGetLatestPhotoCount = JellyDouble(value, scopedVariables: scopedVariables)
+            parameters.WFGetLatestPhotoCount = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "getLastPhoto", name: "count"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "screenshots" }) {
-            parameters.WFGetLatestPhotosActionIncludeScreenshots = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.WFGetLatestPhotosActionIncludeScreenshots = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "getLastPhoto", name: "screenshots"), node: nil)
         }

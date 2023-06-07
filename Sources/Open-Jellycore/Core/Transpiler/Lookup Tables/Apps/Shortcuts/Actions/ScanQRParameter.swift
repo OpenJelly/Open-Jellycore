@@ -9,7 +9,10 @@ struct ScanQRParameter: ParameterProtocol, Codable {
 
 
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
-        return ScanQRParameter()
+        var parameters = ScanQRParameter()
+
+
+        return parameters
     }
      
     // Need to loop through all properties to build the documentation.

@@ -32,12 +32,12 @@ struct ReplaceTextParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "replaceText", name: "replace"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "isRegex" }) {
-            parameters.WFReplaceTextRegularExpression = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.WFReplaceTextRegularExpression = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "replaceText", name: "isRegex"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "caseSensitive" }) {
-            parameters.WFReplaceTextCaseSensitive = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.WFReplaceTextCaseSensitive = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "replaceText", name: "caseSensitive"), node: nil)
         }

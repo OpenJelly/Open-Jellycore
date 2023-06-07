@@ -13,7 +13,7 @@ struct CreateAlbumParameter: ParameterProtocol, Codable {
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
         var parameters = CreateAlbumParameter()
 
-        if let variableCall = call.first(where: { node in return node.slotName == "photos" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "photos" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {

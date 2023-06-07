@@ -14,7 +14,7 @@ struct GetTimeBetweenParameter: ParameterProtocol, Codable {
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
         var parameters = GetTimeBetweenParameter()
 
-        if let variableCall = call.first(where: { node in return node.slotName == "first" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "first" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {
@@ -25,7 +25,7 @@ struct GetTimeBetweenParameter: ParameterProtocol, Codable {
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "getTimeBetween", name: "first"), node: nil)
         }
-        if let variableCall = call.first(where: { node in return node.slotName == "second" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "second" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {
@@ -37,7 +37,7 @@ struct GetTimeBetweenParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "getTimeBetween", name: "second"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "interval" }) {
-            parameters.interval = Jelly_WFTimeUntilUnit(value, scopedVariables: scopedVariables)
+            parameters.interval = Jelly_WFTimeUntilUnit(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "getTimeBetween", name: "interval"), node: nil)
         }

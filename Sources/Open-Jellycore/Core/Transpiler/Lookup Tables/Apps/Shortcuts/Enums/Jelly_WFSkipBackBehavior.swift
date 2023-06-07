@@ -9,11 +9,10 @@ enum Jelly_WFSkipBackBehavior: String, JellyEnum, Codable {
 	case Beginning
 	case PreviousSong
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .Beginning:

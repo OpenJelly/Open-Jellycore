@@ -88,11 +88,10 @@ enum Jelly_WFSelectedFromLanguage: String, JellyEnum, Codable {
 	case Welsh
 	case YucatecMaya
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .DetectedLanguage:

@@ -13,7 +13,7 @@ struct WifiDetailsParameter: ParameterProtocol, Codable {
         var parameters = WifiDetailsParameter()
 
         if let value = call.first(where: { node in return node.slotName == "detail" }) {
-            parameters.detail = Jelly_WFWiFiDetail(value, scopedVariables: scopedVariables)
+            parameters.detail = Jelly_WFWiFiDetail(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "wifiDetails", name: "detail"), node: nil)
         }

@@ -9,11 +9,10 @@ enum Jelly_WFPlayMusicActionShuffle: String, JellyEnum, Codable {
 	case Off
 	case Songs
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .Off:

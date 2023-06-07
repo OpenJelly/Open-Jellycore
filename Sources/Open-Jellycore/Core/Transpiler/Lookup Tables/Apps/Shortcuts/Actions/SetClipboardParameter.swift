@@ -14,7 +14,7 @@ struct SetClipboardParameter: ParameterProtocol, Codable {
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
         var parameters = SetClipboardParameter()
 
-        if let variableCall = call.first(where: { node in return node.slotName == "variable" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "variable" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {
@@ -26,12 +26,12 @@ struct SetClipboardParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "setClipboard", name: "variable"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "local" }) {
-            parameters.WFLocalOnly = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.WFLocalOnly = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "setClipboard", name: "local"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "expiration" }) {
-            parameters.WFExpirationDate = JellyDate(value, scopedVariables: scopedVariables)
+            parameters.WFExpirationDate = JellyDate(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "setClipboard", name: "expiration"), node: nil)
         }

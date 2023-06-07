@@ -18,7 +18,7 @@ struct MakeGIFParameter: ParameterProtocol, Codable {
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
         var parameters = MakeGIFParameter()
 
-        if let variableCall = call.first(where: { node in return node.slotName == "content" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "content" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {
@@ -35,17 +35,17 @@ struct MakeGIFParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "makeGIF", name: "frameTime"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "loopOn" }) {
-            parameters.WFMakeGIFActionLoopEnabled = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.WFMakeGIFActionLoopEnabled = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "makeGIF", name: "loopOn"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "loopCount" }) {
-            parameters.WFMakeGIFActionLoopCount = JellyDouble(value, scopedVariables: scopedVariables)
+            parameters.WFMakeGIFActionLoopCount = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "makeGIF", name: "loopCount"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "autoSize" }) {
-            parameters.WFMakeGIFActionAutoSize = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.WFMakeGIFActionAutoSize = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "makeGIF", name: "autoSize"), node: nil)
         }

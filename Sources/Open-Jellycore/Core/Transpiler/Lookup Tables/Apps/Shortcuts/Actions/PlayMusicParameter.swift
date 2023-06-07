@@ -14,7 +14,7 @@ struct PlayMusicParameter: ParameterProtocol, Codable {
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
         var parameters = PlayMusicParameter()
 
-        if let variableCall = call.first(where: { node in return node.slotName == "music" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "music" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {
@@ -26,12 +26,12 @@ struct PlayMusicParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "playMusic", name: "music"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "shuffle" }) {
-            parameters.shuffle = Jelly_WFPlayMusicActionShuffle(value, scopedVariables: scopedVariables)
+            parameters.shuffle = Jelly_WFPlayMusicActionShuffle(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "playMusic", name: "shuffle"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "repeat" }) {
-            parameters.repeat = Jelly_WFPlayMusicActionRepeat(value, scopedVariables: scopedVariables)
+            parameters.repeat = Jelly_WFPlayMusicActionRepeat(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "playMusic", name: "repeat"), node: nil)
         }

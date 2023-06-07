@@ -17,7 +17,7 @@ struct CropImageParameter: ParameterProtocol, Codable {
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
         var parameters = CropImageParameter()
 
-        if let variableCall = call.first(where: { node in return node.slotName == "image" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "image" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {
@@ -29,27 +29,27 @@ struct CropImageParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "cropImage", name: "image"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "position" }) {
-            parameters.position = Jelly_WFImageCropPosition(value, scopedVariables: scopedVariables)
+            parameters.position = Jelly_WFImageCropPosition(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "cropImage", name: "position"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "height" }) {
-            parameters.WFImageCropHeight = JellyDouble(value, scopedVariables: scopedVariables)
+            parameters.WFImageCropHeight = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "cropImage", name: "height"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "width" }) {
-            parameters.WFImageCropWidth = JellyDouble(value, scopedVariables: scopedVariables)
+            parameters.WFImageCropWidth = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "cropImage", name: "width"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "x" }) {
-            parameters.WFImageCropX = JellyDouble(value, scopedVariables: scopedVariables)
+            parameters.WFImageCropX = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "cropImage", name: "x"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "y" }) {
-            parameters.WFImageCropY = JellyDouble(value, scopedVariables: scopedVariables)
+            parameters.WFImageCropY = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "cropImage", name: "y"), node: nil)
         }

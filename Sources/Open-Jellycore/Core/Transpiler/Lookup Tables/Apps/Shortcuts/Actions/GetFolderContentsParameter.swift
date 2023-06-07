@@ -13,7 +13,7 @@ struct GetFolderContentsParameter: ParameterProtocol, Codable {
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
         var parameters = GetFolderContentsParameter()
 
-        if let variableCall = call.first(where: { node in return node.slotName == "folder" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "folder" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {
@@ -25,7 +25,7 @@ struct GetFolderContentsParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "getFolderContents", name: "folder"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "recursive" }) {
-            parameters.Recursive = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.Recursive = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "getFolderContents", name: "recursive"), node: nil)
         }

@@ -13,7 +13,7 @@ struct RemoveEventsParameter: ParameterProtocol, Codable {
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
         var parameters = RemoveEventsParameter()
 
-        if let variableCall = call.first(where: { node in return node.slotName == "events" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "events" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {
@@ -25,7 +25,7 @@ struct RemoveEventsParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "removeEvents", name: "events"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "includeFuture" }) {
-            parameters.WFCalendarIncludeFutureEvents = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.WFCalendarIncludeFutureEvents = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "removeEvents", name: "includeFuture"), node: nil)
         }

@@ -9,7 +9,10 @@ struct StartScreensaverParameter: ParameterProtocol, Codable {
 
 
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
-        return StartScreensaverParameter()
+        var parameters = StartScreensaverParameter()
+
+
+        return parameters
     }
      
     // Need to loop through all properties to build the documentation.

@@ -9,11 +9,10 @@ enum Jelly_WFRecordingCompression: String, JellyEnum, Codable {
 	case Normal
 	case VeryHigh
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .Normal:

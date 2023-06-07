@@ -20,11 +20,10 @@ enum Jelly_WFEntity: String, JellyEnum, Codable {
 	case Books
 	case Audiobooks
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .iPhone:

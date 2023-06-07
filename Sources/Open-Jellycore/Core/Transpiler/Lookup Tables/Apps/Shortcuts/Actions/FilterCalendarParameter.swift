@@ -9,7 +9,10 @@ struct FilterCalendarParameter: ParameterProtocol, Codable {
 
 
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
-        return FilterCalendarParameter()
+        var parameters = FilterCalendarParameter()
+
+
+        return parameters
     }
      
     // Need to loop through all properties to build the documentation.

@@ -19,7 +19,7 @@ struct CreateQRParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "createQR", name: "text"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "correction" }) {
-            parameters.correction = Jelly_WFQRErrorCorrectionLevel(value, scopedVariables: scopedVariables)
+            parameters.correction = Jelly_WFQRErrorCorrectionLevel(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "createQR", name: "correction"), node: nil)
         }

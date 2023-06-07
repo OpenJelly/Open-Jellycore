@@ -15,11 +15,10 @@ enum Jelly_WFMediaType: String, JellyEnum, Codable {
 	case Books
 	case All
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .Movies:

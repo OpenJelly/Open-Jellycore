@@ -12,7 +12,7 @@ struct MarkdownFromRichParameter: ParameterProtocol, Codable {
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
         var parameters = MarkdownFromRichParameter()
 
-        if let variableCall = call.first(where: { node in return node.slotName == "text" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "text" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {

@@ -13,11 +13,10 @@ enum Jelly_WFImportAudioFilesEncoder: String, JellyEnum, Codable {
 	case MPthree
 	case WAV
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .Default:

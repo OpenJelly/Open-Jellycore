@@ -21,7 +21,12 @@ struct JellyBoolean: JellyPrimitiveType {
     
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         do {
-            try self.init(value.content)
+            if let parameterValue = value as? FunctionCallParameterItem,
+               let parameterItem = parameterValue.item {
+                try self.init(parameterItem.content)
+            } else {
+                try self.init(value.content)
+            }
         } catch {
             self.init(false)
 
@@ -31,7 +36,7 @@ struct JellyBoolean: JellyPrimitiveType {
             }
         }
     }
-
+    
     internal static func bool(input: String) throws -> Bool {
         let input = input.lowercased()
         if input == "off" || input == "false" || input == "0" {

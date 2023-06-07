@@ -15,11 +15,10 @@ enum Jelly_WFTextPosition: String, JellyEnum, Codable {
 	case BottomRight
 	case Custom
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .Center:

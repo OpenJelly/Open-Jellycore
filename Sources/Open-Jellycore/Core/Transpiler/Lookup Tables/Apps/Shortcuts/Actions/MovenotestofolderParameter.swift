@@ -19,7 +19,7 @@ struct MovenotestofolderParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "movenotestofolder", name: "notes"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "folder" }) {
-            parameters.folder = Jelly_WFNoOutputSurfaceBehavior(value, scopedVariables: scopedVariables)
+            parameters.folder = Jelly_WFNoOutputSurfaceBehavior(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "movenotestofolder", name: "folder"), node: nil)
         }

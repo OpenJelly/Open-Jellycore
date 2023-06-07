@@ -10,11 +10,10 @@ enum Jelly_WFMakeImageFromPDFPageColorspace: String, JellyEnum, Codable {
 	case CMYK
 	case Gray
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .RGB:

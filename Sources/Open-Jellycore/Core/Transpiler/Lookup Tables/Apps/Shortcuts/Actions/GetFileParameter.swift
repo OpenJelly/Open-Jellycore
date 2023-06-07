@@ -16,7 +16,7 @@ struct GetFileParameter: ParameterProtocol, Codable {
         var parameters = GetFileParameter()
 
         if let value = call.first(where: { node in return node.slotName == "picker" }) {
-            parameters.WFShowFilePicker = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.WFShowFilePicker = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "getFile", name: "picker"), node: nil)
         }
@@ -26,12 +26,12 @@ struct GetFileParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "getFile", name: "path"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "error" }) {
-            parameters.WFFileErrorIfNotFound = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.WFFileErrorIfNotFound = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "getFile", name: "error"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "multiple" }) {
-            parameters.SelectMultiple = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.SelectMultiple = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "getFile", name: "multiple"), node: nil)
         }

@@ -34,7 +34,7 @@ struct RunSSHParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "runSSH", name: "user"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "auth" }) {
-            parameters.auth = Jelly_WFSSHAuthenticationType(value, scopedVariables: scopedVariables)
+            parameters.auth = Jelly_WFSSHAuthenticationType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "runSSH", name: "auth"), node: nil)
         }
@@ -43,7 +43,7 @@ struct RunSSHParameter: ParameterProtocol, Codable {
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "runSSH", name: "password"), node: nil)
         }
-        if let variableCall = call.first(where: { node in return node.slotName == "input" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "input" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {

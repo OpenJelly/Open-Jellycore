@@ -20,7 +20,7 @@ struct OutputParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "output", name: "result"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "noResultBehavior" }) {
-            parameters.noResultBehavior = Jelly_WFNoOutputSurfaceBehavior(value, scopedVariables: scopedVariables)
+            parameters.noResultBehavior = Jelly_WFNoOutputSurfaceBehavior(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "output", name: "noResultBehavior"), node: nil)
         }

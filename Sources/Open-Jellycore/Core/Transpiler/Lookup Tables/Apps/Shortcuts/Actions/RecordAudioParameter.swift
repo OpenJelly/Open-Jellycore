@@ -16,22 +16,22 @@ struct RecordAudioParameter: ParameterProtocol, Codable {
         var parameters = RecordAudioParameter()
 
         if let value = call.first(where: { node in return node.slotName == "quality" }) {
-            parameters.quality = Jelly_WFRecordingCompression(value, scopedVariables: scopedVariables)
+            parameters.quality = Jelly_WFRecordingCompression(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "recordAudio", name: "quality"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "start" }) {
-            parameters.start = Jelly_WFRecordingStart(value, scopedVariables: scopedVariables)
+            parameters.start = Jelly_WFRecordingStart(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "recordAudio", name: "start"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "end" }) {
-            parameters.end = Jelly_WFRecordingEnd(value, scopedVariables: scopedVariables)
+            parameters.end = Jelly_WFRecordingEnd(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "recordAudio", name: "end"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "duration" }) {
-            parameters.WFRecordingTimeInterval = ShortcutsQuantity(value, scopedVariables: scopedVariables)
+            parameters.WFRecordingTimeInterval = ShortcutsQuantity(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "recordAudio", name: "duration"), node: nil)
         }

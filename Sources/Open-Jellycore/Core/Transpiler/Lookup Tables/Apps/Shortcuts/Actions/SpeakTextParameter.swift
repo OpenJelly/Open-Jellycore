@@ -22,22 +22,22 @@ struct SpeakTextParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "speakText", name: "text"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "wait" }) {
-            parameters.WFSpeakTextWait = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.WFSpeakTextWait = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "speakText", name: "wait"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "rate" }) {
-            parameters.WFSpeakTextRate = JellyDouble(value, scopedVariables: scopedVariables)
+            parameters.WFSpeakTextRate = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "speakText", name: "rate"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "pitch" }) {
-            parameters.WFSpeakTextPitch = JellyDouble(value, scopedVariables: scopedVariables)
+            parameters.WFSpeakTextPitch = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "speakText", name: "pitch"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "language" }) {
-            parameters.language = Jelly_WFSpeakTextLanguage(value, scopedVariables: scopedVariables)
+            parameters.language = Jelly_WFSpeakTextLanguage(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "speakText", name: "language"), node: nil)
         }

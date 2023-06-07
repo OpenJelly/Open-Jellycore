@@ -10,11 +10,10 @@ enum Jelly_WFRoundMode: String, JellyEnum, Codable {
 	case AlwaysRoundUp
 	case AlwaysRoundDown
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .Normal:

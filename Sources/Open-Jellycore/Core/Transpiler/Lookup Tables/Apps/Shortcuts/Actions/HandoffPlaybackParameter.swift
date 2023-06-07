@@ -13,7 +13,7 @@ struct HandoffPlaybackParameter: ParameterProtocol, Codable {
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
         var parameters = HandoffPlaybackParameter()
 
-        if let variableCall = call.first(where: { node in return node.slotName == "source" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "source" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {
@@ -24,7 +24,7 @@ struct HandoffPlaybackParameter: ParameterProtocol, Codable {
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "handoffPlayback", name: "source"), node: nil)
         }
-        if let variableCall = call.first(where: { node in return node.slotName == "route" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "route" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {

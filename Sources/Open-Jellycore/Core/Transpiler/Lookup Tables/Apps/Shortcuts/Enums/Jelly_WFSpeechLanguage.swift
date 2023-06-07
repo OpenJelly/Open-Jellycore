@@ -69,11 +69,10 @@ enum Jelly_WFSpeechLanguage: String, JellyEnum, Codable {
 	case ukUA
 	case viVN
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .arSA:

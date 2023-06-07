@@ -10,11 +10,10 @@ enum Jelly_WFPDFIncludedPages: String, JellyEnum, Codable {
 	case AllPages
 	case SinglePage
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .PageRange:

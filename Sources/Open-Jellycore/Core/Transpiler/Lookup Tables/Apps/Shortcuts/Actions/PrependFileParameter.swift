@@ -25,7 +25,7 @@ struct PrependFileParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "prependFile", name: "path"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "newLine" }) {
-            parameters.WFAppendOnNewLine = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.WFAppendOnNewLine = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "prependFile", name: "newLine"), node: nil)
         }

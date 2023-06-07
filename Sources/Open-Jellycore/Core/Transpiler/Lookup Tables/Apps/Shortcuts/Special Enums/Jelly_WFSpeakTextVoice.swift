@@ -23,6 +23,14 @@ enum Jelly_WFSpeakTextVoice: String, JellyEnum, Codable {
         self.init(rawValue: value.content)
     }
     
+    init?(parameterItem: FunctionCallParameterItem, scopedVariables: [Variable]) {
+        if let itemContent = parameterItem.item?.content {
+            self.init(rawValue: itemContent)
+        } else {
+            self.init(rawValue: parameterItem.content)
+        }
+    }
+    
     var value: String {
         switch self {
         case .Alex:

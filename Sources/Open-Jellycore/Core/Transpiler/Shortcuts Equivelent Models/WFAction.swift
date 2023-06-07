@@ -6,7 +6,7 @@
 //
 
 /// Represents a shortcut action. Named WFAction to distinguish it from the Jelly `Action` type.
-struct WFAction: Codable {
+public struct WFAction: Codable {
     /// The identifier for the action
     var WFWorkflowActionIdentifier: String
     /// Any parameters contained in the action.

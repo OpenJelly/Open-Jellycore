@@ -9,7 +9,10 @@ struct FilterAttendeesParameter: ParameterProtocol, Codable {
 
 
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
-        return FilterAttendeesParameter()
+        var parameters = FilterAttendeesParameter()
+
+
+        return parameters
     }
      
     // Need to loop through all properties to build the documentation.

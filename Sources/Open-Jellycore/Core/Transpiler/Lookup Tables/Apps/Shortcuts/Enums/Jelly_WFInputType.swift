@@ -13,11 +13,10 @@ enum Jelly_WFInputType: String, JellyEnum, Codable {
 	case Time
 	case DateandTime
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .Text:

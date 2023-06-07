@@ -17,11 +17,10 @@ enum Jelly_WFFileSizeFormat: String, JellyEnum, Codable {
 	case zb
 	case yb
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .Automatic:

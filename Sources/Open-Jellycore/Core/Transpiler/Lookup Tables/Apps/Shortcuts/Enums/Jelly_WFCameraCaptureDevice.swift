@@ -9,11 +9,10 @@ enum Jelly_WFCameraCaptureDevice: String, JellyEnum, Codable {
 	case Front
 	case Back
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .Front:

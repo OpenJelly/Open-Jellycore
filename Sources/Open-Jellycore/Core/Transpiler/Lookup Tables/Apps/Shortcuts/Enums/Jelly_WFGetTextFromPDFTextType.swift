@@ -9,11 +9,10 @@ enum Jelly_WFGetTextFromPDFTextType: String, JellyEnum, Codable {
 	case Text
 	case RichText
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .Text:

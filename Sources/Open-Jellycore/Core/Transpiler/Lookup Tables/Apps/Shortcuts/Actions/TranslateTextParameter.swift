@@ -20,12 +20,12 @@ struct TranslateTextParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "translateText", name: "text"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "from" }) {
-            parameters.from = Jelly_WFSelectedFromLanguage(value, scopedVariables: scopedVariables)
+            parameters.from = Jelly_WFSelectedFromLanguage(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "translateText", name: "from"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "to" }) {
-            parameters.to = Jelly_WFSelectedLanguage(value, scopedVariables: scopedVariables)
+            parameters.to = Jelly_WFSelectedLanguage(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "translateText", name: "to"), node: nil)
         }

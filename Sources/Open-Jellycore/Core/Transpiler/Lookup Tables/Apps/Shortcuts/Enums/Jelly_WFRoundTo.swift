@@ -23,11 +23,10 @@ enum Jelly_WFRoundTo: String, JellyEnum, Codable {
 	case HundredMillionths
 	case Billionths
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .Millions:

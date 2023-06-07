@@ -11,11 +11,10 @@ enum Jelly_WFTextSeparator: String, JellyEnum, Codable {
 	case EveryCharacter
 	case Custom
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .NewLines:

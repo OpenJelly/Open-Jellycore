@@ -13,7 +13,7 @@ struct GetLastScreenshotParameter: ParameterProtocol, Codable {
         var parameters = GetLastScreenshotParameter()
 
         if let value = call.first(where: { node in return node.slotName == "count" }) {
-            parameters.WFGetLatestPhotoCount = JellyDouble(value, scopedVariables: scopedVariables)
+            parameters.WFGetLatestPhotoCount = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "getLastScreenshot", name: "count"), node: nil)
         }

@@ -10,11 +10,10 @@ enum Jelly_WFHTTPBodyType: String, JellyEnum, Codable {
 	case Form
 	case File
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .Json:

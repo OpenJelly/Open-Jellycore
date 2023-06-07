@@ -12,11 +12,10 @@ enum Jelly_WFItemSpecifier: String, JellyEnum, Codable {
 	case ItemAtIndex
 	case ItemsInRange
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .FirstItem:

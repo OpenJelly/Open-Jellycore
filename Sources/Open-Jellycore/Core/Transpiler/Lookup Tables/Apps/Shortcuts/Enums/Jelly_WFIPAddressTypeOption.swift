@@ -9,11 +9,10 @@ enum Jelly_WFIPAddressTypeOption: String, JellyEnum, Codable {
 	case IPvfour
 	case IPvsix
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .IPvfour:

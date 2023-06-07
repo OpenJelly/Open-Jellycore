@@ -15,17 +15,17 @@ struct FormatSizeParameter: ParameterProtocol, Codable {
         var parameters = FormatSizeParameter()
 
         if let value = call.first(where: { node in return node.slotName == "size" }) {
-            parameters.FormatSize = JellyDouble(value, scopedVariables: scopedVariables)
+            parameters.FormatSize = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "formatSize", name: "size"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "format" }) {
-            parameters.format = Jelly_WFFileSizeFormat(value, scopedVariables: scopedVariables)
+            parameters.format = Jelly_WFFileSizeFormat(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "formatSize", name: "format"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "units" }) {
-            parameters.WFFileSizeIncludeUnits = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.WFFileSizeIncludeUnits = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "formatSize", name: "units"), node: nil)
         }

@@ -15,7 +15,7 @@ struct SaveFileDropboxParameter: ParameterProtocol, Codable {
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
         var parameters = SaveFileDropboxParameter()
 
-        if let variableCall = call.first(where: { node in return node.slotName == "file" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "file" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {
@@ -27,7 +27,7 @@ struct SaveFileDropboxParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "saveFileDropbox", name: "file"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "askToSave" }) {
-            parameters.WFAskWhereToSave = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.WFAskWhereToSave = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "saveFileDropbox", name: "askToSave"), node: nil)
         }
@@ -37,7 +37,7 @@ struct SaveFileDropboxParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "saveFileDropbox", name: "path"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "overwrite" }) {
-            parameters.WFSaveFileOverwrite = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.WFSaveFileOverwrite = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "saveFileDropbox", name: "overwrite"), node: nil)
         }

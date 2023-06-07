@@ -14,7 +14,7 @@ struct SetNameParameter: ParameterProtocol, Codable {
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
         var parameters = SetNameParameter()
 
-        if let variableCall = call.first(where: { node in return node.slotName == "input" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "input" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {
@@ -31,7 +31,7 @@ struct SetNameParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "setName", name: "name"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "dontIncludeExtension" }) {
-            parameters.WFDontIncludeFileExtension = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.WFDontIncludeFileExtension = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "setName", name: "dontIncludeExtension"), node: nil)
         }

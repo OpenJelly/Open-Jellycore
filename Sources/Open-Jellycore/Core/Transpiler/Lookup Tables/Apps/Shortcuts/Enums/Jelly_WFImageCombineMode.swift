@@ -10,11 +10,10 @@ enum Jelly_WFImageCombineMode: String, JellyEnum, Codable {
 	case Horizontally
 	case Inagrid
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .Vertically:

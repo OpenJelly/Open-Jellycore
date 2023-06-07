@@ -37,7 +37,7 @@ public final class Transpiler {
     
     /// Compiles the syntax tree within `currentParser`.
     /// - Returns: Returns a compiled shortcut PLIST as a string.
-    public func compile() throws -> String {
+    public func compile(named fileName: String) throws -> String {
         guard let tree = currentParser.tree else {
             throw JellycoreError.noParserTree()
         }
@@ -47,7 +47,7 @@ public final class Transpiler {
             throw JellycoreError.invalidRoot()
         }
         
-        let scope = Scope()
+        let scope = Scope(fileName: fileName)
         let actions = compileBlock(root: rootNode, scope: scope)
         let actionsWithFunctions = compileFunctions(for: scope, with: actions)
         
@@ -85,7 +85,7 @@ public final class Transpiler {
     /// This function allows for compiling a Jelly file without converting it to a shortcut.
     /// This is useful for when the compiler needs to dispatch its own internal compilers to generate code.
     /// - Returns: The list of  ``WFAction``s that make up the compiled Jelly file.
-    private func getCompiledActions(scope: Scope) throws -> [WFAction] {
+    public func getCompiledActions(scope: Scope) throws -> [WFAction] {
         guard let tree = currentParser.tree else {
             throw JellycoreError.noParserTree()
         }
@@ -96,6 +96,7 @@ public final class Transpiler {
         }
         
         let actions = compileBlock(root: rootNode, scope: scope)
+
         return actions
     }
     
@@ -527,7 +528,7 @@ extension Transpiler {
                     let compilationResults = compileBlock(root: body.rawValue, scope: scope)
                     actions.append(contentsOf: compilationResults)
                     // TODO: Figure out how shortcuts handles variables within if statements
-    //                    scopedVariables.append(contentsOf: compilationResults.scope)
+//                    scopedVariables.append(contentsOf: compilationResults.scope)
                 }
             }
 
@@ -669,22 +670,31 @@ extension Transpiler {
     ///   - scope: The scope available to the node.
     /// - Returns: The actions that make up the function that was called.
     private func compileFunctionCall(node: FunctionCallNode, scope: Scope) throws -> [WFAction] {
-        if let foundFunction = lookupTable[node.name.lowercased()] {
-            var magicVariable: Variable? = nil
+        var magicVariable: Variable? = nil
+
+        if let foundFunction = lookupTable[node.name] {
             if let magicVariableNode = node.magicVariable {
                 magicVariable = Variable(uuid: UUID().uuidString, name: magicVariableNode.identifier?.content ?? "No Name", valueType: .magicVariable, value: foundFunction)
                 scope.variables.append(magicVariable!) // Variable has to initialize so it is okay to bang out the variable here
             }
-
+            
             let builtFunction = foundFunction.build(call: node.parameters, magicVariable: magicVariable, scopedVariables: scope.variables)
             return [builtFunction]
         } else {
             // TODO: We have to handle custom user inputted functions
-//            if let customFunction = userDefinedFunctions[node.content] {
-////                            actions.append(customFunction.build)
-//            } else {
-//                ErrorReporter.shared.report(error: .functionNotFound(functionName: node.content), textPosition: node.textPosition)
-//            }
+            if let customFunction = scope.functions.first(where: { function in
+                return function.name == node.name
+            }) {
+                if let magicVariableNode = node.magicVariable {
+                    magicVariable = Variable(uuid: UUID().uuidString, name: magicVariableNode.identifier?.content ?? "No Name", valueType: .magicVariable, value: customFunction)
+                    scope.variables.append(magicVariable!) // Variable has to initialize so it is okay to bang out the variable here
+                }
+
+                return try customFunction.build(call: node.parameters, magicVariable: magicVariable, scopedVariables: scope.variables, fileName: scope.fileName)
+            } else {
+                // TODO: Error Handlings
+//                ErrorReporter.shared.reportError(error: ., node: <#T##CoreNode?#>)
+            }
         }
         return []
     }
@@ -761,7 +771,7 @@ extension Transpiler {
 extension Transpiler {
     private func compileFunctions(for scope: Scope, with actions: [WFAction]) -> [WFAction] {
         var actions: [WFAction] = actions
-        let functionScope = Scope()
+        let functionScope = Scope(fileName: scope.fileName)
         
         do {
             let variableResults = try createFunctionsGlobalVariable(scope: functionScope)
@@ -796,7 +806,7 @@ extension Transpiler {
                 let conditionalElseAction = functionIfStatementActions[1]
                 let conditionalTailAction = functionIfStatementActions[2]
                 
-                var functionActions = compileBlock(root: body.rawValue, scope: Scope())
+                var functionActions = compileBlock(root: body.rawValue, scope: Scope(fileName: scope.fileName))
 
                 let headerText = """
                 ====

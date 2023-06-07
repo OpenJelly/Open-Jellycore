@@ -11,11 +11,10 @@ enum Jelly_WFMediaSpeed: String, JellyEnum, Codable {
 	case twoX
 	case Custom
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .fiveX:

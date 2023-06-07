@@ -15,6 +15,8 @@ protocol JellyPrimitiveType: JellyAny, Codable {
     init(_ value: String) throws
     
     init?(_ value: CoreNode, scopedVariables: [Variable])
+    
+    init?(parameterItem: FunctionCallParameterItem, scopedVariables: [Variable])
 }
 
 extension JellyPrimitiveType {

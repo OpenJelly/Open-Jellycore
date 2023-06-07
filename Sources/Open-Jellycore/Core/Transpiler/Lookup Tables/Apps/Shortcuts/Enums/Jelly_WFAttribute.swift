@@ -32,11 +32,10 @@ enum Jelly_WFAttribute: String, JellyEnum, Codable {
 	case Season
 	case Track
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .All:

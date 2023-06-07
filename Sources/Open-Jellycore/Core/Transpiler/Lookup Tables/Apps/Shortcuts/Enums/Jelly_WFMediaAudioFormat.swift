@@ -9,11 +9,10 @@ enum Jelly_WFMediaAudioFormat: String, JellyEnum, Codable {
 	case MfourA
 	case AIFF
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .MfourA:

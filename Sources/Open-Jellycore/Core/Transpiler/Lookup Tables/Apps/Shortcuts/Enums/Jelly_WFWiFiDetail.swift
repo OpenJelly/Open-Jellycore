@@ -9,11 +9,10 @@ enum Jelly_WFWiFiDetail: String, JellyEnum, Codable {
 	case BSSID
 	case NetworkName
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .BSSID:

@@ -13,7 +13,7 @@ struct GetLastLivePhotoParameter: ParameterProtocol, Codable {
         var parameters = GetLastLivePhotoParameter()
 
         if let value = call.first(where: { node in return node.slotName == "count" }) {
-            parameters.WFGetLatestPhotoCount = JellyDouble(value, scopedVariables: scopedVariables)
+            parameters.WFGetLatestPhotoCount = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "getLastLivePhoto", name: "count"), node: nil)
         }

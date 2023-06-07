@@ -16,7 +16,7 @@ struct MakeDiskImageParameter: ParameterProtocol, Codable {
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
         var parameters = MakeDiskImageParameter()
 
-        if let variableCall = call.first(where: { node in return node.slotName == "files" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "files" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {
@@ -33,17 +33,17 @@ struct MakeDiskImageParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "makeDiskImage", name: "name"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "encrypt" }) {
-            parameters.EncryptImage = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.EncryptImage = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "makeDiskImage", name: "encrypt"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "sizetofit" }) {
-            parameters.SizeToFit = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.SizeToFit = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "makeDiskImage", name: "sizetofit"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "size" }) {
-            parameters.ImageSize = ShortcutsQuantity(value, scopedVariables: scopedVariables)
+            parameters.ImageSize = ShortcutsQuantity(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "makeDiskImage", name: "size"), node: nil)
         }

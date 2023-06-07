@@ -16,6 +16,14 @@ struct ShortcutsApp: JellyAny, Codable {
         self.name = value.content
     }
     
+    init?(parameterItem: FunctionCallParameterItem, scopedVariables: [Variable]) {
+        if let item = parameterItem.item {
+            self.init(item, scopedVariables: scopedVariables)
+        } else {
+            self.init(parameterItem, scopedVariables: scopedVariables)
+        }
+    }
+    
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         

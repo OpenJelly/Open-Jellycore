@@ -16,22 +16,22 @@ struct MathParameter: ParameterProtocol, Codable {
         var parameters = MathParameter()
 
         if let value = call.first(where: { node in return node.slotName == "input" }) {
-            parameters.WFInput = JellyArray<JellyString>(value, scopedVariables: scopedVariables)
+            parameters.WFInput = JellyArray<JellyString>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "math", name: "input"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "operation" }) {
-            parameters.WFMathOperation = Jelly_WFMathOperation(value, scopedVariables: scopedVariables)
+            parameters.WFMathOperation = Jelly_WFMathOperation(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "math", name: "operation"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "operand" }) {
-            parameters.WFMathOperand = JellyArray<JellyString>(value, scopedVariables: scopedVariables)
+            parameters.WFMathOperand = JellyArray<JellyString>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "math", name: "operand"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "scientific" }) {
-            parameters.scientific = Jelly_WFScientificMathOperation(value, scopedVariables: scopedVariables)
+            parameters.scientific = Jelly_WFScientificMathOperation(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "math", name: "scientific"), node: nil)
         }

@@ -14,11 +14,11 @@ struct CountParameter: ParameterProtocol, Codable {
         var parameters = CountParameter()
 
         if let value = call.first(where: { node in return node.slotName == "type" }) {
-            parameters.type = Jelly_WFCountType(value, scopedVariables: scopedVariables)
+            parameters.type = Jelly_WFCountType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "count", name: "type"), node: nil)
         }
-        if let variableCall = call.first(where: { node in return node.slotName == "input" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "input" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {

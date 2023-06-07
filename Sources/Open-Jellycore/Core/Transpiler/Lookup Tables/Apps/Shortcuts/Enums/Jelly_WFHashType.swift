@@ -11,11 +11,10 @@ enum Jelly_WFHashType: String, JellyEnum, Codable {
 	case SHAtwohundredfiftysix
 	case SHAfivehundredtwelve
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .MDfive:

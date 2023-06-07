@@ -13,7 +13,7 @@ struct FileDetailParameter: ParameterProtocol, Codable {
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
         var parameters = FileDetailParameter()
 
-        if let variableCall = call.first(where: { node in return node.slotName == "input" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "input" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {
@@ -25,7 +25,7 @@ struct FileDetailParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "fileDetail", name: "input"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "property" }) {
-            parameters.property = Jelly_WFContentItemPropertyName(value, scopedVariables: scopedVariables)
+            parameters.property = Jelly_WFContentItemPropertyName(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "fileDetail", name: "property"), node: nil)
         }

@@ -13,7 +13,7 @@ struct GetLastVideoParameter: ParameterProtocol, Codable {
         var parameters = GetLastVideoParameter()
 
         if let value = call.first(where: { node in return node.slotName == "count" }) {
-            parameters.WFGetLatestPhotoCount = JellyDouble(value, scopedVariables: scopedVariables)
+            parameters.WFGetLatestPhotoCount = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "getLastVideo", name: "count"), node: nil)
         }

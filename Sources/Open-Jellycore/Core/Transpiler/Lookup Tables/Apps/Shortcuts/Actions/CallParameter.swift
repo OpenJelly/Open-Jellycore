@@ -12,7 +12,7 @@ struct CallParameter: ParameterProtocol, Codable {
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
         var parameters = CallParameter()
 
-        if let variableCall = call.first(where: { node in return node.slotName == "contact" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "contact" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {

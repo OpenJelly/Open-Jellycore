@@ -15,12 +15,12 @@ struct SplitTextParameter: ParameterProtocol, Codable {
         var parameters = SplitTextParameter()
 
         if let value = call.first(where: { node in return node.slotName == "text" }) {
-            parameters.text = JellyArray<JellyVariableReference>(value, scopedVariables: scopedVariables)
+            parameters.text = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "splitText", name: "text"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "separator" }) {
-            parameters.separator = Jelly_WFTextSeparator(value, scopedVariables: scopedVariables)
+            parameters.separator = Jelly_WFTextSeparator(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "splitText", name: "separator"), node: nil)
         }

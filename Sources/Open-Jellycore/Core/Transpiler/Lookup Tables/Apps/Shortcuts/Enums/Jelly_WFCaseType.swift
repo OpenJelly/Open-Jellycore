@@ -14,11 +14,10 @@ enum Jelly_WFCaseType: String, JellyEnum, Codable {
 	case spongebob
 	case alternating
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .uppercase:

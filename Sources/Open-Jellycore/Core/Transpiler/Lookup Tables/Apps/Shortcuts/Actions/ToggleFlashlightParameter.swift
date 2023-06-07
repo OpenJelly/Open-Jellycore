@@ -9,7 +9,10 @@ struct ToggleFlashlightParameter: ParameterProtocol, Codable {
 
 
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
-        return ToggleFlashlightParameter()
+        var parameters = ToggleFlashlightParameter()
+
+
+        return parameters
     }
      
     // Need to loop through all properties to build the documentation.

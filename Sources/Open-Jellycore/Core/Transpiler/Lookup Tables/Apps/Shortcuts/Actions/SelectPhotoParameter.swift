@@ -14,12 +14,12 @@ struct SelectPhotoParameter: ParameterProtocol, Codable {
         var parameters = SelectPhotoParameter()
 
         if let value = call.first(where: { node in return node.slotName == "types" }) {
-            parameters.WFPhotoPickerTypes = JellyArray<Jelly_WFPhotoPickerTypes>(value, scopedVariables: scopedVariables)
+            parameters.WFPhotoPickerTypes = JellyArray<Jelly_WFPhotoPickerTypes>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "selectPhoto", name: "types"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "multiple" }) {
-            parameters.WFSelectMultiplePhotos = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.WFSelectMultiplePhotos = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "selectPhoto", name: "multiple"), node: nil)
         }

@@ -11,11 +11,10 @@ enum Jelly_WFQRErrorCorrectionLevel: String, JellyEnum, Codable {
 	case Quartile
 	case High
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .Low:

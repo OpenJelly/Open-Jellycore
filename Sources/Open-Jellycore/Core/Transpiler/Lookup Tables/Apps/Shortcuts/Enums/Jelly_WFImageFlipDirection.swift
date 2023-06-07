@@ -9,11 +9,10 @@ enum Jelly_WFImageFlipDirection: String, JellyEnum, Codable {
 	case Vertical
 	case Horizontal
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .Vertical:

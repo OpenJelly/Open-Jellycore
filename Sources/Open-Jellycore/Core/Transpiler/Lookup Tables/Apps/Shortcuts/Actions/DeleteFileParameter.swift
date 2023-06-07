@@ -13,7 +13,7 @@ struct DeleteFileParameter: ParameterProtocol, Codable {
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
         var parameters = DeleteFileParameter()
 
-        if let variableCall = call.first(where: { node in return node.slotName == "input" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "input" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {
@@ -25,7 +25,7 @@ struct DeleteFileParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "deleteFile", name: "input"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "confirm" }) {
-            parameters.WFDeleteFileConfirmDeletion = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.WFDeleteFileConfirmDeletion = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "deleteFile", name: "confirm"), node: nil)
         }

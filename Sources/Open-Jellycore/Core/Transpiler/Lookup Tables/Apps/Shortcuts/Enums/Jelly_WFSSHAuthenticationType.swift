@@ -9,11 +9,10 @@ enum Jelly_WFSSHAuthenticationType: String, JellyEnum, Codable {
 	case Password
 	case SSHKey
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .Password:

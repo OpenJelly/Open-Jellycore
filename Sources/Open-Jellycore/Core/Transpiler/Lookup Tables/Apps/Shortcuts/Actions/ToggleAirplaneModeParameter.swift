@@ -9,7 +9,10 @@ struct ToggleAirplaneModeParameter: ParameterProtocol, Codable {
 
 
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
-        return ToggleAirplaneModeParameter()
+        var parameters = ToggleAirplaneModeParameter()
+
+
+        return parameters
     }
      
     // Need to loop through all properties to build the documentation.

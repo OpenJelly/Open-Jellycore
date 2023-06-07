@@ -13,7 +13,7 @@ struct CorrectSpellingParameter: ParameterProtocol, Codable {
         var parameters = CorrectSpellingParameter()
 
         if let value = call.first(where: { node in return node.slotName == "text" }) {
-            parameters.text = JellyArray<JellyVariableReference>(value, scopedVariables: scopedVariables)
+            parameters.text = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "correctSpelling", name: "text"), node: nil)
         }

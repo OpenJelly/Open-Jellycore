@@ -12,7 +12,7 @@ struct SetMediaDestinationParameter: ParameterProtocol, Codable {
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
         var parameters = SetMediaDestinationParameter()
 
-        if let variableCall = call.first(where: { node in return node.slotName == "device" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "device" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {

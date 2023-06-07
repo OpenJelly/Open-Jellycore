@@ -14,7 +14,7 @@ struct GetUpcomingRemindersParameter: ParameterProtocol, Codable {
         var parameters = GetUpcomingRemindersParameter()
 
         if let value = call.first(where: { node in return node.slotName == "count" }) {
-            parameters.WFGetUpcomingItemCount = JellyDouble(value, scopedVariables: scopedVariables)
+            parameters.WFGetUpcomingItemCount = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "getUpcomingReminders", name: "count"), node: nil)
         }

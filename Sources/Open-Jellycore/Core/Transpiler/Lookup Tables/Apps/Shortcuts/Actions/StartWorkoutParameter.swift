@@ -16,12 +16,12 @@ struct StartWorkoutParameter: ParameterProtocol, Codable {
         var parameters = StartWorkoutParameter()
 
         if let value = call.first(where: { node in return node.slotName == "workout" }) {
-            parameters.Identifier = Jelly_WorkoutIdentifiers(value, scopedVariables: scopedVariables)
+            parameters.Identifier = Jelly_WorkoutIdentifiers(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "startWorkout", name: "workout"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "open" }) {
-            parameters.isOpenEnded = JellyIntegerBoolean(value, scopedVariables: scopedVariables)
+            parameters.isOpenEnded = JellyIntegerBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "startWorkout", name: "open"), node: nil)
         }
@@ -31,7 +31,7 @@ struct StartWorkoutParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "startWorkout", name: "value"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "unit" }) {
-            parameters.Unit = ShortcutsQuantity(value, scopedVariables: scopedVariables)
+            parameters.Unit = ShortcutsQuantity(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "startWorkout", name: "unit"), node: nil)
         }

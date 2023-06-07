@@ -9,11 +9,10 @@ enum Jelly_WFWallpaperLocation: String, JellyEnum, Codable {
 	case LockScreen
 	case HomeScreen
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .LockScreen:

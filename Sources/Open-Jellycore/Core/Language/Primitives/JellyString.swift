@@ -21,7 +21,7 @@ struct JellyString: JellyPrimitiveType {
         self.value = value
     }
     
-    init(_ value: CoreNode, scopedVariables: [Variable]) {
+    init?(_ value: CoreNode, scopedVariables: [Variable]) {
         if let value = value as? FunctionCallParameterItem {
             self.init(parameterItem: value, scopedVariables: scopedVariables)
         } else {
@@ -37,16 +37,7 @@ struct JellyString: JellyPrimitiveType {
             self.init(value.content)
         }
     }
-    
-    init(parameterItem: FunctionCallParameterItem, scopedVariables: [Variable]) {
-        if let stringNode = parameterItem.item as? StringNode {
-            self.init(stringNode.content)
-            createAttachments(stringNode, scopedVariables: scopedVariables)
-        } else {
-            self.init(parameterItem.content)
-        }
-    }
-    
+        
     mutating func createAttachments(_ value: StringNode, scopedVariables: [Variable]) {
         for child in value.internalNodes.filter({internalNodeFilter($0)}) {
             let interpolationNode = StringNode.InterpolationNode(sString: child.node.string ?? "No sString", content: child.content, rawValue: child.node)

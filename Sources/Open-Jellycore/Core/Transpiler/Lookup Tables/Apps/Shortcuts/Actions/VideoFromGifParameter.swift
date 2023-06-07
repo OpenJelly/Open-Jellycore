@@ -13,7 +13,7 @@ struct VideoFromGifParameter: ParameterProtocol, Codable {
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
         var parameters = VideoFromGifParameter()
 
-        if let variableCall = call.first(where: { node in return node.slotName == "gif" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "gif" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {
@@ -25,7 +25,7 @@ struct VideoFromGifParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "videoFromGif", name: "gif"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "loop" }) {
-            parameters.WFMakeVideoFromGIFActionLoopCount = JellyDouble(value, scopedVariables: scopedVariables)
+            parameters.WFMakeVideoFromGIFActionLoopCount = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "videoFromGif", name: "loop"), node: nil)
         }

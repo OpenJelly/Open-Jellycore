@@ -81,11 +81,10 @@ enum Jelly_WFWorkoutReadableActivityType: String, JellyEnum, Codable {
 	case Wrestling
 	case Yoga
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .AmericanFootball:

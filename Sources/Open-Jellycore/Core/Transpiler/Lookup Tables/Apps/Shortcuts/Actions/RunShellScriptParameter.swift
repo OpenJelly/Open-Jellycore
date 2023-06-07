@@ -15,7 +15,7 @@ struct RunShellScriptParameter: ParameterProtocol, Codable {
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
         var parameters = RunShellScriptParameter()
 
-        if let variableCall = call.first(where: { node in return node.slotName == "input" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "input" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {
@@ -32,12 +32,12 @@ struct RunShellScriptParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "runShellScript", name: "script"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "shell" }) {
-            parameters.shell = Jelly_Shell(value, scopedVariables: scopedVariables)
+            parameters.shell = Jelly_Shell(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "runShellScript", name: "shell"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "inputMode" }) {
-            parameters.inputMode = Jelly_InputMode(value, scopedVariables: scopedVariables)
+            parameters.inputMode = Jelly_InputMode(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "runShellScript", name: "inputMode"), node: nil)
         }

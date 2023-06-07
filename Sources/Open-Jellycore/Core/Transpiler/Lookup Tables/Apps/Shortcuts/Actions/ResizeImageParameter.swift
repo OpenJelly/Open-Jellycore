@@ -14,7 +14,7 @@ struct ResizeImageParameter: ParameterProtocol, Codable {
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
         var parameters = ResizeImageParameter()
 
-        if let variableCall = call.first(where: { node in return node.slotName == "image" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "image" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {
@@ -26,12 +26,12 @@ struct ResizeImageParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "resizeImage", name: "image"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "height" }) {
-            parameters.WFImageResizeHeight = JellyDouble(value, scopedVariables: scopedVariables)
+            parameters.WFImageResizeHeight = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "resizeImage", name: "height"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "width" }) {
-            parameters.WFImageResizeWidth = JellyDouble(value, scopedVariables: scopedVariables)
+            parameters.WFImageResizeWidth = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "resizeImage", name: "width"), node: nil)
         }

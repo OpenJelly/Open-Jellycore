@@ -11,11 +11,10 @@ enum Jelly_RatMode: String, JellyEnum, Codable {
 	case threeG
 	case fiveG
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .fourG:

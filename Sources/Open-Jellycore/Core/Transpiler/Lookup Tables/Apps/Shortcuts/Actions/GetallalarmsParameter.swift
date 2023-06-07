@@ -13,7 +13,7 @@ struct GetallalarmsParameter: ParameterProtocol, Codable {
         var parameters = GetallalarmsParameter()
 
         if let value = call.first(where: { node in return node.slotName == "show" }) {
-            parameters.ShowWhenRun = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.ShowWhenRun = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "getallalarms", name: "show"), node: nil)
         }

@@ -20,7 +20,7 @@ struct CreatePlaylistParameter: ParameterProtocol, Codable {
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "createPlaylist", name: "name"), node: nil)
         }
-        if let variableCall = call.first(where: { node in return node.slotName == "music" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "music" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {

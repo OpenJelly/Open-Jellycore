@@ -22,12 +22,12 @@ struct FormatDateParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "formatDate", name: "date"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "dStyle" }) {
-            parameters.WFDateFormatStyle = Jelly_WFDateFormatStyle(value, scopedVariables: scopedVariables)
+            parameters.WFDateFormatStyle = Jelly_WFDateFormatStyle(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "formatDate", name: "dStyle"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "tStyle" }) {
-            parameters.WFTimeFormatStyle = Jelly_WFTimeFormatStyle(value, scopedVariables: scopedVariables)
+            parameters.WFTimeFormatStyle = Jelly_WFTimeFormatStyle(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "formatDate", name: "tStyle"), node: nil)
         }
@@ -37,7 +37,7 @@ struct FormatDateParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "formatDate", name: "custom"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "isoTime" }) {
-            parameters.WFISO8601IncludeTime = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.WFISO8601IncludeTime = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "formatDate", name: "isoTime"), node: nil)
         }

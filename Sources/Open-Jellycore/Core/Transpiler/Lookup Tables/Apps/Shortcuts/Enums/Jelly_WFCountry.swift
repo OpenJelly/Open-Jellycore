@@ -261,11 +261,10 @@ enum Jelly_WFCountry: String, JellyEnum, Codable {
 	case Zambia
 	case Zimbabwe
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .AscensionIsland:

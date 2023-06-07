@@ -14,11 +14,11 @@ struct FacetimeParameter: ParameterProtocol, Codable {
         var parameters = FacetimeParameter()
 
         if let value = call.first(where: { node in return node.slotName == "type" }) {
-            parameters.type = Jelly_WFFaceTimeType(value, scopedVariables: scopedVariables)
+            parameters.type = Jelly_WFFaceTimeType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "facetime", name: "type"), node: nil)
         }
-        if let variableCall = call.first(where: { node in return node.slotName == "contact" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "contact" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {

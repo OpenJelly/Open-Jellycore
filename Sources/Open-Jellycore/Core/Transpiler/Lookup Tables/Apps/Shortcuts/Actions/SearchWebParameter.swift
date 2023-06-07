@@ -19,7 +19,7 @@ struct SearchWebParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "searchWeb", name: "text"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "destination" }) {
-            parameters.destination = Jelly_WFSearchWebDestination(value, scopedVariables: scopedVariables)
+            parameters.destination = Jelly_WFSearchWebDestination(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "searchWeb", name: "destination"), node: nil)
         }

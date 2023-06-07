@@ -13,7 +13,7 @@ struct MakeArchiveParameter: ParameterProtocol, Codable {
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
         var parameters = MakeArchiveParameter()
 
-        if let variableCall = call.first(where: { node in return node.slotName == "input" }) {
+        if let variableCall = call.first(where: { node in return node.slotName == "input" })?.item {
             if let variable = scopedVariables.first(where: { variable in
                 return variable.name == variableCall.content
             }) {
@@ -25,7 +25,7 @@ struct MakeArchiveParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "makeArchive", name: "input"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "type" }) {
-            parameters.type = Jelly_WFArchiveFormat(value, scopedVariables: scopedVariables)
+            parameters.type = Jelly_WFArchiveFormat(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "makeArchive", name: "type"), node: nil)
         }

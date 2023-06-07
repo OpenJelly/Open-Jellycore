@@ -13,4 +13,5 @@ struct ShortcutsWorkflow: JellyAny, Codable {
     init(_ value: CoreNode, scopedVariables: [Variable]) {
         self.workflowName = value.content
     }
+    
 }

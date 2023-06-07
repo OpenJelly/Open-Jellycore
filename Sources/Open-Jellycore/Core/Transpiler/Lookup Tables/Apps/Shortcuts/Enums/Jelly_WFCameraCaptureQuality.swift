@@ -10,11 +10,10 @@ enum Jelly_WFCameraCaptureQuality: String, JellyEnum, Codable {
 	case Medium
 	case High
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .Low:

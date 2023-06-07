@@ -9,7 +9,10 @@ struct GetScreenContextParameter: ParameterProtocol, Codable {
 
 
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
-        return GetScreenContextParameter()
+        var parameters = GetScreenContextParameter()
+
+
+        return parameters
     }
      
     // Need to loop through all properties to build the documentation.

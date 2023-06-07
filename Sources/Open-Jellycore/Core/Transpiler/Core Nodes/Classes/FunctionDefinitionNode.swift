@@ -5,6 +5,8 @@
 //  Created by Taylor Lineman on 6/2/23.
 //
 
+import Foundation
+
 final class FunctionDefinitionNode: CoreNode {
     var type: CoreNodeType
     var sString: String
@@ -64,7 +66,7 @@ final class FunctionDefinitionNode: CoreNode {
     
     
     
-    func build(call: [FunctionCallParameterItem], magicVariable: Variable?, scopedVariables: [Variable]) {
+    func build(call: [FunctionCallParameterItem], magicVariable: Variable?, scopedVariables: [Variable], fileName: String) throws -> [WFAction] {
         for parameter in call {
             if parameter.slotName == nil {
                 ErrorReporter.shared.reportError(error: .missingParameterName(function: name, name: "PLACEHOLDER"), node: parameter)
@@ -72,36 +74,39 @@ final class FunctionDefinitionNode: CoreNode {
         }
         
         // MARK: Create Calling Dictionary
-        if let dictionaryFunction = TranspilerLookupTables.Library.shortcuts.functionTable["dictionary"] {
-            var craftedJSON = "{\"FUNCTION_CALL_NAME\":\"\(name)\""
-            
-            for parameter in call {
-                 if parameter.type == .number {
-                    // Create a dictionary number input
-                     craftedJSON += "\"\(parameter.slotName ?? "nil")\":\(parameter.content),"
-                 } else if parameter.type == .identifier {
-                    // Create a dictionary variable call entry using a string
-                    let newContent = "${\(parameter.content)}"
-                    craftedJSON += "\"\(parameter.slotName ?? "nil")\":\"\(newContent)\","
-                } else {
-                    // Create aa dictionary text entry
-                    craftedJSON += "\"\(parameter.slotName ?? "nil")\":\"\(parameter.content)\","
-                }
+        var craftedJSON = "{\"FUNCTION_CALL_NAME\":\"\(name)\""
+        
+        for parameter in call {
+             if parameter.type == .number {
+                // Create a dictionary number input
+                 craftedJSON += ", \"\(parameter.slotName ?? "nil")\":\(parameter.content)"
+             } else if parameter.type == .identifier {
+                // Create a dictionary variable call entry using a string
+                let newContent = "${\(parameter.content)}"
+                craftedJSON += ", \"\(parameter.slotName ?? "nil")\":\"\(newContent)\""
+            } else {
+                // Create aa dictionary text entry
+                craftedJSON += ", \"\(parameter.slotName ?? "nil")\":\"\(parameter.item?.content ?? parameter.content)\""
             }
-            craftedJSON += "}"
-
-//            if let foundFunction = TranspilerLookupTables.Library.shortcuts.functionTable["dictionary"] {
-//                let call: [FunctionCallParameterItem] = [
-//                    FunctionCallParameterItem(slotName: "json", item: CompilerInsertedNode(type: .string, sString: "(empty)", content: craftedJSON, rawValue: rawValue))
-//                ]
-//                let builtFunction = foundFunction.build(call: call, magicVariable: magicVariable, scopedVariables: scopedVariables)
-//                print(builtFunction)
-//
-//            }
-
-        } else {
-//            ErrorReporter.shared.report(error: .unableToEncode(identifier: "custom.function", description: "Unable to encode custom function (Code 1)."), textPosition: textPosition)
         }
+        craftedJSON += "}"
+        craftedJSON = craftedJSON.replacingOccurrences(of: #"""#, with: #"\""#)
+        
+        let callCode = """
+        dictionary(json: "\(craftedJSON)") >> dictionaryVariable
+        runShortcut(name: "\(fileName)", input: dictionaryVariable, show: true)
+        """
+        
+        let internalParser = Parser(contents: callCode)
+        try internalParser.parse()
+        let internalTranspiler = Transpiler(parser: internalParser)
+
+        let scope = Scope(variables: scopedVariables, functions: [], fileName: fileName)
+        let variableActions = try internalTranspiler.getCompiledActions(scope: scope)
+        
+        print("Variables", scope.variables.map({$0.name}))
+        
+        return variableActions
     }
 }
 

@@ -33,7 +33,7 @@ struct JellyIntegerBoolean: JellyPrimitiveType {
             }
         }
     }
-
+    
     internal static func bool(input: String) throws -> Bool {
         let input = input.lowercased()
         if input == "off" || input == "false" || input == "0" {

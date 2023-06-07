@@ -9,11 +9,10 @@ enum Jelly_WFRecordingEnd: String, JellyEnum, Codable {
 	case OnTap
 	case AfterTime
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .OnTap:

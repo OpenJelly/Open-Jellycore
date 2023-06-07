@@ -10,11 +10,10 @@ enum Jelly_WFNoOutputSurfaceBehavior: String, JellyEnum, Codable {
 	case DoNothing
 	case CopyToClipboard
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .Respond:

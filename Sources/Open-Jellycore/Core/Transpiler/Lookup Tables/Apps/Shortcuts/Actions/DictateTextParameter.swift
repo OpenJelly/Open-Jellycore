@@ -14,12 +14,12 @@ struct DictateTextParameter: ParameterProtocol, Codable {
         var parameters = DictateTextParameter()
 
         if let value = call.first(where: { node in return node.slotName == "language" }) {
-            parameters.language = Jelly_WFSpeechLanguage(value, scopedVariables: scopedVariables)
+            parameters.language = Jelly_WFSpeechLanguage(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "dictateText", name: "language"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "endTrigger" }) {
-            parameters.endTrigger = Jelly_WFDictateTextStopListening(value, scopedVariables: scopedVariables)
+            parameters.endTrigger = Jelly_WFDictateTextStopListening(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "dictateText", name: "endTrigger"), node: nil)
         }

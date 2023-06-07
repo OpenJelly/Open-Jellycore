@@ -25,7 +25,7 @@ struct MatchTextParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "matchText", name: "regex"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "caseSensitive" }) {
-            parameters.WFMatchTextCaseSensitive = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.WFMatchTextCaseSensitive = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "matchText", name: "caseSensitive"), node: nil)
         }

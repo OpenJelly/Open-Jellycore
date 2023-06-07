@@ -16,11 +16,10 @@ enum Jelly_WFImageFormat: String, JellyEnum, Codable {
 	case HEIF
 	case MatchInput
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .JPEG:

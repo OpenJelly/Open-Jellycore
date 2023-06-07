@@ -9,7 +9,10 @@ struct GetSelectedFilesParameter: ParameterProtocol, Codable {
 
 
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
-        return GetSelectedFilesParameter()
+        var parameters = GetSelectedFilesParameter()
+
+
+        return parameters
     }
      
     // Need to loop through all properties to build the documentation.

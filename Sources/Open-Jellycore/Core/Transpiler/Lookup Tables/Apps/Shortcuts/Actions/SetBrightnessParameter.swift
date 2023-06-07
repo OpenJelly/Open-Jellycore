@@ -13,7 +13,7 @@ struct SetBrightnessParameter: ParameterProtocol, Codable {
         var parameters = SetBrightnessParameter()
 
         if let value = call.first(where: { node in return node.slotName == "value" }) {
-            parameters.WFBrightness = JellyDouble(value, scopedVariables: scopedVariables)
+            parameters.WFBrightness = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "setBrightness", name: "value"), node: nil)
         }

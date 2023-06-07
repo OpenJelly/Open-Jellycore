@@ -15,12 +15,12 @@ struct AdjustDateParameter: ParameterProtocol, Codable {
         var parameters = AdjustDateParameter()
 
         if let value = call.first(where: { node in return node.slotName == "operation" }) {
-            parameters.operation = Jelly_WFAdjustOperation(value, scopedVariables: scopedVariables)
+            parameters.operation = Jelly_WFAdjustOperation(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "adjustDate", name: "operation"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "duration" }) {
-            parameters.WFDuration = ShortcutsQuantity(value, scopedVariables: scopedVariables)
+            parameters.WFDuration = ShortcutsQuantity(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "adjustDate", name: "duration"), node: nil)
         }

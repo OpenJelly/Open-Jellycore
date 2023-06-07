@@ -12,11 +12,10 @@ enum Jelly_WFCountType: String, JellyEnum, Codable {
 	case Sentences
 	case Lines
 
-
     init?(_ value: CoreNode, scopedVariables: [Variable]) {
         self.init(rawValue: value.content)
     }
-    
+
     var value: String {
         switch self {
 		case .Characters:

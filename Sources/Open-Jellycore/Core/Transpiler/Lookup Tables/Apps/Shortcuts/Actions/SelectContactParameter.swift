@@ -13,7 +13,7 @@ struct SelectContactParameter: ParameterProtocol, Codable {
         var parameters = SelectContactParameter()
 
         if let value = call.first(where: { node in return node.slotName == "multiple" }) {
-            parameters.WFSelectMultiple = JellyBoolean(value, scopedVariables: scopedVariables)
+            parameters.WFSelectMultiple = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "selectContact", name: "multiple"), node: nil)
         }
