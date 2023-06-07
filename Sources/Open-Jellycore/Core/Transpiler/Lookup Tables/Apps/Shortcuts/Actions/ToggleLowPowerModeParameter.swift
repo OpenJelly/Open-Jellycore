@@ -9,10 +9,7 @@ struct ToggleLowPowerModeParameter: ParameterProtocol, Codable {
 
 
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
-        var parameters = ToggleLowPowerModeParameter()
-
-
-        return parameters
+        return ToggleLowPowerModeParameter()
     }
      
     // Need to loop through all properties to build the documentation.

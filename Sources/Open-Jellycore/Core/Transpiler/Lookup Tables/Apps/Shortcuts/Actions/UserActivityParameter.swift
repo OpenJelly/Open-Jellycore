@@ -9,10 +9,7 @@ struct UserActivityParameter: ParameterProtocol, Codable {
 
 
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
-        var parameters = UserActivityParameter()
-
-
-        return parameters
+        return UserActivityParameter()
     }
      
     // Need to loop through all properties to build the documentation.

@@ -9,10 +9,7 @@ struct ToggleAppearanceParameter: ParameterProtocol, Codable {
 
 
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
-        var parameters = ToggleAppearanceParameter()
-
-
-        return parameters
+        return ToggleAppearanceParameter()
     }
      
     // Need to loop through all properties to build the documentation.

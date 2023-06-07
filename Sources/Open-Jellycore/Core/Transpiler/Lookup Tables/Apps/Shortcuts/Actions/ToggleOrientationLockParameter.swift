@@ -9,10 +9,7 @@ struct ToggleOrientationLockParameter: ParameterProtocol, Codable {
 
 
     static func build(call: [FunctionCallParameterItem], scopedVariables: [Variable]) -> ParameterProtocol {
-        var parameters = ToggleOrientationLockParameter()
-
-
-        return parameters
+        return ToggleOrientationLockParameter()
     }
      
     // Need to loop through all properties to build the documentation.
