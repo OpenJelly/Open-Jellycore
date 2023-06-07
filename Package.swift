@@ -24,10 +24,11 @@ let package = Package(
             dependencies: [
                 .product(name: "TreeSitter", package: "tree-sitter-spm"),
                 .product(name: "TreeSitterJelly", package: "tree-sitter-jelly")
-
-            ]),
+            ]
+        ),
         .testTarget(
             name: "Open-JellycoreTests",
-            dependencies: ["Open-Jellycore"]),
+            dependencies: ["Open-Jellycore"]
+        ),
     ]
 )
