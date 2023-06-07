@@ -79,6 +79,19 @@ struct JellyVariableReference: JellyAny, Codable {
     init(_ value: Variable, scopedVariables: [Variable]) {
         self.name = value.name
         self.uuid = value.uuid
+
+        switch value.valueType {
+        case .magicVariable:
+            variableType = .magicVariable
+        case .string:
+            variableType = .magicVariable
+        case .number:
+            variableType = .magicVariable
+        case .parameterInput:
+            variableType = .magicVariable
+        case .global:
+            self.variableType = VariableType(jellyValue: value.name)
+        }
     }
     
     /// This initializer creates a ``JellyVariableReference`` type taking in a ``CoreNode`` and the scope's variables.
@@ -93,8 +106,17 @@ struct JellyVariableReference: JellyAny, Codable {
             self.name = variable.name
             self.uuid = variable.uuid
             
-            if variable.valueType == .magicVariable {
+            switch variable.valueType {
+            case .magicVariable:
                 variableType = .magicVariable
+            case .string:
+                variableType = .magicVariable
+            case .number:
+                variableType = .magicVariable
+            case .parameterInput:
+                variableType = .magicVariable
+            case .global:
+                self.variableType = VariableType(jellyValue: variable.name)
             }
         } else if let globalVariable = Transpiler.globalVariables.first(where: { variableNameFilter(variable: $0, name: name) }) {
             self.variableType = VariableType(jellyValue: globalVariable.name)
@@ -116,12 +138,22 @@ struct JellyVariableReference: JellyAny, Codable {
             self.name = variable.name
             self.uuid = variable.uuid
             self.aggrandizements = identifierNode.aggrandizements
-            
-            if variable.valueType == .magicVariable {
+        
+            switch variable.valueType {
+            case .magicVariable:
                 variableType = .magicVariable
+            case .string:
+                variableType = .magicVariable
+            case .number:
+                variableType = .magicVariable
+            case .parameterInput:
+                variableType = .magicVariable
+            case .global:
+                self.variableType = VariableType(jellyValue: variable.name)
             }
         } else if let globalVariable = Transpiler.globalVariables.first(where: { variableNameFilter(variable: $0, name: name) }) {
             self.variableType = VariableType(jellyValue: globalVariable.name)
+            self.aggrandizements = identifierNode.aggrandizements
         } else {
             ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: self.name), node: identifierNode)
             return nil
@@ -142,17 +174,64 @@ struct JellyVariableReference: JellyAny, Codable {
             self.uuid = variable.uuid
             self.aggrandizements = interpolationNode.identifierNode?.aggrandizements ?? []
             
-            if variable.valueType == .magicVariable {
+            switch variable.valueType {
+            case .magicVariable:
                 variableType = .magicVariable
+            case .string:
+                variableType = .magicVariable
+            case .number:
+                variableType = .magicVariable
+            case .parameterInput:
+                variableType = .magicVariable
+            case .global:
+                self.variableType = VariableType(jellyValue: variable.name)
             }
         } else if let globalVariable = Transpiler.globalVariables.first(where: { variableNameFilter(variable: $0, name: name) }) {
             self.variableType = VariableType(jellyValue: globalVariable.name)
+            self.aggrandizements = interpolationNode.identifierNode?.aggrandizements ?? []
         } else {
             ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: self.name), node: interpolationNode)
             return nil
         }
     }
     
+    /// This initializer creates a ``JellyVariableReference`` type taking in a ``CorePrimitiveNode`` and the scope's variables
+    /// - Parameters:
+    ///   - value: the core primitive node  to convert to a ``JellyVariableReference``.
+    ///   - scopedVariables: the variables that are in the scope of the ``JellyVariableReference``.
+    init?(_ value: CorePrimitiveNode, scopedVariables: [Variable]) {
+        if let value = value as? StringNode.InterpolationNode {
+            self.init(interpolationNode: value, scopedVariables: scopedVariables)
+        } else if let value = value as? IdentifierNode {
+            self.init(identifierNode: value, scopedVariables: scopedVariables)
+        } else if let value = value as? CoreNode {
+            self.init(value, scopedVariables: scopedVariables)
+        } else {
+            return nil
+        }
+    }
+    
+    /// This initializer creates a ``JellyAny`` type taking in a ``FunctionCallParameterItem`` and the scope's variables
+    /// This function has a default implementation that converts the ``FunctionCallParameterItem`` to a ``CorePrimitiveNode`` by grabbing ``FunctionCallParameterItem/item``  and passes it into the ``JellyAny/init(_:scopedVariables:)`` initializer.
+    /// - Parameters:
+    ///   - value: the function call parameter item node  to convert to the Jelly type.
+    ///   - scopedVariables: the variables that are in the scope of this Jelly type.
+    init?(parameterItem: FunctionCallParameterItem, scopedVariables: [Variable]) {
+        if let item = parameterItem.item {
+            if let value = item as? StringNode.InterpolationNode {
+                self.init(interpolationNode: value, scopedVariables: scopedVariables)
+            } else if let value = item as? IdentifierNode {
+                self.init(identifierNode: value, scopedVariables: scopedVariables)
+            } else if let value = item as? CoreNode {
+                self.init(value, scopedVariables: scopedVariables)
+            } else {
+                return nil
+            }
+        } else {
+            self.init(parameterItem, scopedVariables: scopedVariables)
+        }
+    }
+
     /// The filter used to check to see if a variable's name is equal to the given name.
     /// - Parameters:
     ///   - variable: The variable to check.
@@ -166,7 +245,8 @@ struct JellyVariableReference: JellyAny, Codable {
     /// - Parameter encoder: the encoder to encode into.
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: EncodingKey.self)
-
+        print(variableType)
+        
         if needsValueKey {
             if variableType == .magicVariable {
                 let variableDictioanry: [String: QuantumValue] = [

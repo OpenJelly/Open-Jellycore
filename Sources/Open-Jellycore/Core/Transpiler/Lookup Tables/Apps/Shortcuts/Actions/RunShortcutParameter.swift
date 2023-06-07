@@ -6,7 +6,7 @@
 //
 
 struct RunShortcutParameter: ParameterProtocol, Codable {
-	var WFWorkflowName: JellyArray<JellyString>?
+	var WFWorkflowName: JellyString?
 	var WFInput: JellyVariableReference?
 	var WFShowWorkflow: JellyBoolean?
 
@@ -15,7 +15,7 @@ struct RunShortcutParameter: ParameterProtocol, Codable {
         var parameters = RunShortcutParameter()
 
         if let value = call.first(where: { node in return node.slotName == "name" }) {
-            parameters.WFWorkflowName = JellyArray<JellyString>(parameterItem: value, scopedVariables: scopedVariables)
+            parameters.WFWorkflowName = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "runShortcut", name: "name"), node: nil)
         }

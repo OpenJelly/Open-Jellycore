@@ -87,14 +87,19 @@ struct JellyString: JellyPrimitiveType {
     /// Encodes the ``JellyString`` to the given `encoder`.
     /// - Parameter encoder: the encoder to encode into.
     func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: EncodingKeys.self)
+        if attachmentsByRange.isEmpty {
+            var container = encoder.singleValueContainer()
+            try container.encode(value)
+        } else {
+            var container = encoder.container(keyedBy: EncodingKeys.self)
 
-        let outerDictionary: [String: QuantumValue] = [
-            "attachmentsByRange": QuantumValue(attachmentsByRange),
-            "string": QuantumValue(value)
-        ]
-        
-        try container.encode(outerDictionary, forKey: .value)
-        try container.encode("WFTextTokenString", forKey: .serializationType)
+            let outerDictionary: [String: QuantumValue] = [
+                "attachmentsByRange": QuantumValue(attachmentsByRange),
+                "string": QuantumValue(value)
+            ]
+            
+            try container.encode(outerDictionary, forKey: .value)
+            try container.encode("WFTextTokenString", forKey: .serializationType)
+        }
     }
 }

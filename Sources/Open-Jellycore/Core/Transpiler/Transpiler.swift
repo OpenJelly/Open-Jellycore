@@ -60,7 +60,6 @@ public final class Transpiler {
         if let icon = shortcut.WFWorkflowActions.first(where: { action in
             return action.WFWorkflowActionIdentifier == "jelly.config.icon"
         }) {
-            print("Got Icon")
             shortcut.WFWorkflowIcon.WFWorkflowIconGlyphNumber = icon.WFWorkflowActionParameters["VALUE"]?.value as? Int ?? ShortcutGlyph.shortcuts.id
             shortcut.WFWorkflowActions.removeAll { action in
                 return action.WFWorkflowActionIdentifier == "jelly.config.icon"
@@ -70,7 +69,6 @@ public final class Transpiler {
         if let color = shortcut.WFWorkflowActions.first(where: { action in
             return action.WFWorkflowActionIdentifier == "jelly.config.color"
         }) {
-            print("Got Color")
             shortcut.WFWorkflowIcon.WFWorkflowIconStartColor = color.WFWorkflowActionParameters["VALUE"]?.value as? Int ?? ShortcutColor.red.id
             shortcut.WFWorkflowActions.removeAll { action in
                 return action.WFWorkflowActionIdentifier == "jelly.config.color"
@@ -78,7 +76,8 @@ public final class Transpiler {
         }
                 
         let encodedShortcut = try encodeShortcut(shortcut: shortcut)
-
+        print(encodedShortcut)
+        
         return encodedShortcut
     }
     
@@ -643,11 +642,12 @@ extension Transpiler {
                 
                 actions.append(variableAction)
             } else {
-                if let variableReference = JellyVariableReference(valuePrimitive, scopedVariables: scope.variables) {
-                    let variableAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.setvariable", WFWorkflowActionParameters: ["WFInput": QuantumValue(variableReference), "WFVariableName": QuantumValue(valuePrimitive.content)])
+                if let identifierNode = valuePrimitive as? IdentifierNode,
+                   let variableReference = JellyVariableReference(identifierNode: identifierNode, scopedVariables: scope.variables) {
+                    let variableAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.setvariable", WFWorkflowActionParameters: ["WFInput": QuantumValue(variableReference), "WFVariableName": QuantumValue(node.name)])
                     actions.append(variableAction)
                     
-                    let type: Variable.ValueType = Transpiler.globalVariables.contains(where: {variableNameMatches(variable: $0, name: valuePrimitive.content)}) ? .global : .magicVariable
+                    let type: Variable.ValueType = Transpiler.globalVariables.contains(where: { variableNameMatches(variable: $0, name: valuePrimitive.content)} ) ? .global : .magicVariable
                     
                     if let existingVariable {
                         existingVariable.value = node.value
@@ -706,8 +706,8 @@ extension Transpiler {
                     magicVariable = Variable(uuid: UUID().uuidString, name: magicVariableNode.identifier?.content ?? "No Name", valueType: .magicVariable, value: customMacro)
                     scope.variables.append(magicVariable!) // Variable has to initialize so it is okay to bang out the variable here
                 }
-
                 
+                // TODO: HANDLE MACROS
             } else {
                 // TODO: Error Handlings
 //                ErrorReporter.shared.reportError(error: ., node: <#T##CoreNode?#>)
@@ -805,7 +805,7 @@ extension Transpiler {
 
                 // Make an if statement for us to harvest it's compiled actions. These will be used for routing the function call.
                 let functionDispatchIfStatement = """
-                if \(globalFunctionDispatchVariableName) == "\(function.name)" {
+                if \(globalFunctionDispatchVariableName).as(String) == "\(function.name)" {
 
                 } else {
 
@@ -875,7 +875,7 @@ extension Transpiler {
         let internalParser = Parser(contents: globalFunctionDispatchVariableCode)
         try internalParser.parse()
         let internalTranspiler = Transpiler(parser: internalParser)
-
+        
         let variableActions = try internalTranspiler.getCompiledActions(scope: scope)
         
         return (variableActions, globalFunctionDispatchVariableName)
