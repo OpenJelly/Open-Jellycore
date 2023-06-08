@@ -27,7 +27,6 @@ struct GetMovieDetailsParameter: ParameterProtocol, Codable {
         return parameters
     }
      
-    // Need to loop through all properties to build the documentation.
     static func getDefaultValues() -> [String: String] {
         return [
 			"movie": "Movie(identifier: \"Movie1\", displayString: \"Star Wars\", tmbd_id: \"a32jsaf\", title: \"Star Wars\", posterThumbURL: \", posterURL: \"\", voteAverage: 0.4, voteCount: 3, releaseData: January 1st 1999, popularity: 0.9, overview: \"Space\", genres: \"Sci-Fi\")",

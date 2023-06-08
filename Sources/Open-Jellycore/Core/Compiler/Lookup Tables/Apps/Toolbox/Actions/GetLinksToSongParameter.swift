@@ -21,7 +21,6 @@ struct GetLinksToSongParameter: ParameterProtocol, Codable {
         return parameters
     }
      
-    // Need to loop through all properties to build the documentation.
     static func getDefaultValues() -> [String: String] {
         return [
 			"sourceURL": "\"https://music.apple.com/us/album/saturday/1561836997?i=1561837010\"",

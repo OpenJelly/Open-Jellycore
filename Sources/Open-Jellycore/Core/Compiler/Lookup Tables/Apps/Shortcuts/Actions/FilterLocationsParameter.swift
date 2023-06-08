@@ -11,7 +11,6 @@ struct FilterLocationsParameter: ParameterProtocol, Codable {
         return FilterLocationsParameter()
     }
      
-    // Need to loop through all properties to build the documentation.
     static func getDefaultValues() -> [String: String] {
         return [
 :

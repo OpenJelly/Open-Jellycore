@@ -27,7 +27,6 @@ struct AddTracksToPlaylistParameter: ParameterProtocol, Codable {
         return parameters
     }
      
-    // Need to loop through all properties to build the documentation.
     static func getDefaultValues() -> [String: String] {
         return [
 			"playlist": "Playlist(identifier: \"Test\", displayString: \"My Playlist\", catalougeID: \"214123\", name: \"My Playlist\", url: \"https://example.com\", musicURL: \"https://example.com\", lastModifiedData: March 21st 2022, curator: \"Zachary Lineman\", artworkColors: \"#ffffff\", artworkMaxHeight: 256, artworkMaxWidth: 256, artworkURL_thumb: \"\", artowrkURL_small: \"\", artowrkURL_medium: \"\", artworkURL_full: \"\", editorialShort: \"\", editorialLong: \"\", type: 0, songNames: \"\", songsDict: \"\", thumbnail: 21124dS)",

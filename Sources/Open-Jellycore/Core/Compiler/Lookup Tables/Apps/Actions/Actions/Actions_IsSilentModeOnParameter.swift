@@ -11,7 +11,6 @@ struct Actions_IsSilentModeOnParameter: ParameterProtocol, Codable {
         return Actions_IsSilentModeOnParameter()
     }
      
-    // Need to loop through all properties to build the documentation.
     static func getDefaultValues() -> [String: String] {
         return [
 :

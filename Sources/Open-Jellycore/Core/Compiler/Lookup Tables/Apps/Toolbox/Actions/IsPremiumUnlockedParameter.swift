@@ -11,7 +11,6 @@ struct IsPremiumUnlockedParameter: ParameterProtocol, Codable {
         return IsPremiumUnlockedParameter()
     }
      
-    // Need to loop through all properties to build the documentation.
     static func getDefaultValues() -> [String: String] {
         return [
 :

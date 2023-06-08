@@ -39,7 +39,6 @@ struct CompleteItemParameter: ParameterProtocol, Codable {
         return parameters
     }
      
-    // Need to loop through all properties to build the documentation.
     static func getDefaultValues() -> [String: String] {
         return [
 			"item": "Item(displayString: \"Pay Bills\", identifier: \"8E4E6CBE-5BEC-4E9E-8E82-495D8FF393C8\")",

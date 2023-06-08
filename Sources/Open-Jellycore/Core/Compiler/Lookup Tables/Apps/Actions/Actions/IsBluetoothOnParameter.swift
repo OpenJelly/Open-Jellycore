@@ -11,7 +11,6 @@ struct IsBluetoothOnParameter: ParameterProtocol, Codable {
         return IsBluetoothOnParameter()
     }
      
-    // Need to loop through all properties to build the documentation.
     static func getDefaultValues() -> [String: String] {
         return [
 :

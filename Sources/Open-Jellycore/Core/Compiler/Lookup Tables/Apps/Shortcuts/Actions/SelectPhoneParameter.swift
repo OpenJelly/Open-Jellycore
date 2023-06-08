@@ -11,7 +11,6 @@ struct SelectPhoneParameter: ParameterProtocol, Codable {
         return SelectPhoneParameter()
     }
      
-    // Need to loop through all properties to build the documentation.
     static func getDefaultValues() -> [String: String] {
         return [
 :

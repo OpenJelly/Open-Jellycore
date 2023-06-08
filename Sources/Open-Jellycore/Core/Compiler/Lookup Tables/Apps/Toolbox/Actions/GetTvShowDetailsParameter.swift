@@ -27,7 +27,6 @@ struct GetTvShowDetailsParameter: ParameterProtocol, Codable {
         return parameters
     }
      
-    // Need to loop through all properties to build the documentation.
     static func getDefaultValues() -> [String: String] {
         return [
 			"tvShow": "TvShow(identifier: \"Ted_Lasso\", displayString: \"Ted Lasso\", title: \"Ted Lasso\", overview: \"A really good show\", firstAirDate: August 14, 2020, tmdb_id: 97456, voteCount: 42, voteAverage: .85, popularity: .85, posterURL: \"https://www.themoviedb.org/tv/97546-ted-lasso?language=en-US#\", posterThumbURL: \"https://www.themoviedb.org/tv/97546-ted-lasso?language=en-US#\", genres: \"Comedy\")",

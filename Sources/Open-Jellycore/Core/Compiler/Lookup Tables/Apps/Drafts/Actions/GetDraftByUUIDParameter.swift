@@ -21,7 +21,6 @@ struct GetDraftByUUIDParameter: ParameterProtocol, Codable {
         return parameters
     }
      
-    // Need to loop through all properties to build the documentation.
     static func getDefaultValues() -> [String: String] {
         return [
 			"uuid": "\"F5BD82B1BA4\"",

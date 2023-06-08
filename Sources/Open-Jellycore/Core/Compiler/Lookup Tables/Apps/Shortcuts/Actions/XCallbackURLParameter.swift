@@ -57,7 +57,6 @@ struct XCallbackURLParameter: ParameterProtocol, Codable {
         return parameters
     }
      
-    // Need to loop through all properties to build the documentation.
     static func getDefaultValues() -> [String: String] {
         return [
 			"url": "shortcuts://x-callback-url/run-shortcut?name=Calculate%20Tip&input=text&text=24.99.",

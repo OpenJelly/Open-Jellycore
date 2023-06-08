@@ -11,7 +11,6 @@ struct SampleColorParameter: ParameterProtocol, Codable {
         return SampleColorParameter()
     }
      
-    // Need to loop through all properties to build the documentation.
     static func getDefaultValues() -> [String: String] {
         return [
 :

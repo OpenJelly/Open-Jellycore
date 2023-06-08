@@ -11,7 +11,6 @@ struct FilterRemindersParameter: ParameterProtocol, Codable {
         return FilterRemindersParameter()
     }
      
-    // Need to loop through all properties to build the documentation.
     static func getDefaultValues() -> [String: String] {
         return [
 :

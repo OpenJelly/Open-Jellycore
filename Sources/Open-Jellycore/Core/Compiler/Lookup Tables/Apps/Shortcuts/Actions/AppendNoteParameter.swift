@@ -33,7 +33,6 @@ struct AppendNoteParameter: ParameterProtocol, Codable {
         return parameters
     }
      
-    // Need to loop through all properties to build the documentation.
     static func getDefaultValues() -> [String: String] {
         return [
 			"text": "Make sure to join the Jellycuts discord at https://jellycuts.com",

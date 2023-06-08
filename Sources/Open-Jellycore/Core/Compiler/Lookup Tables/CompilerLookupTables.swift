@@ -10,6 +10,7 @@ struct CompilerLookupTables {
     /// All of the available Jelly libraries
     enum Library: String, CaseIterable {
         case shortcuts = "Shortcuts"
+        case toolboxPro = "ToolboxPro"
         case dataJar = "DataJar"
         case carrot = "CARROT"
         case apollo = "Apollo"
@@ -35,6 +36,8 @@ struct CompilerLookupTables {
             switch self {
             case .shortcuts:
                 return ShortcutsFunctions
+            case .toolboxPro:
+                return ToolboxFunctions
             case .dataJar:
                 return DataJarFunctions
             case .carrot:
@@ -86,6 +89,8 @@ struct CompilerLookupTables {
             switch self {
             case .shortcuts:
                 return "The default shortcuts library that contains actions available in the Shortcuts App."
+            case .toolboxPro:
+                return ""
             case .dataJar:
                 return ""
             case .carrot:

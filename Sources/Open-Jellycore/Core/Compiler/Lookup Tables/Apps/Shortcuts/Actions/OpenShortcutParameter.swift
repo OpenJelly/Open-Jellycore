@@ -21,7 +21,6 @@ struct OpenShortcutParameter: ParameterProtocol, Codable {
         return parameters
     }
      
-    // Need to loop through all properties to build the documentation.
     static func getDefaultValues() -> [String: String] {
         return [
 			"name": "Jellycuts Helper",

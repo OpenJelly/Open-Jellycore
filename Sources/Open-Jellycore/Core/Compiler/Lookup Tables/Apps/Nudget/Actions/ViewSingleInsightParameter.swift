@@ -27,7 +27,6 @@ struct ViewSingleInsightParameter: ParameterProtocol, Codable {
         return parameters
     }
      
-    // Need to loop through all properties to build the documentation.
     static func getDefaultValues() -> [String: String] {
         return [
 			"insight": "NudgetInsight(identifier: \"42-867-5309\", \"Total Spending\")",

@@ -11,7 +11,6 @@ struct ToggleAppearanceParameter: ParameterProtocol, Codable {
         return ToggleAppearanceParameter()
     }
      
-    // Need to loop through all properties to build the documentation.
     static func getDefaultValues() -> [String: String] {
         return [
 :

@@ -67,7 +67,6 @@ struct ShortcutsQuantity: JellyAny, Codable {
         try container.encode(getTimeInterval(input: value))
     }
     
-    // Need to loop through all properties to build the documentation.
     static func getDescription() -> String {
         return "A quantity used by many shortcuts actions. Quantities are formatted with a number followed by a quantity type. Quantity types are any of the following, hours, hour, hrs, hr, minutes, mins, min, seconds, sec, days, day, years, year, weeks, week, kcal"
     }

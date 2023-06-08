@@ -11,7 +11,6 @@ struct GetURLParameter: ParameterProtocol, Codable {
         return GetURLParameter()
     }
      
-    // Need to loop through all properties to build the documentation.
     static func getDefaultValues() -> [String: String] {
         return [
 :

@@ -27,7 +27,6 @@ struct RunActionOnDraftParameter: ParameterProtocol, Codable {
         return parameters
     }
      
-    // Need to loop through all properties to build the documentation.
     static func getDefaultValues() -> [String: String] {
         return [
 			"action": "Action(identifier: \"coolID\", displayString: \"My Custom Action\", name: \"My Custom Action\")",

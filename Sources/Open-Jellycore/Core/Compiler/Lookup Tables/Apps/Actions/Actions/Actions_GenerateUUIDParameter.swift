@@ -12,7 +12,6 @@ struct Actions_GenerateUUIDParameter: ParameterProtocol, Codable {
         return Actions_GenerateUUIDParameter()
     }
      
-    // Need to loop through all properties to build the documentation.
     static func getDefaultValues() -> [String: String] {
         return [
 :

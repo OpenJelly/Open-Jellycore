@@ -27,7 +27,6 @@ struct CreateQRParameter: ParameterProtocol, Codable {
         return parameters
     }
      
-    // Need to loop through all properties to build the documentation.
     static func getDefaultValues() -> [String: String] {
         return [
 			"text": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
