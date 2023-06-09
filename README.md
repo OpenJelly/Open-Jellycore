@@ -39,4 +39,4 @@ Because this is a brand new version of Jellycore, it does not currently support 
 I have written this version of Jellycore with the intention of it being possible for others to use it across the Shortcuts ecosystem. It has also been built with as many Swift platform features as possible, attempting to not rely on Apple's Foundation framework, however at times it still does.
 
 ## Documentation
-The entirety of Jellycore is documented using Doc-C. There is no online version currently, however you can build and view the documentation within XCode. This will change in the future when I get the time to publish the Doc-C documentation.
+The entirety of Jellycore is documented using Doc-C. This documentation is available at https://actuallytaylor.github.io/Open-Jellycore/documentation/open_jellycore/.
