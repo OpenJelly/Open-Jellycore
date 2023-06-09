@@ -1,12 +1,21 @@
 {
   "pins" : [
     {
-      "identity" : "runestone",
+      "identity" : "swift-docc-plugin",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/simonbs/Runestone",
+      "location" : "https://github.com/apple/swift-docc-plugin",
       "state" : {
-        "revision" : "1d0e79051a18d79f12882e9fad0b130e47d4a06b",
-        "version" : "0.3.0"
+        "revision" : "9b1258905c21fc1b97bf03d1b4ca12c4ec4e5fda",
+        "version" : "1.2.0"
+      }
+    },
+    {
+      "identity" : "swift-docc-symbolkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-docc-symbolkit",
+      "state" : {
+        "revision" : "b45d1f2ed151d057b54504d653e0da5552844e34",
+        "version" : "1.0.0"
       }
     },
     {
@@ -15,7 +24,7 @@
       "location" : "https://github.com/ActuallyTaylor/tree-sitter-jelly",
       "state" : {
         "branch" : "main",
-        "revision" : "3a080b47c5ebb73ed2dc71aa653c7b18b7793d3b"
+        "revision" : "452cfbb68376927d39814321fe7dad8f8fd98310"
       }
     },
     {
@@ -24,7 +33,7 @@
       "location" : "https://github.com/ActuallyTaylor/tree-sitter-spm",
       "state" : {
         "branch" : "master",
-        "revision" : "382a8d5bef3b1f8e99518676c7b86ccd2df5c9e7"
+        "revision" : "3860f9e8c683a730a53cd6fd594ff2d8cdc4c222"
       }
     }
   ],
