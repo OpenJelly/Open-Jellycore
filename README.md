@@ -40,3 +40,6 @@ I have written this version of Jellycore with the intention of it being possible
 
 ## Documentation
 The entirety of Jellycore is documented using Doc-C. Online documentation is available at https://actuallytaylor.github.io/Open-Jellycore/documentation/open_jellycore/.
+
+# Contributing
+If you are curious about contributing or where to start, the Features header is a great place to look at what is still left! If you are looking for smaller things to fix, there are a plethora of `// TODO:` comments throughout the library that are all small fixes or additions that would be nice to have.
