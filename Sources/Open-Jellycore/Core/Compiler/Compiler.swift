@@ -244,6 +244,13 @@ public final class Compiler {
             
             let commentAction = try compileComment(node: coreNode)
             actions.append(commentAction)
+        case .returnStatement:
+            guard let coreNode = coreNode as? ReturnStatementNode else {
+                throw JellycoreError.typeError(type: "ReturnStatementNode", description: "Node type does not match struct type")
+            }
+            
+            let results = try compileReturn(node: coreNode, scope: scope)
+            actions.append(contentsOf: results)
         default:
             print("Unhandled Node on Compile step \(coreNode.content) - \(coreNode.rawValue.string ?? "(empty)")")
             break
@@ -256,7 +263,71 @@ public final class Compiler {
 // MARK: Transpile Individual Nodes
 /// Any functions that compiler individual CoreNodes into Shortcuts Actions
 extension Compiler {
-    /// Compiles a `FlagNode` into whatever flag it represents. Does not return normal Shortcuts actions.
+    
+    /// Compiles a ``ReturnStatementNode`` into a set of actions that represents a shortcuts exit shortcut value.
+    /// - Parameters:
+    ///   - node: The ``ReturnStatementNode`` that was found in the `compileNode` function.
+    ///   - scope: The scope available to the node.
+    /// - Returns: An exit function and any needed primitive creation actions.
+    private func compileReturn(node: ReturnStatementNode, scope: Scope) throws -> [WFAction] {
+        var actions: [WFAction] = []
+
+        if let valuePrimitive = node.valuePrimitive {
+            if valuePrimitive.type == .string {
+                let textUUID = UUID().uuidString
+                let magicVariable = Variable(uuid: textUUID, name: "Generated Magic Variable \(textUUID)", valueType: .magicVariable, value: "Text")
+                
+                if let foundFunction = CompilerLookupTables.Library.shortcuts.functionTable["text"] {
+                    let call: [FunctionCallParameterItem] = [
+                        FunctionCallParameterItem(slotName: "text", item: valuePrimitive)
+                    ]
+                    let builtFunction = foundFunction.build(call: call, magicVariable: magicVariable, scopedVariables: scope.variables)
+                    
+                    actions.append(builtFunction)
+                }
+                
+                
+                let exitAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.exit", WFWorkflowActionParameters: ["WFResult": QuantumValue(JellyVariableReference(magicVariable, scopedVariables: scope.variables))])
+                
+                // Add the magic variable pointing to the string function to the scope
+                scope.variables.append(magicVariable)
+                actions.append(exitAction)
+            } else if valuePrimitive.type == .number {
+                let numberUUID = UUID().uuidString
+                let magicVariable = Variable(uuid: numberUUID, name: "Generated Magic Variable \(numberUUID)", valueType: .magicVariable, value: "Text")
+                
+                if let foundFunction = CompilerLookupTables.Library.shortcuts.functionTable["number"] {
+                    let call: [FunctionCallParameterItem] = [
+                        FunctionCallParameterItem(slotName: "value", item: valuePrimitive)
+                    ]
+                    let builtFunction = foundFunction.build(call: call, magicVariable: magicVariable, scopedVariables: scope.variables)
+                    
+                    actions.append(builtFunction)
+                }
+                
+                let exitAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.exit", WFWorkflowActionParameters: ["WFResult": QuantumValue(JellyVariableReference(magicVariable, scopedVariables: scope.variables))])
+
+                // Add the magic variable pointing to the number function to the scope
+                scope.variables.append(magicVariable)
+                actions.append(exitAction)
+            } else {
+                if let identifierNode = valuePrimitive as? IdentifierNode,
+                   let variableReference = JellyVariableReference(identifierNode: identifierNode, scopedVariables: scope.variables) {
+                    let exitAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.exit", WFWorkflowActionParameters: ["WFResult": QuantumValue(variableReference)])
+
+                    actions.append(exitAction)
+                } else {
+                    ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: valuePrimitive.content), node: valuePrimitive as? CoreNode)
+                }
+            }
+        } else {
+            throw JellycoreError.missingPrimitive(statement: "Return")
+        }
+        
+        return []
+    }
+    
+    /// Compiles a ``FlagNode`` into whatever flag it represents. Does not return normal Shortcuts actions.
     /// It returns Jellycuts config nodes that are removed later in transpiling.
     /// - Parameter node: The `FlagNode` that was found in the `compileNode` function.
     /// - Returns: The actions compiled from the Flag node.
@@ -350,9 +421,9 @@ extension Compiler {
         return actions
     }
     
-    /// Compiles a `RepeatEachNode` into a shortcuts repeat statement.
+    /// Compiles a ``RepeatEachNode`` into a shortcuts repeat statement.
     /// - Parameters:
-    ///   - node: The `RepeatEachNode` that was found in the `compileNode` function.
+    ///   - node: The ``RepeatEachNode`` that was found in the `compileNode` function.
     ///   - scope: The scope available to the node.
     /// - Returns: The compiled repeat node with all of it's internal nodes included.
     private func compileRepeatEach(node: RepeatEachNode, scope: Scope) throws -> [WFAction] {
@@ -567,8 +638,7 @@ extension Compiler {
             actions.append(conditionalTailAction)
 
         } else {
-            // TODO: Throw a proper error
-            print("Unable to initialize due to invalid primary node")
+            throw JellycoreError.missingPrimitive(statement: "Conditional Primary Statement")
         }
         
         return actions
@@ -584,8 +654,7 @@ extension Compiler {
         // TODO: Check to make sure variable is available
         if Compiler.globalVariables.contains(where: { variableNameMatches(variable: $0, name: node.name) }) {
             print("Failed to init because variable is global")
-            // TODO: Error Reporting
-            return []
+            throw JellycoreError.immutableVariable(name: node.name)
         }
         
         let existingVariable: Variable? = scope.variables.first(where: { variableNameMatches(variable: $0, name: node.name) })
@@ -636,7 +705,7 @@ extension Compiler {
                 
                 let variableAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.setvariable", WFWorkflowActionParameters: ["WFInput": QuantumValue(JellyVariableReference(magicVariable, scopedVariables: scope.variables)), "WFVariableName": QuantumValue(node.name)])
                 
-                // Add the magic variable pointing to the string function to the scope
+                // Add the magic variable pointing to the number function to the scope
                 scope.variables.append(magicVariable)
 
                 if let existingVariable {
@@ -670,11 +739,8 @@ extension Compiler {
 
             return actions
         } else {
-            // TODO: Error Handling
-            print("No Value Primitive")
+            throw JellycoreError.missingPrimitive(statement: "Variable declaration")
         }
-
-        return []
     }
     
     /// Compiles a function call into it's given shortcut equivalent.
@@ -696,7 +762,6 @@ extension Compiler {
             let builtFunction = foundFunction.build(call: node.parameters, magicVariable: magicVariable, scopedVariables: scope.variables)
             return [builtFunction]
         } else {
-            // TODO: We have to handle custom user inputted functions
             if let customFunction = scope.functions.first(where: { function in
                 return function.name == node.name
             }) {
@@ -739,7 +804,6 @@ extension Compiler {
                     return actions
                 }
             } else {
-                // TODO: Error Handlings
                 ErrorReporter.shared.reportError(error: .undefinedFunction(name: node.name), node: node)
             }
         }
@@ -803,6 +867,8 @@ extension Compiler {
                 return FunctionDefinitionNode(sString: sString, content: content, rawValue: node)
             case .macro:
                 return MacroDefinitionNode(sString: sString, content: content, rawValue: node)
+            case .returnStatement:
+                return ReturnStatementNode(sString: sString, content: content, rawValue: node)
             default:
                 print("Unhandled Node on Translate step \(content) - \(sString)")
                 break

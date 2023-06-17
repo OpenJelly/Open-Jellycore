@@ -57,6 +57,10 @@ public class JellycoreError: LocalizedError, Identifiable {
         case undefinedFunction(name: String)
         /// This is a generic error that is used across Jellycore for issues that do not require their own case in this enumeration.
         case generic
+        /// This is an error that is raised when a statement is missing a required primitive value.
+        case missingPrimitive(statement: String)
+        /// This error is raised when a user sets a value for an immutable variable.
+        case immutableVariable(name: String)
         
         /// The description of the error
         public var description: String {
@@ -93,6 +97,10 @@ public class JellycoreError: LocalizedError, Identifiable {
                 return "The macro \(name) was declared multiple times. Macros require unique names."
             case .undefinedFunction(let name):
                 return "The function or macro \(name) has not been defined in the scope."
+            case .missingPrimitive(let statement):
+                return "A primitive value is missing in the statement: \(statement)"
+            case .immutableVariable(let name):
+                return "Unable to set value for \(name), that variable is not mutable and therefor can not have its value set."
             }
         }
     }
@@ -298,4 +306,19 @@ extension JellycoreError {
     static func undefinedFunction(name: String) -> JellycoreError {
         return JellycoreError(underlyingError: .undefinedFunction(name: name), level: .error, recoveryStrategy: "Please define a function or macro named (\(name)) yourself, or import the necessary library.")
     }
+    
+    /// A Jellycore error that represents the ``JellycoreUnderlyingError/missingPrimitive(statement:)`` underlying error.
+    /// - Parameter name: The name of the statement that is missing a primitive
+    /// - Returns: A JellycoreError that has been completed based on the type of error.
+    static func missingPrimitive(statement: String) -> JellycoreError {
+        return JellycoreError(underlyingError: .missingPrimitive(statement: statement), level: .error, recoveryStrategy: "Please check the syntax for the statement \(statement).")
+    }
+    
+    /// A Jellycore error that represents the ``JellycoreUnderlyingError/immutableVariable(name:)`` underlying error.
+    /// - Parameter name: The name of the variable that the user is attempting to set.
+    /// - Returns: A JellycoreError that has been completed based on the type of error.
+    static func immutableVariable(name: String) -> JellycoreError {
+        return JellycoreError(underlyingError: .immutableVariable(name: name), level: .error, recoveryStrategy: "Please remove the value setter for \(name). If you need to set a value please create your own variable to store the data.")
+    }
+
 }

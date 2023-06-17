@@ -8,12 +8,11 @@ final class Open_JellycoreTests: XCTestCase {
     var testString: String = """
     import Shortcuts
     
-    repeat 1 {
-        var x = RepeatIndex
-        repeat 2 {
-            var y = RepeatIndex1
-        }
+    func test() {
+        return "Hello"
     }
+    
+    test()
     """
 
     func testExample() throws {
