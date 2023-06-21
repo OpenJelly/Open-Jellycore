@@ -886,8 +886,12 @@ extension Compiler {
 extension Compiler {
     private func compileFunctions(for scope: Scope, with actions: [WFAction]) -> [WFAction] {
         var actions: [WFAction] = actions
-        let functionScope = Scope(fileName: scope.fileName)
         
+        // If we do not have any functions just return the current actions
+        if scope.functions.isEmpty { return actions }
+        
+        let functionScope = Scope(fileName: scope.fileName)
+
         do {
             let variableResults = try createFunctionsGlobalVariable(scope: functionScope)
             let variableActions = variableResults.actions
