@@ -22,9 +22,7 @@ struct EncodeMediaParameter: ParameterProtocol, Codable {
         var parameters = EncodeMediaParameter()
 
         if let variableCall = call.first(where: { node in return node.slotName == "media" })?.item {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFMedia = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
                 ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
@@ -73,9 +71,7 @@ struct EncodeMediaParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "encodeMedia", name: "year"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "artwork" })?.item {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFMetadataArtwork = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
                 ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)

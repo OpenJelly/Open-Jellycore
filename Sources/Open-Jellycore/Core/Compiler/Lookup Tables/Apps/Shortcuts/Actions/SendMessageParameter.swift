@@ -20,9 +20,7 @@ struct SendMessageParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "sendMessage", name: "message"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "recipient" })?.item {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFSendMessageActionRecipients = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
                 ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)

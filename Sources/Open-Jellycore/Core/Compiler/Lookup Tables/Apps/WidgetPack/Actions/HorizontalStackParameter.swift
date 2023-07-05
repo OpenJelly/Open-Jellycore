@@ -25,9 +25,7 @@ struct HorizontalStackParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "horizontalStack", name: "spacing"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "content" }) {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.content = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
                 ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)

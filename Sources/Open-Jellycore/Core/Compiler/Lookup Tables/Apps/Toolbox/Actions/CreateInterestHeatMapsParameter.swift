@@ -14,9 +14,7 @@ struct CreateInterestHeatMapsParameter: ParameterProtocol, Codable {
         var parameters = CreateInterestHeatMapsParameter()
 
         if let variableCall = call.first(where: { node in return node.slotName == "images" }) {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.images = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
                 ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)

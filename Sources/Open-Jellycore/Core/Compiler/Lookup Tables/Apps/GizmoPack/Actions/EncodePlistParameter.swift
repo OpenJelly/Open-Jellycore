@@ -25,9 +25,7 @@ struct EncodePlistParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "encodePlist", name: "format"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "input" }) {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.input = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
                 ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)

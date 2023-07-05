@@ -13,9 +13,7 @@ struct DeletePhotosParameter: ParameterProtocol, Codable {
         var parameters = DeletePhotosParameter()
 
         if let variableCall = call.first(where: { node in return node.slotName == "photos" })?.item {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.photos = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
                 ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)

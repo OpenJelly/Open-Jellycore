@@ -9,17 +9,6 @@ import Foundation
 
 /// The compiler that handles compiling Jelly code into Shortcuts code.
 public final class Compiler {
-    /// The default set of shortcuts variables
-    static let globalVariables: [Variable] = [
-        Variable(uuid: "", name: "ShortcutInput", valueType: .global, value: ""),
-        Variable(uuid: "", name: "Clipboard", valueType: .global, value: ""),
-        Variable(uuid: "", name: "CurrentDate", valueType: .global, value: ""),
-        Variable(uuid: "", name: "Ask", valueType: .global, value: ""),
-        Variable(uuid: "", name: "RepeatItem", valueType: .global, value: ""),
-        Variable(uuid: "", name: "RepeatIndex", valueType: .global, value: ""),
-        Variable(uuid: "", name: "DeviceDetails", valueType: .global, value: "")
-    ]
-
     /// The contents that the compiler is parsing off of.
     var contents: String {
         return currentParser.contents
@@ -652,7 +641,7 @@ extension Compiler {
     /// - Returns: The shortcuts variable assignment
     private func compileVariableDeclaration(node: VariableAssignmentNode, scope: Scope) throws -> [WFAction] {
         // TODO: Check to make sure variable is available
-        if Compiler.globalVariables.contains(where: { variableNameMatches(variable: $0, name: node.name) }) {
+        if Scope.globalVariables.contains(where: { variableNameMatches(variable: $0, name: node.name) }) {
             print("Failed to init because variable is global")
             throw JellycoreError.immutableVariable(name: node.name)
         }
@@ -723,7 +712,7 @@ extension Compiler {
                     let variableAction = WFAction(WFWorkflowActionIdentifier: "is.workflow.actions.setvariable", WFWorkflowActionParameters: ["WFInput": QuantumValue(variableReference), "WFVariableName": QuantumValue(node.name)])
                     actions.append(variableAction)
                     
-                    let type: Variable.ValueType = Compiler.globalVariables.contains(where: { variableNameMatches(variable: $0, name: valuePrimitive.content)} ) ? .global : .magicVariable
+                    let type: Variable.ValueType = Scope.globalVariables.contains(where: { variableNameMatches(variable: $0, name: valuePrimitive.content)} ) ? .global : .magicVariable
                     
                     if let existingVariable {
                         existingVariable.value = node.value

@@ -15,9 +15,7 @@ struct MaskImageParameter: ParameterProtocol, Codable {
         var parameters = MaskImageParameter()
 
         if let variableCall = call.first(where: { node in return node.slotName == "image" })?.item {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFImage = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
                 ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
@@ -31,9 +29,7 @@ struct MaskImageParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "maskImage", name: "mode"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "mask" })?.item {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFCustomMaskImage = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
                 ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)

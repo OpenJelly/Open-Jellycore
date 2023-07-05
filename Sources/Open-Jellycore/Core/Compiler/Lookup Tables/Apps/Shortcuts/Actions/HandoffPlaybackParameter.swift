@@ -14,9 +14,7 @@ struct HandoffPlaybackParameter: ParameterProtocol, Codable {
         var parameters = HandoffPlaybackParameter()
 
         if let variableCall = call.first(where: { node in return node.slotName == "source" })?.item {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFSourceMediaRoute = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
                 ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
@@ -25,9 +23,7 @@ struct HandoffPlaybackParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "handoffPlayback", name: "source"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "route" })?.item {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFDestinationMediaRoute = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
                 ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)

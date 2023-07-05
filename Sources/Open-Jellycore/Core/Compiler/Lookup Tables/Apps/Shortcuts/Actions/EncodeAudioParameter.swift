@@ -22,9 +22,7 @@ struct EncodeAudioParameter: ParameterProtocol, Codable {
         var parameters = EncodeAudioParameter()
 
         if let variableCall = call.first(where: { node in return node.slotName == "media" })?.item {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFMedia = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
                 ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
@@ -73,9 +71,7 @@ struct EncodeAudioParameter: ParameterProtocol, Codable {
             ErrorReporter.shared.reportError(error: .missingParameter(function: "encodeAudio", name: "year"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "artwork" })?.item {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFMetadataArtwork = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
                 ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
