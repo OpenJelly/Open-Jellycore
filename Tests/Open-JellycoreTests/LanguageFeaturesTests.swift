@@ -66,4 +66,19 @@ final class OpenJellycoreTests: XCTestCase {
         }
         """)
     }
+    
+    func testMenu() throws {
+        try execute(with: """
+        import Shortcuts
+        
+        menu "Hello World!" {
+        case "Case One":
+            quicklook(input: ShortcutInput)
+        case "Case Two":
+            quicklook(input: ShortcutInput)
+        }
+        """)
+    }
+
+    
 }

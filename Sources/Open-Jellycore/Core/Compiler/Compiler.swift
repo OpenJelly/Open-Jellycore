@@ -823,7 +823,7 @@ extension Compiler {
         if let type = node.type {
             guard let nodeType = CoreNodeType(rawValue: type) else {
                 // TODO: Fix the grammar so this hack is not needed for empty if statements.
-                if type != "{" && type != "}" {
+                if type != "{" && type != "}" && type != ":" {
                     throw JellycoreError.invalidTreeSitterType(type: type)
                 } else {
                     return nil
