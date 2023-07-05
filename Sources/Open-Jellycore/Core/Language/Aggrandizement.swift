@@ -67,6 +67,7 @@ enum TypeCoercion: String, CaseIterable, Codable {
     /// If the human readable version provided does not match any of the possible coercions this will return nil.
     /// - Parameter value: The human readable version of the type coercion
     init?(value: String) {
+        print("Type Coercion \(value) \(value.lowercased())")
         switch value.lowercased() {
         case "appstore":
             self = .appstore
@@ -106,7 +107,7 @@ enum TypeCoercion: String, CaseIterable, Codable {
             self = .photo
         case "place":
             self = .place
-        case "richText":
+        case "richtext":
             self = .richText
         case "webpage":
             self = .webpage
@@ -120,6 +121,60 @@ enum TypeCoercion: String, CaseIterable, Codable {
             self = .string
         default:
             return nil
+        }
+    }
+    
+    /// The text name for the Coercion type used for code generation.
+    var textName: String {
+        switch self {
+        case .appstore:
+            return "Appstore"
+        case .article:
+            return "Article"
+        case .boolean:
+            return "Boolean"
+        case .contact:
+            return "Contact"
+        case .date:
+            return "Date"
+        case .dictionary:
+            return "Dictionary"
+        case .email:
+            return "Email"
+        case .file:
+            return "File"
+        case .image:
+            return "Image"
+        case .imedia:
+            return "iMedia"
+        case .iproduct:
+            return "iProduct"
+        case .location:
+            return "Location"
+        case .maplink:
+            return "MapLink"
+        case .media:
+            return "Media"
+        case .number:
+            return "Number"
+        case .pdf:
+            return "PDF"
+        case .phonenumber:
+            return "PhoneNumber"
+        case .photo:
+            return "Photo"
+        case .place:
+            return "Place"
+        case .richText:
+            return "RichText"
+        case .webpage:
+            return "WebPage"
+        case .url:
+            return "URL"
+        case .vcard:
+            return "vCard"
+        case .string:
+            return "String"
         }
     }
     

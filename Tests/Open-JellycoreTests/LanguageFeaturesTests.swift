@@ -4,7 +4,7 @@ import TreeSitterJelly
 import XCTest
 @testable import Open_Jellycore
 
-final class Open_JellycoreTests: XCTestCase {
+final class OpenJellycoreTests: XCTestCase {
     func testFunctions() throws {
         try execute(with: """
         import Shortcuts
@@ -22,6 +22,17 @@ final class Open_JellycoreTests: XCTestCase {
         import Shortcuts
         
         if ShortcutInput == "Hello" {
+            quicklook(input: ShortcutInput)
+        }
+        """)
+    }
+    
+    func testConditionalBoolean() throws {
+        // This should fail because repeatEach does not except a raw number
+        try execute(with: """
+        import Shortcuts
+        
+        if ShortcutInput.as(Boolean) {
             quicklook(input: ShortcutInput)
         }
         """)
