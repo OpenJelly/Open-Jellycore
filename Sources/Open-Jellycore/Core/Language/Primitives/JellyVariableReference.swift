@@ -155,7 +155,6 @@ struct JellyVariableReference: JellyAny, Codable {
                 self.variableType = VariableType(jellyValue: variable.name)
             }
         } else if let globalVariable = Scope.globalVariables.first(where: { variableNameFilter(variable: $0, name: name) }) {
-            print("GLOBAL")
             self.variableType = VariableType(jellyValue: globalVariable.name)
             self.aggrandizements = identifierNode.aggrandizements
         } else {

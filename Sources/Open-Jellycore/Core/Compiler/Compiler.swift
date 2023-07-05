@@ -648,10 +648,16 @@ extension Compiler {
         
         let existingVariable: Variable? = scope.variables.first(where: { variableNameMatches(variable: $0, name: node.name) })
 
+
         if let valuePrimitive = node.valuePrimitive {
-            let nodeType = valuePrimitive.type
+            var nodeType = valuePrimitive.type
             var actions: [WFAction] = []
-                        
+
+            #warning("This bug needs to be fixed")
+            // If an identifier is purely numbers we want to swap it to a number because it was incorrectly picked up by the grammar
+            if Int(valuePrimitive.content) != nil {
+                nodeType = .number
+            }
             if nodeType == .string {
                 let textUUID = UUID().uuidString
                 let magicVariable = Variable(uuid: textUUID, name: "Generated Magic Variable \(textUUID)", valueType: .magicVariable, value: "Text")

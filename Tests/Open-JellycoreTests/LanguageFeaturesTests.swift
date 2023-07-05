@@ -17,6 +17,73 @@ final class OpenJellycoreTests: XCTestCase {
         """)
     }
 
+    func testMacro() throws {
+        try execute(with: """
+        import Shortcuts
+        
+        macro test() {
+            return "Hello"
+        }
+        
+        test()
+        """)
+    }
+    
+    func testVariableSetToGlobalVariable() throws {
+        try execute(with: """
+        import Shortcuts
+        
+        var helloWorld = ShortcutInput
+        """)
+    }
+    
+    func testVariableSetToGlobalVariableAndRead() throws {
+        try execute(with: """
+        import Shortcuts
+        
+        var helloWorld = ShortcutInput
+        
+        quicklook(input: helloWorld)
+        """)
+    }
+
+    func testVariableSetToString() throws {
+        try execute(with: """
+        import Shortcuts
+        
+        var helloWorld = "Hello World!"
+        """)
+    }
+
+    func testVariableSetToStringAndRead() throws {
+        try execute(with: """
+        import Shortcuts
+        
+        var helloWorld = "Hello World!"
+        
+        quicklook(input: helloWorld)
+        """)
+    }
+
+
+    func testVariableSetToNumber() throws {
+        try execute(with: """
+        import Shortcuts
+        
+        var meaningOfLife = 42
+        """)
+    }
+
+    func testVariableSetToNumberAndRead() throws {
+        try execute(with: """
+        import Shortcuts
+        
+        var meaningOfLife = 42
+        
+        quicklook(input: meaningOfLife)
+        """)
+    }
+
     func testConditional() throws {
         try execute(with: """
         import Shortcuts
