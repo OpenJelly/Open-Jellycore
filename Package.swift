@@ -13,7 +13,7 @@ let package = Package(
             targets: ["Open-Jellycore"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/ActuallyTaylor/tree-sitter-spm", branch: "master"),
+        .package(url: "https://github.com/tree-sitter/tree-sitter", branch: "master"),
         .package(url: "https://github.com/ActuallyTaylor/tree-sitter-jelly", branch: "main"),
         .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0"),
     ],
@@ -23,7 +23,7 @@ let package = Package(
         .target(
             name: "Open-Jellycore",
             dependencies: [
-                .product(name: "TreeSitter", package: "tree-sitter-spm"),
+                .product(name: "TreeSitter", package: "tree-sitter"),
                 .product(name: "TreeSitterJelly", package: "tree-sitter-jelly")
             ]
         ),
