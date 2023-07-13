@@ -653,7 +653,7 @@ extension Compiler {
             var nodeType = valuePrimitive.type
             var actions: [WFAction] = []
 
-            #warning("This bug needs to be fixed")
+            #warning("This bug needs to be fixed in the tree-sitter-jelly grammar")
             // If an identifier is purely numbers we want to swap it to a number because it was incorrectly picked up by the grammar
             if Int(valuePrimitive.content) != nil {
                 nodeType = .number
