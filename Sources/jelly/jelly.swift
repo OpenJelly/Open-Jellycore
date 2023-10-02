@@ -14,7 +14,7 @@ struct Jelly: ParsableCommand {
     @Argument(help: "The path to the file to compile")
     var file: String
 
-    @Flag(help: "Export the shortcut to a .plist file?")
+    @Flag(help: "Export the shortcut to a .plist file")
     var export: Bool = false
 
     @Option(help: "The file path to export the compiled Jellycut too")
