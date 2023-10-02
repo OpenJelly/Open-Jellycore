@@ -1,6 +1,31 @@
 # Open-Jellycore
 An open source version of the originally closed source Jellycore. This package handles all of the transpiling of Jelly -> Shortcuts.
 
+## Compiling in the Command Line
+To compile a Jellycut using the CLI, you will need to first install Jelly from the [homebrew](https://brew.sh) package manager. 
+
+```
+# Get the brew tap that hosts Jelly
+brew tap actuallytaylor/formulae
+
+# Install jelly
+brew install jelly
+```
+
+### Using the CLI
+The CLI is very simple, the only required argument is the path to the jelly file you want to compile. Optionally you can include the flag `--export` to export the Jellycut to a Shortcut. If you want to specify an export path you can pass a file path with the `--out <out>` option.
+
+```
+# Compile a script
+jelly HelloWorld.jelly
+
+# Compile and export a script
+jelly HelloWorld.jelly --export
+
+# Compile and export a script to a specified path
+jelly HelloWorld.jelly --export --out ./helloworld.shortcut
+```
+
 ## Why a brand new version?
 You may see this package and ask, Why is this a brand new repository? 
 
