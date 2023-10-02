@@ -15,7 +15,7 @@ struct ShowReminderListParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "list" }) {
             parameters.WFList = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "showReminderList", name: "list"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "showReminderList", name: "list"), node: nil)
         }
 
         return parameters

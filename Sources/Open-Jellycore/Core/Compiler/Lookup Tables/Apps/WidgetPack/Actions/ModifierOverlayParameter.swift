@@ -17,17 +17,17 @@ struct ModifierOverlayParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "overlayView" }) {
             parameters.overlayView = Jelly_View(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierOverlay", name: "overlayView"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierOverlay", name: "overlayView"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "overlayAlignment" }) {
             parameters.overlayAlignment = Jelly_Alignment(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierOverlay", name: "overlayAlignment"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierOverlay", name: "overlayAlignment"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "view" }) {
             parameters.view = Jelly_View(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierOverlay", name: "view"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierOverlay", name: "view"), node: nil)
         }
 
         return parameters

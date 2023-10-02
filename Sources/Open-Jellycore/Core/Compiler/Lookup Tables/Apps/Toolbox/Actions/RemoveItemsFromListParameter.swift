@@ -20,30 +20,30 @@ struct RemoveItemsFromListParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.list = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "removeItemsFromList", name: "list"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "removeItemsFromList", name: "list"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "mode" }) {
             parameters.mode = Jelly_RemoveFromListMode(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "removeItemsFromList", name: "mode"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "removeItemsFromList", name: "mode"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "indexes" }) {
             parameters.indexes = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "removeItemsFromList", name: "indexes"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "removeItemsFromList", name: "indexes"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "rangeStart" }) {
             parameters.rangeStart = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "removeItemsFromList", name: "rangeStart"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "removeItemsFromList", name: "rangeStart"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "rangeEnd" }) {
             parameters.rangeEnd = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "removeItemsFromList", name: "rangeEnd"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "removeItemsFromList", name: "rangeEnd"), node: nil)
         }
 
         return parameters

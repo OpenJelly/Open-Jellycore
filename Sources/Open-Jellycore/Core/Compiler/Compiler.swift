@@ -97,10 +97,10 @@ public final class Compiler {
                 throw JellycoreError.unableToEncode(identifier: "WFShortcut")
             }
         } catch let error as JellycoreError {
-            ErrorReporter.shared.reportError(error: error, node: nil)
+            EventReporter.shared.reportError(error: error, node: nil)
             throw error
         } catch {
-            ErrorReporter.shared.reportError(error: .generic(description: error.localizedDescription, recoveryStrategy: "Contact the developer", level: .fatal), node: nil)
+            EventReporter.shared.reportError(error: .generic(description: error.localizedDescription, recoveryStrategy: "Contact the developer", level: .fatal), node: nil)
             throw error
         }
     }
@@ -119,9 +119,9 @@ public final class Compiler {
                 
                 shortcutsActions.append(contentsOf: results)
             } catch let error as JellycoreError {
-                ErrorReporter.shared.reportError(error: error, node: nil)
+                EventReporter.shared.reportError(error: error, node: nil)
             }  catch {
-                ErrorReporter.shared.reportError(error: .generic(description: error.localizedDescription, recoveryStrategy: "Contact the developer", level: .fatal), node: nil)
+                EventReporter.shared.reportError(error: .generic(description: error.localizedDescription, recoveryStrategy: "Contact the developer", level: .fatal), node: nil)
             }
         }
         
@@ -305,7 +305,7 @@ extension Compiler {
 
                     actions.append(exitAction)
                 } else {
-                    ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: valuePrimitive.content), node: valuePrimitive as? CoreNode)
+                    EventReporter.shared.reportError(error: .variableDoesNotExist(variable: valuePrimitive.content), node: valuePrimitive as? CoreNode)
                 }
             }
         } else {
@@ -727,7 +727,7 @@ extension Compiler {
                         scope.variables.append(Variable(uuid: UUID().uuidString, name: node.name, valueType: type, value: node.value))
                     }
                 } else {
-                    ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: valuePrimitive.content), node: valuePrimitive as? CoreNode)
+                    EventReporter.shared.reportError(error: .variableDoesNotExist(variable: valuePrimitive.content), node: valuePrimitive as? CoreNode)
                 }
             }
 
@@ -798,7 +798,7 @@ extension Compiler {
                     return actions
                 }
             } else {
-                ErrorReporter.shared.reportError(error: .undefinedFunction(name: node.name), node: node)
+                EventReporter.shared.reportError(error: .undefinedFunction(name: node.name), node: node)
             }
         }
         return []
@@ -957,9 +957,9 @@ extension Compiler {
             // We have to insert the variable last so it will always be the first action
             actions.insert(contentsOf: variableActions, at: 0)
         } catch let error as JellycoreError {
-            ErrorReporter.shared.reportError(error: error, node: nil)
+            EventReporter.shared.reportError(error: error, node: nil)
         }  catch {
-            ErrorReporter.shared.reportError(error: .generic(description: error.localizedDescription, recoveryStrategy: "Contact the developer", level: .fatal), node: nil)
+            EventReporter.shared.reportError(error: .generic(description: error.localizedDescription, recoveryStrategy: "Contact the developer", level: .fatal), node: nil)
         }
         
         return actions

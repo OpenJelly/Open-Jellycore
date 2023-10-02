@@ -16,12 +16,12 @@ struct UrlComponentParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "url" }) {
             parameters.WFURL = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "urlComponent", name: "url"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "urlComponent", name: "url"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "component" }) {
             parameters.component = Jelly_WFURLComponent(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "urlComponent", name: "component"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "urlComponent", name: "component"), node: nil)
         }
 
         return parameters

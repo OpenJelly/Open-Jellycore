@@ -17,17 +17,17 @@ struct AdjustDateParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "operation" }) {
             parameters.operation = Jelly_WFAdjustOperation(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "adjustDate", name: "operation"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "adjustDate", name: "operation"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "duration" }) {
             parameters.WFDuration = ShortcutsQuantity(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "adjustDate", name: "duration"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "adjustDate", name: "duration"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "date" }) {
             parameters.WFDate = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "adjustDate", name: "date"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "adjustDate", name: "date"), node: nil)
         }
 
         return parameters

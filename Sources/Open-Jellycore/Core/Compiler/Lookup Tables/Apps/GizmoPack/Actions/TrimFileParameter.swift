@@ -19,25 +19,25 @@ struct TrimFileParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.file = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "trimFile", name: "file"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "trimFile", name: "file"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "characterClass" }) {
             parameters.characterClass = Jelly_TrimFileCharacterClass(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "trimFile", name: "characterClass"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "trimFile", name: "characterClass"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "lineCount" }) {
             parameters.lineCount = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "trimFile", name: "lineCount"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "trimFile", name: "lineCount"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "position" }) {
             parameters.position = Jelly_TrimFilePosition(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "trimFile", name: "position"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "trimFile", name: "position"), node: nil)
         }
 
         return parameters

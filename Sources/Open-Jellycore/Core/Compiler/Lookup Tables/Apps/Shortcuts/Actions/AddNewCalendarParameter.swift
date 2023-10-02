@@ -15,7 +15,7 @@ struct AddNewCalendarParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "name" }) {
             parameters.CalendarName = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "addNewCalendar", name: "name"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "addNewCalendar", name: "name"), node: nil)
         }
 
         return parameters

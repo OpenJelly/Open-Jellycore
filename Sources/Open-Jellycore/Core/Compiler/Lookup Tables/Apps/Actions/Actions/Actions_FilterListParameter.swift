@@ -21,37 +21,37 @@ struct Actions_FilterListParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "list" }) {
             parameters.list = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "filterList", name: "list"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "filterList", name: "list"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "shouldKeep" }) {
             parameters.shouldKeep = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "filterList", name: "shouldKeep"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "filterList", name: "shouldKeep"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "condition" }) {
             parameters.condition = Jelly_FilterCondition(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "filterList", name: "condition"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "filterList", name: "condition"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "matchText" }) {
             parameters.matchText = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "filterList", name: "matchText"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "filterList", name: "matchText"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "caseSensitive" }) {
             parameters.caseSensitive = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "filterList", name: "caseSensitive"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "filterList", name: "caseSensitive"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "shouldLimit" }) {
             parameters.shouldLimit = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "filterList", name: "shouldLimit"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "filterList", name: "shouldLimit"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "limit" }) {
             parameters.limit = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "filterList", name: "limit"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "filterList", name: "limit"), node: nil)
         }
 
         return parameters

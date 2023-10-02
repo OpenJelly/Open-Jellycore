@@ -16,12 +16,12 @@ struct SearchWebParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "text" }) {
             parameters.WFInputText = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "searchWeb", name: "text"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "searchWeb", name: "text"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "destination" }) {
             parameters.destination = Jelly_WFSearchWebDestination(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "searchWeb", name: "destination"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "searchWeb", name: "destination"), node: nil)
         }
 
         return parameters

@@ -21,35 +21,35 @@ struct CreatePDFParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFInput = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createPDF", name: "input"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createPDF", name: "input"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "margins" }) {
             parameters.WFPDFIncludeMargin = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createPDF", name: "margins"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createPDF", name: "margins"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "pages" }) {
             parameters.pages = Jelly_WFPDFIncludedPages(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createPDF", name: "pages"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createPDF", name: "pages"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "singlePageNumb" }) {
             parameters.WFPDFSinglePage = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createPDF", name: "singlePageNumb"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createPDF", name: "singlePageNumb"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "pageStart" }) {
             parameters.WFPDFPageRangeStart = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createPDF", name: "pageStart"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createPDF", name: "pageStart"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "pageEnd" }) {
             parameters.WFPDFPageRangeEnd = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createPDF", name: "pageEnd"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createPDF", name: "pageEnd"), node: nil)
         }
 
         return parameters

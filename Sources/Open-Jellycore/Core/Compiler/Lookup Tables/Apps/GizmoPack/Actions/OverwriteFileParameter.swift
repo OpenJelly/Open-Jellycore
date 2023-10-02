@@ -19,29 +19,29 @@ struct OverwriteFileParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.file = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "overwriteFile", name: "file"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "overwriteFile", name: "file"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "overwrite" }) {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.overwrite = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "overwriteFile", name: "overwrite"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "overwriteFile", name: "overwrite"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "isFolder" }) {
             parameters.isFolder = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "overwriteFile", name: "isFolder"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "overwriteFile", name: "isFolder"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "path" }) {
             parameters.path = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "overwriteFile", name: "path"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "overwriteFile", name: "path"), node: nil)
         }
 
         return parameters

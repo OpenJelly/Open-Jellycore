@@ -16,12 +16,12 @@ struct RunCodeParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "code" }) {
             parameters.code = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "runCode", name: "code"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "runCode", name: "code"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "arguments" }) {
             parameters.arguments = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "runCode", name: "arguments"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "runCode", name: "arguments"), node: nil)
         }
 
         return parameters

@@ -15,7 +15,7 @@ struct GetArticleParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "url" }) {
             parameters.WFWebPage = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getArticle", name: "url"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getArticle", name: "url"), node: nil)
         }
 
         return parameters

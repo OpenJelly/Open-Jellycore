@@ -16,12 +16,12 @@ struct AddTracksToPlaylistParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "playlist" }) {
             parameters.playlist = Jelly_Playlist(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "addTracksToPlaylist", name: "playlist"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "addTracksToPlaylist", name: "playlist"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "trackIDs" }) {
             parameters.trackIDs = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "addTracksToPlaylist", name: "trackIDs"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "addTracksToPlaylist", name: "trackIDs"), node: nil)
         }
 
         return parameters

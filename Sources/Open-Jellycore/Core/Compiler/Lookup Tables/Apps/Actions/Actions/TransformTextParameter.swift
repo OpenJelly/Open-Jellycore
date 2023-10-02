@@ -16,12 +16,12 @@ struct TransformTextParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "text" }) {
             parameters.text = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "transformText", name: "text"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "transformText", name: "text"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "transformation" }) {
             parameters.transformation = Jelly_Transformation(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "transformText", name: "transformation"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "transformText", name: "transformation"), node: nil)
         }
 
         return parameters

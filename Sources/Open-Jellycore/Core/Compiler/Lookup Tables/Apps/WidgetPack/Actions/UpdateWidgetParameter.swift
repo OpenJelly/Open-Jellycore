@@ -17,17 +17,17 @@ struct UpdateWidgetParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "view" }) {
             parameters.view = Jelly_View(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "updateWidget", name: "view"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "updateWidget", name: "view"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "name" }) {
             parameters.name = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "updateWidget", name: "name"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "updateWidget", name: "name"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "widgetURL" }) {
             parameters.widgetURL = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "updateWidget", name: "widgetURL"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "updateWidget", name: "widgetURL"), node: nil)
         }
 
         return parameters

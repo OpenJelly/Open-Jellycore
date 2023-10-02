@@ -16,12 +16,12 @@ struct CopyLastLinksIntoClipboardParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "sortCriteria" }) {
             parameters.sortCriteria = Jelly_ShortcutLinkSortCriteria(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "copyLastLinksIntoClipboard", name: "sortCriteria"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "copyLastLinksIntoClipboard", name: "sortCriteria"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "sortOrder" }) {
             parameters.sortOrder = Jelly_ShortcutLinkOrderCriteria(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "copyLastLinksIntoClipboard", name: "sortOrder"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "copyLastLinksIntoClipboard", name: "sortOrder"), node: nil)
         }
 
         return parameters

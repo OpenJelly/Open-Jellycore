@@ -15,7 +15,7 @@ struct LoWoradWorkspaceParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "workspace" }) {
             parameters.workspace = Jelly_Workspace(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "loWoradWorkspace", name: "workspace"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "loWoradWorkspace", name: "workspace"), node: nil)
         }
 
         return parameters

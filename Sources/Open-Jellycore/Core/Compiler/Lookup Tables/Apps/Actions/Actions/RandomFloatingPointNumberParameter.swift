@@ -16,12 +16,12 @@ struct RandomFloatingPointNumberParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "minimum" }) {
             parameters.minimum = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "randomFloatingPointNumber", name: "minimum"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "randomFloatingPointNumber", name: "minimum"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "maximum" }) {
             parameters.maximum = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "randomFloatingPointNumber", name: "maximum"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "randomFloatingPointNumber", name: "maximum"), node: nil)
         }
 
         return parameters

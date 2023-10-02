@@ -20,30 +20,30 @@ struct MakeDiskImageParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFInput = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "makeDiskImage", name: "files"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "makeDiskImage", name: "files"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "name" }) {
             parameters.VolumeName = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "makeDiskImage", name: "name"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "makeDiskImage", name: "name"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "encrypt" }) {
             parameters.EncryptImage = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "makeDiskImage", name: "encrypt"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "makeDiskImage", name: "encrypt"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "sizetofit" }) {
             parameters.SizeToFit = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "makeDiskImage", name: "sizetofit"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "makeDiskImage", name: "sizetofit"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "size" }) {
             parameters.ImageSize = ShortcutsQuantity(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "makeDiskImage", name: "size"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "makeDiskImage", name: "size"), node: nil)
         }
 
         return parameters

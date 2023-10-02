@@ -19,27 +19,27 @@ struct SearchAppStoreParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "input" }) {
             parameters.WFSearchTerm = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "searchAppStore", name: "input"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "searchAppStore", name: "input"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "by" }) {
             parameters.by = Jelly_WFAttribute(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "searchAppStore", name: "by"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "searchAppStore", name: "by"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "region" }) {
             parameters.region = Jelly_WFCountry(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "searchAppStore", name: "region"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "searchAppStore", name: "region"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "device" }) {
             parameters.device = Jelly_WFEntity(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "searchAppStore", name: "device"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "searchAppStore", name: "device"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "limit" }) {
             parameters.WFItemLimit = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "searchAppStore", name: "limit"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "searchAppStore", name: "limit"), node: nil)
         }
 
         return parameters

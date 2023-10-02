@@ -19,27 +19,27 @@ struct SearchItunesParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "query" }) {
             parameters.WFSearchTerm = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "searchItunes", name: "query"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "searchItunes", name: "query"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "category" }) {
             parameters.category = Jelly_WFMediaType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "searchItunes", name: "category"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "searchItunes", name: "category"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "by" }) {
             parameters.by = Jelly_WFAttribute(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "searchItunes", name: "by"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "searchItunes", name: "by"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "results" }) {
             parameters.results = Jelly_WFEntity(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "searchItunes", name: "results"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "searchItunes", name: "results"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "count" }) {
             parameters.WFItemLimit = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "searchItunes", name: "count"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "searchItunes", name: "count"), node: nil)
         }
 
         return parameters

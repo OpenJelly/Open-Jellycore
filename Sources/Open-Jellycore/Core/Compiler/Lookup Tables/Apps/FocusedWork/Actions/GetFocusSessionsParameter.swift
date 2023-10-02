@@ -15,7 +15,7 @@ struct GetFocusSessionsParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "favouritesOnly" }) {
             parameters.favouritesOnly = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getFocusSessions", name: "favouritesOnly"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getFocusSessions", name: "favouritesOnly"), node: nil)
         }
 
         return parameters

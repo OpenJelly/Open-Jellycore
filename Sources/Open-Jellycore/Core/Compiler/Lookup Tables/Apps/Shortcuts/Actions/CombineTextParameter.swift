@@ -17,17 +17,17 @@ struct CombineTextParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "text" }) {
             parameters.text = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "combineText", name: "text"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "combineText", name: "text"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "combine" }) {
             parameters.combine = Jelly_WFTextSeparator(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "combineText", name: "combine"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "combineText", name: "combine"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "separator" }) {
             parameters.WFTextCustomSeparator = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "combineText", name: "separator"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "combineText", name: "separator"), node: nil)
         }
 
         return parameters

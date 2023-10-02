@@ -15,7 +15,7 @@ struct OpenShortcutParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "name" }) {
             parameters.WFWorkflow = ShortcutsApp(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "openShortcut", name: "name"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "openShortcut", name: "name"), node: nil)
         }
 
         return parameters

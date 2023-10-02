@@ -16,16 +16,16 @@ struct ZStackParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "alignment" }) {
             parameters.alignment = Jelly_Alignment(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "zStack", name: "alignment"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "zStack", name: "alignment"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "content" }) {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.content = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "zStack", name: "content"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "zStack", name: "content"), node: nil)
         }
 
         return parameters

@@ -15,7 +15,7 @@ struct SkipBackParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "point" }) {
             parameters.point = Jelly_WFSkipBackBehavior(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "skipBack", name: "point"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "skipBack", name: "point"), node: nil)
         }
 
         return parameters

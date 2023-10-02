@@ -17,17 +17,17 @@ struct CheckGVParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "name" }) {
             parameters.name = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "checkGV", name: "name"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "checkGV", name: "name"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "create" }) {
             parameters.create = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "checkGV", name: "create"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "checkGV", name: "create"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "value" }) {
             parameters.value = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "checkGV", name: "value"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "checkGV", name: "value"), node: nil)
         }
 
         return parameters

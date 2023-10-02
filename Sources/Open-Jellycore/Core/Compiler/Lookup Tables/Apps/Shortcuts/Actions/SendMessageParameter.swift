@@ -17,21 +17,21 @@ struct SendMessageParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "message" }) {
             parameters.WFSendMessageContent = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "sendMessage", name: "message"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "sendMessage", name: "message"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "recipient" })?.item {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFSendMessageActionRecipients = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "sendMessage", name: "recipient"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "sendMessage", name: "recipient"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "show" }) {
             parameters.ShowWhenRun = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "sendMessage", name: "show"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "sendMessage", name: "show"), node: nil)
         }
 
         return parameters

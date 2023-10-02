@@ -17,17 +17,17 @@ struct ModifierBackgroundParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "backgroundView" }) {
             parameters.backgroundView = Jelly_View(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierBackground", name: "backgroundView"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierBackground", name: "backgroundView"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "backgroundAlignment" }) {
             parameters.backgroundAlignment = Jelly_Alignment(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierBackground", name: "backgroundAlignment"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierBackground", name: "backgroundAlignment"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "view" }) {
             parameters.view = Jelly_View(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierBackground", name: "view"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierBackground", name: "view"), node: nil)
         }
 
         return parameters

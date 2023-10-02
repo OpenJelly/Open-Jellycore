@@ -15,7 +15,7 @@ struct SetBluetoothParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "value" }) {
             parameters.value = JellyIntegerBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setBluetooth", name: "value"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setBluetooth", name: "value"), node: nil)
         }
 
         return parameters

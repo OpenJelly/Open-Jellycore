@@ -15,7 +15,7 @@ struct GetReminderListsParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "getType" }) {
             parameters.getType = Jelly_ReminderListType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getReminderLists", name: "getType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getReminderLists", name: "getType"), node: nil)
         }
 
         return parameters

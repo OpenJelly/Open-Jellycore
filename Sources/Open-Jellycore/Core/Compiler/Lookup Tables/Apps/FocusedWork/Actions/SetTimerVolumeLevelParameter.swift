@@ -15,7 +15,7 @@ struct SetTimerVolumeLevelParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "volume" }) {
             parameters.volume = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setTimerVolumeLevel", name: "volume"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setTimerVolumeLevel", name: "volume"), node: nil)
         }
 
         return parameters

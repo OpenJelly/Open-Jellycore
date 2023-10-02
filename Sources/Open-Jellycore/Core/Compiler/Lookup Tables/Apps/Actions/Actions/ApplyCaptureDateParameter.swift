@@ -16,12 +16,12 @@ struct ApplyCaptureDateParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "images" }) {
             parameters.images = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "applyCaptureDate", name: "images"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "applyCaptureDate", name: "images"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "setModificationDate" }) {
             parameters.setModificationDate = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "applyCaptureDate", name: "setModificationDate"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "applyCaptureDate", name: "setModificationDate"), node: nil)
         }
 
         return parameters

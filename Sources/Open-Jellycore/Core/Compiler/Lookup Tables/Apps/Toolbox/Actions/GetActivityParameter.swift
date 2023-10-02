@@ -19,27 +19,27 @@ struct GetActivityParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "activityQueryType" }) {
             parameters.activityQueryType = Jelly_ActivityQueryType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getActivity", name: "activityQueryType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getActivity", name: "activityQueryType"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "startDate" }) {
             parameters.startDate = JellyDate(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getActivity", name: "startDate"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getActivity", name: "startDate"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "endDate" }) {
             parameters.endDate = JellyDate(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getActivity", name: "endDate"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getActivity", name: "endDate"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "onDay" }) {
             parameters.onDay = JellyDate(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getActivity", name: "onDay"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getActivity", name: "onDay"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "limit" }) {
             parameters.limit = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getActivity", name: "limit"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getActivity", name: "limit"), node: nil)
         }
 
         return parameters

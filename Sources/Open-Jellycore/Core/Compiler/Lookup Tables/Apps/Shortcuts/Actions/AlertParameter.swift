@@ -17,17 +17,17 @@ struct AlertParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "alert" }) {
             parameters.WFAlertActionMessage = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "alert", name: "alert"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "alert", name: "alert"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "title" }) {
             parameters.WFAlertActionTitle = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "alert", name: "title"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "alert", name: "title"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "cancel" }) {
             parameters.WFAlertActionCancelButtonShown = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "alert", name: "cancel"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "alert", name: "cancel"), node: nil)
         }
 
         return parameters

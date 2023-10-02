@@ -16,10 +16,10 @@ struct ImportShortcutParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.shortcut = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "importShortcut", name: "file"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "importShortcut", name: "file"), node: nil)
         }
 
         return parameters

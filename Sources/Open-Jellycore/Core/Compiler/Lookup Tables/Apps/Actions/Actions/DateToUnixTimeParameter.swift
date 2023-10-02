@@ -15,7 +15,7 @@ struct DateToUnixTimeParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "date" }) {
             parameters.date = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "dateToUnixTime", name: "date"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "dateToUnixTime", name: "date"), node: nil)
         }
 
         return parameters

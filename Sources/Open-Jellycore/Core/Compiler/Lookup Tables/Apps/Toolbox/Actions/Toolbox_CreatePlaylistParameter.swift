@@ -20,32 +20,32 @@ struct Toolbox_CreatePlaylistParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "name" }) {
             parameters.name = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createPlaylist", name: "name"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createPlaylist", name: "name"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "playlistDescription" }) {
             parameters.playlistDescription = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createPlaylist", name: "playlistDescription"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createPlaylist", name: "playlistDescription"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "addType" }) {
             parameters.addType = Jelly_AddToPlaylistType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createPlaylist", name: "addType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createPlaylist", name: "addType"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "songIDs" }) {
             parameters.songIDs = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createPlaylist", name: "songIDs"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createPlaylist", name: "songIDs"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "albumIDs" }) {
             parameters.albumIDs = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createPlaylist", name: "albumIDs"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createPlaylist", name: "albumIDs"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "playlistIDs" }) {
             parameters.playlistIDs = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createPlaylist", name: "playlistIDs"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createPlaylist", name: "playlistIDs"), node: nil)
         }
 
         return parameters

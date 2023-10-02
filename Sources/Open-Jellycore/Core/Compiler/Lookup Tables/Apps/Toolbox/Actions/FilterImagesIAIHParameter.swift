@@ -16,16 +16,16 @@ struct FilterImagesIAIHParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "filter" }) {
             parameters.filter = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "filterImagesIAIH", name: "filter"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "filterImagesIAIH", name: "filter"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "images" }) {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.images = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "filterImagesIAIH", name: "images"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "filterImagesIAIH", name: "images"), node: nil)
         }
 
         return parameters

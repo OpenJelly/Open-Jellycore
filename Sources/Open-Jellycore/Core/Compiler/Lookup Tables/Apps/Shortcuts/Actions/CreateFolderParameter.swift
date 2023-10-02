@@ -15,7 +15,7 @@ struct CreateFolderParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "path" }) {
             parameters.WFFilePath = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createFolder", name: "path"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createFolder", name: "path"), node: nil)
         }
 
         return parameters

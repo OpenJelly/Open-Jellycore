@@ -18,20 +18,20 @@ struct ImportAudioFilesParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFInput = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "importAudioFiles", name: "files"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "importAudioFiles", name: "files"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "encode" }) {
             parameters.WFImportAudioFilesReencode = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "importAudioFiles", name: "encode"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "importAudioFiles", name: "encode"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "enoder" }) {
             parameters.enoder = Jelly_WFImportAudioFilesEncoder(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "importAudioFiles", name: "enoder"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "importAudioFiles", name: "enoder"), node: nil)
         }
 
         return parameters

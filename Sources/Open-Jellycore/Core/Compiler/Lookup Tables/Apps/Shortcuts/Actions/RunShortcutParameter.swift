@@ -17,21 +17,21 @@ struct RunShortcutParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "name" }) {
             parameters.WFWorkflowName = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "runShortcut", name: "name"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "runShortcut", name: "name"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "input" })?.item {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFInput = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "runShortcut", name: "input"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "runShortcut", name: "input"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "show" }) {
             parameters.WFShowWorkflow = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "runShortcut", name: "show"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "runShortcut", name: "show"), node: nil)
         }
 
         return parameters

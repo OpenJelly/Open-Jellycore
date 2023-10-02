@@ -19,27 +19,27 @@ struct CaptureParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "content" }) {
             parameters.content = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "capture", name: "content"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "capture", name: "content"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "tags" }) {
             parameters.tags = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "capture", name: "tags"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "capture", name: "tags"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "folder" }) {
             parameters.folder = Jelly_DraftUpdateFolder(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "capture", name: "folder"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "capture", name: "folder"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "isFlagged" }) {
             parameters.isFlagged = Jelly_DraftUpdateFlaggedStatus(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "capture", name: "isFlagged"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "capture", name: "isFlagged"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "grammarType" }) {
             parameters.grammarType = Jelly_GrammarType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "capture", name: "grammarType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "capture", name: "grammarType"), node: nil)
         }
 
         return parameters

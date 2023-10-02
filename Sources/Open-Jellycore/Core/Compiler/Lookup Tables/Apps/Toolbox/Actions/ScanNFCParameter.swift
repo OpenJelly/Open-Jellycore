@@ -16,12 +16,12 @@ struct ScanNFCParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "mode" }) {
             parameters.mode = Jelly_NFCMode(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "scanNFC", name: "mode"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "scanNFC", name: "mode"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "text" }) {
             parameters.text = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "scanNFC", name: "text"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "scanNFC", name: "text"), node: nil)
         }
 
         return parameters

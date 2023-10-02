@@ -27,7 +27,10 @@ let package = Package(
                 .product(name: "TreeSitterJelly", package: "tree-sitter-jelly")
             ]
         ),
-        .executableTarget(name: "jelly", dependencies: ["Open-Jellycore"]),
+        .executableTarget(name: "jelly", dependencies: [
+            "Open-Jellycore",
+            .product(name: "ArgumentParser", package: "swift-argument-parser"),
+        ]),
         .testTarget(
             name: "Open-JellycoreTests",
             dependencies: ["Open-Jellycore"]

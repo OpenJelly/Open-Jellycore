@@ -19,27 +19,27 @@ struct InsertValueInArrayParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "values" }) {
             parameters.values = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "insertValueInArray", name: "values"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "insertValueInArray", name: "values"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "keyPath" }) {
             parameters.keyPath = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "insertValueInArray", name: "keyPath"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "insertValueInArray", name: "keyPath"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "insertionPoint" }) {
             parameters.insertionPoint = Jelly_ArrayValueInsertionPoint(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "insertValueInArray", name: "insertionPoint"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "insertValueInArray", name: "insertionPoint"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "index" }) {
             parameters.index = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "insertValueInArray", name: "index"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "insertValueInArray", name: "index"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "valueConversionMode" }) {
             parameters.valueConversionMode = Jelly_ValueConversionMode(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "insertValueInArray", name: "valueConversionMode"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "insertValueInArray", name: "valueConversionMode"), node: nil)
         }
 
         return parameters

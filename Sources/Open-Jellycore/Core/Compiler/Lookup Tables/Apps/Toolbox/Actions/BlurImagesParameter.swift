@@ -20,30 +20,30 @@ struct BlurImagesParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.images = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "blurImages", name: "images"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "blurImages", name: "images"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "blurType" }) {
             parameters.blurType = Jelly_BlurFilterType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "blurImages", name: "blurType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "blurImages", name: "blurType"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "pixellateStrength" }) {
             parameters.pixellateStrength = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "blurImages", name: "pixellateStrength"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "blurImages", name: "pixellateStrength"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "gaussianStrength" }) {
             parameters.gaussianStrength = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "blurImages", name: "gaussianStrength"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "blurImages", name: "gaussianStrength"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "boxStrength" }) {
             parameters.boxStrength = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "blurImages", name: "boxStrength"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "blurImages", name: "boxStrength"), node: nil)
         }
 
         return parameters

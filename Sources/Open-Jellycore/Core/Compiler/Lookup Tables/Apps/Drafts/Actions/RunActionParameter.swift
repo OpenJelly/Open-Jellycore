@@ -16,12 +16,12 @@ struct RunActionParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "action" }) {
             parameters.action = Jelly_Action(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "runAction", name: "action"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "runAction", name: "action"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "content" }) {
             parameters.content = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "runAction", name: "content"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "runAction", name: "content"), node: nil)
         }
 
         return parameters

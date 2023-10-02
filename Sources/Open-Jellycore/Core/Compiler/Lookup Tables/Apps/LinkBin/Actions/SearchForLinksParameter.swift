@@ -16,12 +16,12 @@ struct SearchForLinksParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "searchText" }) {
             parameters.searchText = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "searchForLinks", name: "searchText"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "searchForLinks", name: "searchText"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "includeArchivedLinks" }) {
             parameters.includeArchivedLinks = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "searchForLinks", name: "includeArchivedLinks"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "searchForLinks", name: "includeArchivedLinks"), node: nil)
         }
 
         return parameters

@@ -20,30 +20,30 @@ struct OverlayTextParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFImage = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "overlayText", name: "image"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "overlayText", name: "image"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "text" }) {
             parameters.WFText = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "overlayText", name: "text"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "overlayText", name: "text"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "position" }) {
             parameters.position = Jelly_WFTextPosition(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "overlayText", name: "position"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "overlayText", name: "position"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "xCoordinate" }) {
             parameters.WFImageX = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "overlayText", name: "xCoordinate"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "overlayText", name: "xCoordinate"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "yCoordinate" }) {
             parameters.WFImageY = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "overlayText", name: "yCoordinate"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "overlayText", name: "yCoordinate"), node: nil)
         }
 
         return parameters

@@ -15,7 +15,7 @@ struct EndFocusSessionParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "markAsComplete" }) {
             parameters.markAsComplete = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "endFocusSession", name: "markAsComplete"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "endFocusSession", name: "markAsComplete"), node: nil)
         }
 
         return parameters

@@ -20,32 +20,32 @@ struct GetPhotoAlbumsParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "type" }) {
             parameters.type = Jelly_AlbumType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getPhotoAlbums", name: "type"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getPhotoAlbums", name: "type"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "subType" }) {
             parameters.subType = Jelly_AlbumSubType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getPhotoAlbums", name: "subType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getPhotoAlbums", name: "subType"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "sortBy" }) {
             parameters.sortBy = Jelly_SortAlbums(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getPhotoAlbums", name: "sortBy"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getPhotoAlbums", name: "sortBy"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "sortOrder" }) {
             parameters.sortOrder = Jelly_AlbumSortOrder(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getPhotoAlbums", name: "sortOrder"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getPhotoAlbums", name: "sortOrder"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "limit" }) {
             parameters.limit = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getPhotoAlbums", name: "limit"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getPhotoAlbums", name: "limit"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "limitCount" }) {
             parameters.limitCount = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getPhotoAlbums", name: "limitCount"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getPhotoAlbums", name: "limitCount"), node: nil)
         }
 
         return parameters

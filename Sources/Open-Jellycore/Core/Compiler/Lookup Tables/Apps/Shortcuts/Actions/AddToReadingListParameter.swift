@@ -15,7 +15,7 @@ struct AddToReadingListParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "urls" }) {
             parameters.WFURL = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "addToReadingList", name: "urls"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "addToReadingList", name: "urls"), node: nil)
         }
 
         return parameters

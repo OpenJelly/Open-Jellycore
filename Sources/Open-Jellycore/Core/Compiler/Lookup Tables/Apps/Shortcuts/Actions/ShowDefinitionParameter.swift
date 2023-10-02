@@ -15,7 +15,7 @@ struct ShowDefinitionParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "text" }) {
             parameters.Word = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "showDefinition", name: "text"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "showDefinition", name: "text"), node: nil)
         }
 
         return parameters

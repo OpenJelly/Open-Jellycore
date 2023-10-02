@@ -18,22 +18,22 @@ struct FontParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "kind" }) {
             parameters.kind = Jelly_FontKind(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "font", name: "kind"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "font", name: "kind"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "size" }) {
             parameters.size = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "font", name: "size"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "font", name: "size"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "weight" }) {
             parameters.weight = Jelly_FontWeight(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "font", name: "weight"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "font", name: "weight"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "design" }) {
             parameters.design = Jelly_FontDesign(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "font", name: "design"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "font", name: "design"), node: nil)
         }
 
         return parameters

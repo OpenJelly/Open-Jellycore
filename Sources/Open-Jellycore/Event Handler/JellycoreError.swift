@@ -157,7 +157,7 @@ public class JellycoreError: LocalizedError, Identifiable {
     }
 
 #if canImport(UIKit)
-    /// Constructs an `NSAttributedString` that represents this error. Used by ``ErrorReporter/getErrorText()``. This is only available when UIKit is available
+    /// Constructs an `NSAttributedString` that represents this error. Used by ``EventReporter/getErrorText()``. This is only available when UIKit is available
     /// - Returns: An `NSAttributedString` that represents this error.
     func getAttributedString() -> NSAttributedString {
         guard let errorDescription else { return NSAttributedString() }

@@ -16,12 +16,12 @@ struct GetLocationFromCoordsParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "latitude" }) {
             parameters.latitude = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getLocationFromCoords", name: "latitude"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getLocationFromCoords", name: "latitude"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "longitude" }) {
             parameters.longitude = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getLocationFromCoords", name: "longitude"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getLocationFromCoords", name: "longitude"), node: nil)
         }
 
         return parameters

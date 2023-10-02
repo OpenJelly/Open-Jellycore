@@ -18,20 +18,20 @@ struct GetTextFromImageParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.image = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getTextFromImage", name: "image"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getTextFromImage", name: "image"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "languageCorrection" }) {
             parameters.languageCorrection = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getTextFromImage", name: "languageCorrection"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getTextFromImage", name: "languageCorrection"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "language" }) {
             parameters.language = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getTextFromImage", name: "language"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getTextFromImage", name: "language"), node: nil)
         }
 
         return parameters

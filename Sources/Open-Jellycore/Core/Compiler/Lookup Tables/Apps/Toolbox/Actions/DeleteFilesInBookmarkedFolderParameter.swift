@@ -16,12 +16,12 @@ struct DeleteFilesInBookmarkedFolderParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "bookmarkedFolder" }) {
             parameters.bookmarkedFolder = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "deleteFilesInBookmarkedFolder", name: "bookmarkedFolder"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "deleteFilesInBookmarkedFolder", name: "bookmarkedFolder"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "filePaths" }) {
             parameters.filePaths = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "deleteFilesInBookmarkedFolder", name: "filePaths"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "deleteFilesInBookmarkedFolder", name: "filePaths"), node: nil)
         }
 
         return parameters

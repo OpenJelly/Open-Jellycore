@@ -18,22 +18,22 @@ struct RecordAudioParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "quality" }) {
             parameters.quality = Jelly_WFRecordingCompression(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "recordAudio", name: "quality"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "recordAudio", name: "quality"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "start" }) {
             parameters.start = Jelly_WFRecordingStart(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "recordAudio", name: "start"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "recordAudio", name: "start"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "end" }) {
             parameters.end = Jelly_WFRecordingEnd(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "recordAudio", name: "end"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "recordAudio", name: "end"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "duration" }) {
             parameters.WFRecordingTimeInterval = ShortcutsQuantity(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "recordAudio", name: "duration"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "recordAudio", name: "duration"), node: nil)
         }
 
         return parameters

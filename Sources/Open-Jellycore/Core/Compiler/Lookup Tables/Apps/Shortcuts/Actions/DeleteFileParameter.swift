@@ -17,15 +17,15 @@ struct DeleteFileParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFInput = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "deleteFile", name: "input"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "deleteFile", name: "input"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "confirm" }) {
             parameters.WFDeleteFileConfirmDeletion = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "deleteFile", name: "confirm"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "deleteFile", name: "confirm"), node: nil)
         }
 
         return parameters

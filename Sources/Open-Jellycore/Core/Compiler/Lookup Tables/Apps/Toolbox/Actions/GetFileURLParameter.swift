@@ -17,15 +17,15 @@ struct GetFileURLParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.file = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getFileURL", name: "file"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getFileURL", name: "file"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "output" }) {
             parameters.output = Jelly_FileURLType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getFileURL", name: "output"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getFileURL", name: "output"), node: nil)
         }
 
         return parameters

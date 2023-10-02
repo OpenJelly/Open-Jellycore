@@ -16,12 +16,12 @@ struct ModifierFontParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "font" }) {
             parameters.font = Jelly_Font(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierFont", name: "font"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierFont", name: "font"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "view" }) {
             parameters.view = Jelly_View(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierFont", name: "view"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierFont", name: "view"), node: nil)
         }
 
         return parameters

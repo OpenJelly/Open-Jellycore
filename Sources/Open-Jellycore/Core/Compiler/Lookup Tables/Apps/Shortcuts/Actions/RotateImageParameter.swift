@@ -17,15 +17,15 @@ struct RotateImageParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFImage = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "rotateImage", name: "image"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "rotateImage", name: "image"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "degrees" }) {
             parameters.WFImageRotateAmount = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "rotateImage", name: "degrees"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "rotateImage", name: "degrees"), node: nil)
         }
 
         return parameters

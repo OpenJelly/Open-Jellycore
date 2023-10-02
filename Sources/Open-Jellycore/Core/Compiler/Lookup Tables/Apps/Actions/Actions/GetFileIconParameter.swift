@@ -15,7 +15,7 @@ struct GetFileIconParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "files" }) {
             parameters.files = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getFileIcon", name: "files"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getFileIcon", name: "files"), node: nil)
         }
 
         return parameters

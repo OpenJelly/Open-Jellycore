@@ -17,17 +17,17 @@ struct AddExpenseParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "amount" }) {
             parameters.amount = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "addExpense", name: "amount"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "addExpense", name: "amount"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "tag" }) {
             parameters.tag = Jelly_NudgetTag(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "addExpense", name: "tag"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "addExpense", name: "tag"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "memo" }) {
             parameters.memo = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "addExpense", name: "memo"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "addExpense", name: "memo"), node: nil)
         }
 
         return parameters

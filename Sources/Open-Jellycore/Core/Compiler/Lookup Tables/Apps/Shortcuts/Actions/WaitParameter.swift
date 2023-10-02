@@ -15,7 +15,7 @@ struct WaitParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "seconds" }) {
             parameters.WFDelayTime = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "wait", name: "seconds"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "wait", name: "seconds"), node: nil)
         }
 
         return parameters

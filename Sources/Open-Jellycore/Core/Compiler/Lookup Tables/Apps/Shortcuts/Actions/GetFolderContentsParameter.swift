@@ -17,15 +17,15 @@ struct GetFolderContentsParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFFolder = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getFolderContents", name: "folder"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getFolderContents", name: "folder"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "recursive" }) {
             parameters.Recursive = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getFolderContents", name: "recursive"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getFolderContents", name: "recursive"), node: nil)
         }
 
         return parameters

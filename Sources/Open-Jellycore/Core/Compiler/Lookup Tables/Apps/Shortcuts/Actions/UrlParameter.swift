@@ -15,7 +15,7 @@ struct UrlParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "url" }) {
             parameters.WFURLActionURL = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "url", name: "url"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "url", name: "url"), node: nil)
         }
 
         return parameters

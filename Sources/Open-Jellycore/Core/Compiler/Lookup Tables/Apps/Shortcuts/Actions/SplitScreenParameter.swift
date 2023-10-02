@@ -17,17 +17,17 @@ struct SplitScreenParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "appOne" }) {
             parameters.WFPrimaryAppIdentifier = ShortcutsApp(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "splitScreen", name: "appOne"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "splitScreen", name: "appOne"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "appTwo" }) {
             parameters.WFSecondaryAppIdentifier = ShortcutsApp(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "splitScreen", name: "appTwo"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "splitScreen", name: "appTwo"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "ratio" }) {
             parameters.WFAppRatio = Jelly_WFAppRatio(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "splitScreen", name: "ratio"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "splitScreen", name: "ratio"), node: nil)
         }
 
         return parameters

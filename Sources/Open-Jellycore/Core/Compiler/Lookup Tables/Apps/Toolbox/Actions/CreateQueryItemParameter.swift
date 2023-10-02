@@ -18,22 +18,22 @@ struct CreateQueryItemParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "inputType" }) {
             parameters.inputType = Jelly_QueryItemType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createQueryItem", name: "inputType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createQueryItem", name: "inputType"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "name" }) {
             parameters.name = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createQueryItem", name: "name"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createQueryItem", name: "name"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "value" }) {
             parameters.value = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createQueryItem", name: "value"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createQueryItem", name: "value"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "dictionary" }) {
             parameters.dictionary = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createQueryItem", name: "dictionary"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createQueryItem", name: "dictionary"), node: nil)
         }
 
         return parameters

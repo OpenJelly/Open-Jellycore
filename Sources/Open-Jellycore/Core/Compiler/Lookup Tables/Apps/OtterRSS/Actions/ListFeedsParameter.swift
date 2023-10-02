@@ -17,17 +17,17 @@ struct ListFeedsParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "folderName" }) {
             parameters.folderName = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "listFeeds", name: "folderName"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "listFeeds", name: "folderName"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "limit" }) {
             parameters.limit = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "listFeeds", name: "limit"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "listFeeds", name: "limit"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "offset" }) {
             parameters.offset = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "listFeeds", name: "offset"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "listFeeds", name: "offset"), node: nil)
         }
 
         return parameters

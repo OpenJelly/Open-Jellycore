@@ -19,27 +19,27 @@ struct LogWorkoutParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "type" }) {
             parameters.type = Jelly_WFWorkoutReadableActivityType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "logWorkout", name: "type"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "logWorkout", name: "type"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "date" }) {
             parameters.WFWorkoutDate = JellyDate(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "logWorkout", name: "date"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "logWorkout", name: "date"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "duration" }) {
             parameters.WFWorkoutDuration = ShortcutsQuantity(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "logWorkout", name: "duration"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "logWorkout", name: "duration"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "calories" }) {
             parameters.WFWorkoutCaloriesQuantity = ShortcutsQuantity(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "logWorkout", name: "calories"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "logWorkout", name: "calories"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "distance" }) {
             parameters.WFWorkoutDistanceQuantity = ShortcutsQuantity(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "logWorkout", name: "distance"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "logWorkout", name: "distance"), node: nil)
         }
 
         return parameters

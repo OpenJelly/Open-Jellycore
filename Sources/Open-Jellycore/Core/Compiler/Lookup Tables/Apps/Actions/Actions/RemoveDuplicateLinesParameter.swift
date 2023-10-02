@@ -16,12 +16,12 @@ struct RemoveDuplicateLinesParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "text" }) {
             parameters.text = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "removeDuplicateLines", name: "text"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "removeDuplicateLines", name: "text"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "caseInsensitive" }) {
             parameters.caseInsensitive = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "removeDuplicateLines", name: "caseInsensitive"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "removeDuplicateLines", name: "caseInsensitive"), node: nil)
         }
 
         return parameters

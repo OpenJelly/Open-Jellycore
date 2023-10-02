@@ -21,37 +21,37 @@ struct XCallbackURLParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "url" }) {
             parameters.WFXCallbackURL = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "xCallbackURL", name: "url"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "xCallbackURL", name: "url"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "custom" }) {
             parameters.WFXCallbackCustomCallbackEnabled = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "xCallbackURL", name: "custom"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "xCallbackURL", name: "custom"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "success" }) {
             parameters.WFXCallbackCustomSuccessKey = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "xCallbackURL", name: "success"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "xCallbackURL", name: "success"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "cancel" }) {
             parameters.WFXCallbackCustomCancelKey = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "xCallbackURL", name: "cancel"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "xCallbackURL", name: "cancel"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "error" }) {
             parameters.WFXCallbackCustomErrorKey = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "xCallbackURL", name: "error"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "xCallbackURL", name: "error"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "customXSuccess" }) {
             parameters.WFXCallbackCustomSuccessURLEnabled = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "xCallbackURL", name: "customXSuccess"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "xCallbackURL", name: "customXSuccess"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "xSuccess" }) {
             parameters.WFXCallbackCustomSuccessURL = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "xCallbackURL", name: "xSuccess"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "xCallbackURL", name: "xSuccess"), node: nil)
         }
 
         return parameters

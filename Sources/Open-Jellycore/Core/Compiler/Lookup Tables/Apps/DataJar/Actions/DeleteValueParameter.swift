@@ -17,17 +17,17 @@ struct DeleteValueParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "keyPath" }) {
             parameters.keyPath = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "deleteValue", name: "keyPath"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "deleteValue", name: "keyPath"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "errorWhenValueNotFound" }) {
             parameters.errorWhenValueNotFound = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "deleteValue", name: "errorWhenValueNotFound"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "deleteValue", name: "errorWhenValueNotFound"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "deleteStrategy" }) {
             parameters.deleteStrategy = Jelly_DeleteStrategy(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "deleteValue", name: "deleteStrategy"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "deleteValue", name: "deleteStrategy"), node: nil)
         }
 
         return parameters

@@ -17,19 +17,19 @@ struct AnalyseImageParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.image = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "analyseImage", name: "image"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "analyseImage", name: "image"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "coremlModel" }) {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.coremlModel = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "analyseImage", name: "coremlModel"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "analyseImage", name: "coremlModel"), node: nil)
         }
 
         return parameters

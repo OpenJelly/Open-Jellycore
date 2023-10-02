@@ -17,17 +17,17 @@ struct PerformCalculationParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "expression" }) {
             parameters.expression = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "performCalculation", name: "expression"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "performCalculation", name: "expression"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "roundResult" }) {
             parameters.roundResult = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "performCalculation", name: "roundResult"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "performCalculation", name: "roundResult"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "decimalPlaces" }) {
             parameters.decimalPlaces = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "performCalculation", name: "decimalPlaces"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "performCalculation", name: "decimalPlaces"), node: nil)
         }
 
         return parameters

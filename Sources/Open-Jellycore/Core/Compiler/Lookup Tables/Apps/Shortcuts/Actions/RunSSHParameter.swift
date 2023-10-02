@@ -21,41 +21,41 @@ struct RunSSHParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "host" }) {
             parameters.WFSSHHost = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "runSSH", name: "host"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "runSSH", name: "host"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "port" }) {
             parameters.WFSSHPort = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "runSSH", name: "port"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "runSSH", name: "port"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "user" }) {
             parameters.WFSSHUser = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "runSSH", name: "user"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "runSSH", name: "user"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "auth" }) {
             parameters.auth = Jelly_WFSSHAuthenticationType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "runSSH", name: "auth"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "runSSH", name: "auth"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "password" }) {
             parameters.WFSSHPassword = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "runSSH", name: "password"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "runSSH", name: "password"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "input" })?.item {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFInput = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "runSSH", name: "input"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "runSSH", name: "input"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "script" }) {
             parameters.WFSSHScript = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "runSSH", name: "script"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "runSSH", name: "script"), node: nil)
         }
 
         return parameters

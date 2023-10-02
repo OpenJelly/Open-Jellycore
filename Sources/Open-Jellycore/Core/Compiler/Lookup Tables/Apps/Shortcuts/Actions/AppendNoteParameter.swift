@@ -16,16 +16,16 @@ struct AppendNoteParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "text" }) {
             parameters.WFInput = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "appendNote", name: "text"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "appendNote", name: "text"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "note" })?.item {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFNote = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "appendNote", name: "note"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "appendNote", name: "note"), node: nil)
         }
 
         return parameters

@@ -18,20 +18,20 @@ struct SetClipboardParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFInput = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setClipboard", name: "variable"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setClipboard", name: "variable"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "local" }) {
             parameters.WFLocalOnly = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setClipboard", name: "local"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setClipboard", name: "local"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "expiration" }) {
             parameters.WFExpirationDate = JellyDate(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setClipboard", name: "expiration"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setClipboard", name: "expiration"), node: nil)
         }
 
         return parameters

@@ -16,12 +16,12 @@ struct SeekParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "behavior" }) {
             parameters.behavior = Jelly_WFSeekBehavior(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "seek", name: "behavior"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "seek", name: "behavior"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "time" }) {
             parameters.WFTimeInterval = ShortcutsQuantity(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "seek", name: "time"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "seek", name: "time"), node: nil)
         }
 
         return parameters

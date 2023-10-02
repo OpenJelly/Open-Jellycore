@@ -15,7 +15,7 @@ struct GetPlaylistsParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "types" }) {
             parameters.types = Jelly_PlaylistAccessTypes(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getPlaylists", name: "types"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getPlaylists", name: "types"), node: nil)
         }
 
         return parameters

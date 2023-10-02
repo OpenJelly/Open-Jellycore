@@ -16,12 +16,12 @@ struct CreateFoldersParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "bookmarkNames" }) {
             parameters.bookmarkNames = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createFolders", name: "bookmarkNames"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createFolders", name: "bookmarkNames"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "paths" }) {
             parameters.paths = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createFolders", name: "paths"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createFolders", name: "paths"), node: nil)
         }
 
         return parameters

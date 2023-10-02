@@ -16,12 +16,12 @@ struct GetIPParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "source" }) {
             parameters.source = Jelly_WFIPAddressSourceOption(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getIP", name: "source"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getIP", name: "source"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "type" }) {
             parameters.type = Jelly_WFIPAddressTypeOption(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getIP", name: "type"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getIP", name: "type"), node: nil)
         }
 
         return parameters

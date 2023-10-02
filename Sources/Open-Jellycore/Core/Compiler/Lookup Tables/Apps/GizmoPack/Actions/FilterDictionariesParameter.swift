@@ -20,30 +20,30 @@ struct FilterDictionariesParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.dictionaries = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "filterDictionaries", name: "dictionaries"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "filterDictionaries", name: "dictionaries"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "key" }) {
             parameters.key = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "filterDictionaries", name: "key"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "filterDictionaries", name: "key"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "operation" }) {
             parameters.operation = Jelly_FilterDictionariesOperation(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "filterDictionaries", name: "operation"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "filterDictionaries", name: "operation"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "isValue" }) {
             parameters.isValue = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "filterDictionaries", name: "isValue"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "filterDictionaries", name: "isValue"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "isNotValue" }) {
             parameters.isNotValue = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "filterDictionaries", name: "isNotValue"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "filterDictionaries", name: "isNotValue"), node: nil)
         }
 
         return parameters

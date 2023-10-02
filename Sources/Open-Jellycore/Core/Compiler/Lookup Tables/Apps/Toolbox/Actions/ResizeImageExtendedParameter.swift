@@ -20,30 +20,30 @@ struct ResizeImageExtendedParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.image = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "resizeImageExtended", name: "image"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "resizeImageExtended", name: "image"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "resizeMode" }) {
             parameters.resizeMode = Jelly_ResizeMode(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "resizeImageExtended", name: "resizeMode"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "resizeImageExtended", name: "resizeMode"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "longestEdge" }) {
             parameters.longestEdge = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "resizeImageExtended", name: "longestEdge"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "resizeImageExtended", name: "longestEdge"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "shortestEdge" }) {
             parameters.shortestEdge = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "resizeImageExtended", name: "shortestEdge"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "resizeImageExtended", name: "shortestEdge"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "includeAlpha" }) {
             parameters.includeAlpha = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "resizeImageExtended", name: "includeAlpha"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "resizeImageExtended", name: "includeAlpha"), node: nil)
         }
 
         return parameters

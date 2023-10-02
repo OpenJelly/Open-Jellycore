@@ -16,16 +16,16 @@ struct LocationDetailParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "detail" }) {
             parameters.detail = Jelly_WFContentItemPropertyName(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "locationDetail", name: "detail"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "locationDetail", name: "detail"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "location" })?.item {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFInput = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "locationDetail", name: "location"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "locationDetail", name: "location"), node: nil)
         }
 
         return parameters

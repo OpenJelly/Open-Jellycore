@@ -21,37 +21,37 @@ struct FindPexelPhotosParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "query" }) {
             parameters.query = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findPexelPhotos", name: "query"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findPexelPhotos", name: "query"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "orientation" }) {
             parameters.orientation = Jelly_VideoOrientation(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findPexelPhotos", name: "orientation"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findPexelPhotos", name: "orientation"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "minimumSize" }) {
             parameters.minimumSize = Jelly_MinPhotoSize(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findPexelPhotos", name: "minimumSize"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findPexelPhotos", name: "minimumSize"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "colour" }) {
             parameters.colour = Jelly_PexelPhotoColours(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findPexelPhotos", name: "colour"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findPexelPhotos", name: "colour"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "hexCode" }) {
             parameters.hexCode = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findPexelPhotos", name: "hexCode"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findPexelPhotos", name: "hexCode"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "resultsPerPage" }) {
             parameters.resultsPerPage = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findPexelPhotos", name: "resultsPerPage"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findPexelPhotos", name: "resultsPerPage"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "pageNumber" }) {
             parameters.pageNumber = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findPexelPhotos", name: "pageNumber"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findPexelPhotos", name: "pageNumber"), node: nil)
         }
 
         return parameters

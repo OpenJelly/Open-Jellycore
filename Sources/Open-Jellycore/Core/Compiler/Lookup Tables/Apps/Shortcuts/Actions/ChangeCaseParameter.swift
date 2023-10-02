@@ -16,12 +16,12 @@ struct ChangeCaseParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "text" }) {
             parameters.text = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "changeCase", name: "text"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "changeCase", name: "text"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "case" }) {
             parameters.case = Jelly_WFCaseType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "changeCase", name: "case"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "changeCase", name: "case"), node: nil)
         }
 
         return parameters

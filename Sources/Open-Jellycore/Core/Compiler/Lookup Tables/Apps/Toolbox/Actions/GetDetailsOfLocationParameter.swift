@@ -15,7 +15,7 @@ struct GetDetailsOfLocationParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "location" }) {
             parameters.location = ShortcutsPlacemark(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getDetailsOfLocation", name: "location"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getDetailsOfLocation", name: "location"), node: nil)
         }
 
         return parameters

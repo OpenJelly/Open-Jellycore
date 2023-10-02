@@ -16,12 +16,12 @@ struct ModifierBrightnessParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "brightness" }) {
             parameters.brightness = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierBrightness", name: "brightness"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierBrightness", name: "brightness"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "view" }) {
             parameters.view = Jelly_View(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierBrightness", name: "view"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierBrightness", name: "view"), node: nil)
         }
 
         return parameters

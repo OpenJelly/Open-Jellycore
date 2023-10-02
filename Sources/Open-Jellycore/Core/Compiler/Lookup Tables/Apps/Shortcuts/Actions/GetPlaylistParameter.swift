@@ -15,7 +15,7 @@ struct GetPlaylistParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "name" }) {
             parameters.WFPlaylistName = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getPlaylist", name: "name"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getPlaylist", name: "name"), node: nil)
         }
 
         return parameters

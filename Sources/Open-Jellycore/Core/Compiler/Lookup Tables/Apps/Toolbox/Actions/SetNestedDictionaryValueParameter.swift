@@ -19,27 +19,27 @@ struct SetNestedDictionaryValueParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "dictionary" }) {
             parameters.dictionary = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setNestedDictionaryValue", name: "dictionary"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setNestedDictionaryValue", name: "dictionary"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "path" }) {
             parameters.path = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setNestedDictionaryValue", name: "path"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setNestedDictionaryValue", name: "path"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "mode" }) {
             parameters.mode = Jelly_SetDictionaryMode(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setNestedDictionaryValue", name: "mode"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setNestedDictionaryValue", name: "mode"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "value" }) {
             parameters.value = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setNestedDictionaryValue", name: "value"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setNestedDictionaryValue", name: "value"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "appendValue" }) {
             parameters.appendValue = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setNestedDictionaryValue", name: "appendValue"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setNestedDictionaryValue", name: "appendValue"), node: nil)
         }
 
         return parameters

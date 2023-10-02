@@ -17,15 +17,15 @@ struct CreateAlbumParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFInput = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createAlbum", name: "photos"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createAlbum", name: "photos"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "name" }) {
             parameters.AlbumName = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createAlbum", name: "name"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createAlbum", name: "name"), node: nil)
         }
 
         return parameters

@@ -17,17 +17,17 @@ struct SearchForEmojiParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "query" }) {
             parameters.query = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "searchForEmoji", name: "query"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "searchForEmoji", name: "query"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "category" }) {
             parameters.category = Jelly_EmojiCategories(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "searchForEmoji", name: "category"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "searchForEmoji", name: "category"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "limit" }) {
             parameters.limit = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "searchForEmoji", name: "limit"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "searchForEmoji", name: "limit"), node: nil)
         }
 
         return parameters

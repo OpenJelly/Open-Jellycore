@@ -16,12 +16,12 @@ struct SortListParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "list" }) {
             parameters.list = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "sortList", name: "list"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "sortList", name: "list"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "sortOrder" }) {
             parameters.sortOrder = Jelly_SortOrder(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "sortList", name: "sortOrder"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "sortList", name: "sortOrder"), node: nil)
         }
 
         return parameters

@@ -17,17 +17,17 @@ struct DeviceStorageParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "storageTypes" }) {
             parameters.storageTypes = Jelly_StorageTypes(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "deviceStorage", name: "storageTypes"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "deviceStorage", name: "storageTypes"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "unitOfMeasurement" }) {
             parameters.unitOfMeasurement = Jelly_MbGb(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "deviceStorage", name: "unitOfMeasurement"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "deviceStorage", name: "unitOfMeasurement"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "includeUnits" }) {
             parameters.includeUnits = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "deviceStorage", name: "includeUnits"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "deviceStorage", name: "includeUnits"), node: nil)
         }
 
         return parameters

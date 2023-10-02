@@ -17,15 +17,15 @@ struct JavascriptForAutomationParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.Input = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "javascriptForAutomation", name: "input"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "javascriptForAutomation", name: "input"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "script" }) {
             parameters.Script = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "javascriptForAutomation", name: "script"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "javascriptForAutomation", name: "script"), node: nil)
         }
 
         return parameters

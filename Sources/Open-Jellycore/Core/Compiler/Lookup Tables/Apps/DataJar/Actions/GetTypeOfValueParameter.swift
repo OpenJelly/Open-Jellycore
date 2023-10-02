@@ -15,7 +15,7 @@ struct GetTypeOfValueParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "keyPath" }) {
             parameters.keyPath = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getTypeOfValue", name: "keyPath"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getTypeOfValue", name: "keyPath"), node: nil)
         }
 
         return parameters

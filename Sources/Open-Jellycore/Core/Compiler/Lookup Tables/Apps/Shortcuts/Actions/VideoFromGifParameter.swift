@@ -17,15 +17,15 @@ struct VideoFromGifParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFInputGIF = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "videoFromGif", name: "gif"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "videoFromGif", name: "gif"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "loop" }) {
             parameters.WFMakeVideoFromGIFActionLoopCount = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "videoFromGif", name: "loop"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "videoFromGif", name: "loop"), node: nil)
         }
 
         return parameters

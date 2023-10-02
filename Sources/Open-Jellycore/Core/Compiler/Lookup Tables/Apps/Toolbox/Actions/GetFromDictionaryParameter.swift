@@ -19,27 +19,27 @@ struct GetFromDictionaryParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "type" }) {
             parameters.type = Jelly_GetFromDictType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getFromDictionary", name: "type"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getFromDictionary", name: "type"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "keysContaining" }) {
             parameters.keysContaining = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getFromDictionary", name: "keysContaining"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getFromDictionary", name: "keysContaining"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "keysNotContaining" }) {
             parameters.keysNotContaining = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getFromDictionary", name: "keysNotContaining"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getFromDictionary", name: "keysNotContaining"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "dictionary" }) {
             parameters.dictionary = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getFromDictionary", name: "dictionary"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getFromDictionary", name: "dictionary"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "caseSensitive" }) {
             parameters.caseSensitive = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getFromDictionary", name: "caseSensitive"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getFromDictionary", name: "caseSensitive"), node: nil)
         }
 
         return parameters

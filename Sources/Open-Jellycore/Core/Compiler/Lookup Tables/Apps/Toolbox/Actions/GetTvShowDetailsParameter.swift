@@ -16,12 +16,12 @@ struct GetTvShowDetailsParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "tvShow" }) {
             parameters.tvShow = Jelly_TvShow(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getTvShowDetails", name: "tvShow"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getTvShowDetails", name: "tvShow"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "providersLocale" }) {
             parameters.providersLocale = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getTvShowDetails", name: "providersLocale"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getTvShowDetails", name: "providersLocale"), node: nil)
         }
 
         return parameters

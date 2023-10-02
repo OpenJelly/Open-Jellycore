@@ -17,15 +17,15 @@ struct CreateInterestHeatMapsParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.images = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createInterestHeatMaps", name: "images"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createInterestHeatMaps", name: "images"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "type" }) {
             parameters.type = Jelly_HeatmapType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createInterestHeatMaps", name: "type"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createInterestHeatMaps", name: "type"), node: nil)
         }
 
         return parameters

@@ -17,17 +17,17 @@ struct Actions_ShuffleListParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "list" }) {
             parameters.list = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "shuffleList", name: "list"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "shuffleList", name: "list"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "shouldLimit" }) {
             parameters.shouldLimit = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "shuffleList", name: "shouldLimit"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "shuffleList", name: "shouldLimit"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "limit" }) {
             parameters.limit = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "shuffleList", name: "limit"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "shuffleList", name: "limit"), node: nil)
         }
 
         return parameters

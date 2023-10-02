@@ -16,12 +16,12 @@ struct CheckForUpdatesParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "routineHubID" }) {
             parameters.routineHubID = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "checkForUpdates", name: "routineHubID"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "checkForUpdates", name: "routineHubID"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "currentVersion" }) {
             parameters.currentVersion = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "checkForUpdates", name: "currentVersion"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "checkForUpdates", name: "currentVersion"), node: nil)
         }
 
         return parameters

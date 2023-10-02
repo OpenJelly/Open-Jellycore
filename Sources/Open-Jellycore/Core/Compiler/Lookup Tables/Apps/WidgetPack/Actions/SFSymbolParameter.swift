@@ -18,22 +18,22 @@ struct SFSymbolParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "byName" }) {
             parameters.byName = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "sFSymbol", name: "byName"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "sFSymbol", name: "byName"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "name" }) {
             parameters.name = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "sFSymbol", name: "name"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "sFSymbol", name: "name"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "systemImage" }) {
             parameters.systemImage = Jelly_SFSymbol(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "sFSymbol", name: "systemImage"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "sFSymbol", name: "systemImage"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "resizable" }) {
             parameters.resizable = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "sFSymbol", name: "resizable"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "sFSymbol", name: "resizable"), node: nil)
         }
 
         return parameters

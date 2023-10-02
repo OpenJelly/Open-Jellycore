@@ -16,12 +16,12 @@ struct RandomDateTimeParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "start" }) {
             parameters.start = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "randomDateTime", name: "start"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "randomDateTime", name: "start"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "end" }) {
             parameters.end = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "randomDateTime", name: "end"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "randomDateTime", name: "end"), node: nil)
         }
 
         return parameters

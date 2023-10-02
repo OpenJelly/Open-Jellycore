@@ -19,27 +19,27 @@ struct ModifierShadowParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "view" }) {
             parameters.view = Jelly_View(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierShadow", name: "view"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierShadow", name: "view"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "color" }) {
             parameters.color = Jelly_View(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierShadow", name: "color"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierShadow", name: "color"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "radius" }) {
             parameters.radius = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierShadow", name: "radius"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierShadow", name: "radius"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "x" }) {
             parameters.x = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierShadow", name: "x"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierShadow", name: "x"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "y" }) {
             parameters.y = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierShadow", name: "y"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierShadow", name: "y"), node: nil)
         }
 
         return parameters

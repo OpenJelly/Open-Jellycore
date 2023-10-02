@@ -16,12 +16,12 @@ struct AddLinkParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "url" }) {
             parameters.url = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "addLink", name: "url"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "addLink", name: "url"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "label" }) {
             parameters.label = Jelly_ShortcutLabel(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "addLink", name: "label"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "addLink", name: "label"), node: nil)
         }
 
         return parameters

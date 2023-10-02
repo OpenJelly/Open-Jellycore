@@ -16,12 +16,12 @@ struct GetChildCountParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "keyPath" }) {
             parameters.keyPath = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getChildCount", name: "keyPath"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getChildCount", name: "keyPath"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "errorWhenValueNotFound" }) {
             parameters.errorWhenValueNotFound = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getChildCount", name: "errorWhenValueNotFound"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getChildCount", name: "errorWhenValueNotFound"), node: nil)
         }
 
         return parameters

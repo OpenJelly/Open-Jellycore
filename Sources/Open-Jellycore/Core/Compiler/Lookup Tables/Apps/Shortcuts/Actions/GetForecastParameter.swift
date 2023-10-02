@@ -15,7 +15,7 @@ struct GetForecastParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "type" }) {
             parameters.type = Jelly_WFWeatherForecastType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getForecast", name: "type"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getForecast", name: "type"), node: nil)
         }
 
         return parameters
