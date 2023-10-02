@@ -152,7 +152,6 @@ public final class Compiler {
             if let libraryName = coreNode.getImportedLibrary(),
                let library = CompilerLookupTables.Library(rawValue: libraryName) {
                 scope.addLibrary(library: library)
-                print("Added library")
             }
         case .repeat:
             guard let coreNode = coreNode as? RepeatNode else {
@@ -864,6 +863,10 @@ extension Compiler {
                 return MacroDefinitionNode(sString: sString, content: content, rawValue: node)
             case .returnStatement:
                 return ReturnStatementNode(sString: sString, content: content, rawValue: node)
+            case .error:
+                guard let errorNode = node.getError() else { break }
+                let errorString = errorNode.errorMessage(in: contents)
+                throw JellycoreError.syntax(description: errorString, recoveryStrategy: "Check your syntax in the surrounding area.")
             default:
                 print("Unhandled Node on Translate step \(content) - \(sString)")
                 break
