@@ -21,37 +21,37 @@ struct SnapshotMapParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "location" }) {
             parameters.location = ShortcutsPlacemark(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "snapshotMap", name: "location"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "snapshotMap", name: "location"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "mapType" }) {
             parameters.mapType = Jelly_MapType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "snapshotMap", name: "mapType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "snapshotMap", name: "mapType"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "style" }) {
             parameters.style = Jelly_UserInterfaceStyle(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "snapshotMap", name: "style"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "snapshotMap", name: "style"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "pointsOfInterest" }) {
             parameters.pointsOfInterest = Jelly_MapPointsOfInterest(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "snapshotMap", name: "pointsOfInterest"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "snapshotMap", name: "pointsOfInterest"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "latitude" }) {
             parameters.latitude = ShortcutsQuantity(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "snapshotMap", name: "latitude"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "snapshotMap", name: "latitude"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "width" }) {
             parameters.width = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "snapshotMap", name: "width"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "snapshotMap", name: "width"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "height" }) {
             parameters.height = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "snapshotMap", name: "height"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "snapshotMap", name: "height"), node: nil)
         }
 
         return parameters

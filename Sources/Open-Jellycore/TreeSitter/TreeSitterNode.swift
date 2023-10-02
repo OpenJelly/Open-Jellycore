@@ -33,10 +33,20 @@ final class TreeSitterNode {
     var startByte: Int {
         return Int(ts_node_start_byte(rawNode))
     }
-
+    
     /// The end byte of the node in the content parsed.
     var endByte: Int {
         return Int(ts_node_end_byte(rawNode))
+    }
+    
+    /// The start position of the node in the content parsed.
+    var startPoint: TSPoint {
+        return ts_node_start_point(rawNode)
+    }
+    
+    /// The end position of the node in the content parsed.
+    var endPoint: TSPoint {
+        return ts_node_end_point(rawNode)
     }
 
     /// Returns true if the `TSNode` is a NULL node. This means that the node was not properly parsed.
@@ -68,7 +78,7 @@ final class TreeSitterNode {
     var hasError: Bool {
         ts_node_has_error(rawNode)
     }
-
+    
     /// If the node has a parent, that node is returned.
     var parent: TreeSitterNode? {
         TreeSitterNode.getPossibleNode(node: ts_node_parent(rawNode))
@@ -78,7 +88,7 @@ final class TreeSitterNode {
     var nextSibling: TreeSitterNode? {
         TreeSitterNode.getPossibleNode(node: ts_node_next_sibling(rawNode))
     }
-
+    
     /// If the node has a previous sibling, that node is returned
     var prevSibling: TreeSitterNode? {
         TreeSitterNode.getPossibleNode(node: ts_node_prev_sibling(rawNode))
@@ -202,7 +212,47 @@ final class TreeSitterNode {
         let end = str.index(str.endIndex, offsetBy: adjustedEndByte) // Because adjustedEndByte is negative we are using the end index, and offsetting by a negative value
         
         return String(str[start ..< end])
+    }
+}
 
+extension TreeSitterNode {
+    func errorMessage(in contents: String) -> String {
+        let location = "line: \(startPoint.row + 1), "
+        
+        if hasError && (isMissing || self.type == "ERROR") { // This is the error node
+            var sstring = self.string ?? "(Unknown Error)"
+            sstring.removeLast()
+            sstring.removeFirst()
+            
+            return "SYNTAX ERROR, \(location) \"\(sstring)\""
+        } else { // We have a case of unexpected tokens
+            return "Unexpected token(s): \(self.getContents(in: contents)), \(location)"
+        }
+    }
+    
+    func getError() -> TreeSitterNode? {
+        guard hasError else { return nil }
+        
+        if self.isMissing || self.type == "ERROR" {
+            return self
+        }
+        
+        // Traverse the node tree until we find which one has an error
+        for index in 0 ..< numberOfChildren {
+            guard let child = self.getChild(index: index) else { continue }
+            
+            // Check to see if the child is the error. If not, check to see if it has an error. If so traverse down its tree to find the error
+            if child.isMissing || child.type == "ERROR" {
+                print("Found Error", child)
+                return child
+            } else if child.hasError {
+                guard let errorChild = child.getError() else { continue }
+                return errorChild
+            }
+        }
+        
+        return nil
+        
     }
 }
 

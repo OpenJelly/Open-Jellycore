@@ -7,6 +7,16 @@
 
 /// A model that represents the scope of a block of Jelly code.
 public class Scope {
+    /// The default set of shortcuts variables
+    static let globalVariables: [Variable] = [
+        Variable(uuid: "", name: "ShortcutInput", valueType: .global, value: ""),
+        Variable(uuid: "", name: "Clipboard", valueType: .global, value: ""),
+        Variable(uuid: "", name: "CurrentDate", valueType: .global, value: ""),
+        Variable(uuid: "", name: "Ask", valueType: .global, value: ""),
+        Variable(uuid: "", name: "RepeatItem", valueType: .global, value: ""),
+        Variable(uuid: "", name: "RepeatIndex", valueType: .global, value: ""),
+        Variable(uuid: "", name: "DeviceDetails", valueType: .global, value: "")
+    ]
     /// The variables that the user has defined in this scope.
     var variables: [Variable]
     /// The functions that the user has defined in this scope.

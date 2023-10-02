@@ -18,40 +18,38 @@ struct RecogniseSpeechParameter: ParameterProtocol, Codable {
         var parameters = RecogniseSpeechParameter()
 
         if let variableCall = call.first(where: { node in return node.slotName == "audio" }) {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.audio = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "recogniseSpeech", name: "audio"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "recogniseSpeech", name: "audio"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "openURL" }) {
             parameters.openURL = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "recogniseSpeech", name: "openURL"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "recogniseSpeech", name: "openURL"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "postURL" }) {
             parameters.postURL = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "recogniseSpeech", name: "postURL"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "recogniseSpeech", name: "postURL"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "additionalPhrases" }) {
             parameters.additionalPhrases = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "recogniseSpeech", name: "additionalPhrases"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "recogniseSpeech", name: "additionalPhrases"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "language" }) {
             parameters.language = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "recogniseSpeech", name: "language"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "recogniseSpeech", name: "language"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "performOffline" }) {
             parameters.performOffline = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "recogniseSpeech", name: "performOffline"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "recogniseSpeech", name: "performOffline"), node: nil)
         }
 
         return parameters

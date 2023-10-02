@@ -15,7 +15,7 @@ struct GetAudioParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "systemSounds" }) {
             parameters.systemSounds = Jelly_SystemSounds(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getAudio", name: "systemSounds"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getAudio", name: "systemSounds"), node: nil)
         }
 
         return parameters

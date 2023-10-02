@@ -16,12 +16,12 @@ struct DictateTextParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "language" }) {
             parameters.language = Jelly_WFSpeechLanguage(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "dictateText", name: "language"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "dictateText", name: "language"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "endTrigger" }) {
             parameters.endTrigger = Jelly_WFDictateTextStopListening(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "dictateText", name: "endTrigger"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "dictateText", name: "endTrigger"), node: nil)
         }
 
         return parameters

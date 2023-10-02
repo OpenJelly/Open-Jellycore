@@ -27,7 +27,7 @@ Because this is a brand new version of Jellycore, it does not currently support 
 | Export Shortcut Plist          | ✅             | ✅                |
 | Custom User Functions          | ✅             | ✅                |
 | Custom User Macros             | ✅             | ✅                |
-| Return Statements              | ❌             | ✅                |
+| Return Statements              | ✅             | ✅                |
 | Objects                        | ❌             | ✅                |
 | Import Third Party Libraries   | ✅             | ✅                |
 | Read Icon and Color Flags      | ✅             | ✅                |
@@ -39,4 +39,7 @@ Because this is a brand new version of Jellycore, it does not currently support 
 I have written this version of Jellycore with the intention of it being possible for others to use it across the Shortcuts ecosystem. It has also been built with as many Swift platform features as possible, attempting to not rely on Apple's Foundation framework, however at times it still does.
 
 ## Documentation
-The entirety of Jellycore is documented using Doc-C. This documentation is available at https://actuallytaylor.github.io/Open-Jellycore/documentation/open_jellycore/.
+The entirety of Jellycore is documented using Doc-C. Online documentation is available at https://actuallytaylor.github.io/Open-Jellycore/documentation/open_jellycore/.
+
+# Contributing
+If you are curious about contributing or where to start, the Features header is a great place to look at what is still left! If you are looking for smaller things to fix, there are a plethora of `// TODO:` comments throughout the library that are all small fixes or additions that would be nice to have.

@@ -18,22 +18,22 @@ struct GetFileParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "picker" }) {
             parameters.WFShowFilePicker = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getFile", name: "picker"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getFile", name: "picker"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "path" }) {
             parameters.WFGetFilePath = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getFile", name: "path"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getFile", name: "path"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "error" }) {
             parameters.WFFileErrorIfNotFound = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getFile", name: "error"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getFile", name: "error"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "multiple" }) {
             parameters.SelectMultiple = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getFile", name: "multiple"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getFile", name: "multiple"), node: nil)
         }
 
         return parameters

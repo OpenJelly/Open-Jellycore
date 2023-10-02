@@ -15,7 +15,7 @@ struct PrettyPrintParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "dictionary" }) {
             parameters.dictionary = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "prettyPrint", name: "dictionary"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "prettyPrint", name: "dictionary"), node: nil)
         }
 
         return parameters

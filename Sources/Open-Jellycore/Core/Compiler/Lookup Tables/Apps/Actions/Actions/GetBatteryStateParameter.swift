@@ -15,7 +15,7 @@ struct GetBatteryStateParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "state" }) {
             parameters.state = Jelly_BatteryStateType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getBatteryState", name: "state"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getBatteryState", name: "state"), node: nil)
         }
 
         return parameters

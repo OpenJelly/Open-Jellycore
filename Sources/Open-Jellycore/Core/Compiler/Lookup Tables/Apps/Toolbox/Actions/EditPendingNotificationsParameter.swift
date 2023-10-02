@@ -17,17 +17,17 @@ struct EditPendingNotificationsParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "mode" }) {
             parameters.mode = Jelly_PendingNotificationMode(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "editPendingNotifications", name: "mode"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "editPendingNotifications", name: "mode"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "notificationID" }) {
             parameters.notificationID = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "editPendingNotifications", name: "notificationID"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "editPendingNotifications", name: "notificationID"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "deliveredID" }) {
             parameters.deliveredID = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "editPendingNotifications", name: "deliveredID"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "editPendingNotifications", name: "deliveredID"), node: nil)
         }
 
         return parameters

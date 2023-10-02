@@ -25,63 +25,61 @@ struct FilterImageParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "filter" }) {
             parameters.filter = Jelly_FilterType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "filterImage", name: "filter"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "filterImage", name: "filter"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "sepiaIntensity" }) {
             parameters.sepiaIntensity = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "filterImage", name: "sepiaIntensity"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "filterImage", name: "sepiaIntensity"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "pixellateAmount" }) {
             parameters.pixellateAmount = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "filterImage", name: "pixellateAmount"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "filterImage", name: "pixellateAmount"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "desatRedTint" }) {
             parameters.desatRedTint = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "filterImage", name: "desatRedTint"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "filterImage", name: "desatRedTint"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "desatGreenTint" }) {
             parameters.desatGreenTint = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "filterImage", name: "desatGreenTint"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "filterImage", name: "desatGreenTint"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "desatBlueTint" }) {
             parameters.desatBlueTint = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "filterImage", name: "desatBlueTint"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "filterImage", name: "desatBlueTint"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "blurStrength" }) {
             parameters.blurStrength = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "filterImage", name: "blurStrength"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "filterImage", name: "blurStrength"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "blurType" }) {
             parameters.blurType = Jelly_BlurTypes(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "filterImage", name: "blurType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "filterImage", name: "blurType"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "image" }) {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.image = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "filterImage", name: "image"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "filterImage", name: "image"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "resizeImage" }) {
             parameters.resizeImage = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "filterImage", name: "resizeImage"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "filterImage", name: "resizeImage"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "resizeLongestSideTo" }) {
             parameters.resizeLongestSideTo = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "filterImage", name: "resizeLongestSideTo"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "filterImage", name: "resizeLongestSideTo"), node: nil)
         }
 
         return parameters

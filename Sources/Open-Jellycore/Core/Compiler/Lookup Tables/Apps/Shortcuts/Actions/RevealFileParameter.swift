@@ -13,15 +13,13 @@ struct RevealFileParameter: ParameterProtocol, Codable {
         var parameters = RevealFileParameter()
 
         if let variableCall = call.first(where: { node in return node.slotName == "file" })?.item {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFFile = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "revealFile", name: "file"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "revealFile", name: "file"), node: nil)
         }
 
         return parameters

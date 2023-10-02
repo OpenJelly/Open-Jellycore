@@ -16,12 +16,12 @@ struct CheckIfInstalledParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "checkAppMode" }) {
             parameters.checkAppMode = Jelly_CheckAppMode(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "checkIfInstalled", name: "checkAppMode"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "checkIfInstalled", name: "checkAppMode"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "app" }) {
             parameters.app = Jelly_Apps(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "checkIfInstalled", name: "app"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "checkIfInstalled", name: "app"), node: nil)
         }
 
         return parameters

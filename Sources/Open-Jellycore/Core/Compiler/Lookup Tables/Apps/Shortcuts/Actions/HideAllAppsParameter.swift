@@ -15,7 +15,7 @@ struct HideAllAppsParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "except" }) {
             parameters.WFAppsExcept = JellyArray<ShortcutsApp>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "hideAllApps", name: "except"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "hideAllApps", name: "except"), node: nil)
         }
 
         return parameters

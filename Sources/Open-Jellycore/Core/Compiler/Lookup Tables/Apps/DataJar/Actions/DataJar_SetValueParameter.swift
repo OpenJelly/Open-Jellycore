@@ -19,27 +19,27 @@ struct DataJar_SetValueParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "keyPath" }) {
             parameters.keyPath = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setValue", name: "keyPath"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setValue", name: "keyPath"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "values" }) {
             parameters.values = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setValue", name: "values"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setValue", name: "values"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "valueConversionMode" }) {
             parameters.valueConversionMode = Jelly_ValueConversionMode(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setValue", name: "valueConversionMode"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setValue", name: "valueConversionMode"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "overwriteStrategy" }) {
             parameters.overwriteStrategy = Jelly_OverwriteStrategy(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setValue", name: "overwriteStrategy"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setValue", name: "overwriteStrategy"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "filename" }) {
             parameters.filename = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setValue", name: "filename"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setValue", name: "filename"), node: nil)
         }
 
         return parameters

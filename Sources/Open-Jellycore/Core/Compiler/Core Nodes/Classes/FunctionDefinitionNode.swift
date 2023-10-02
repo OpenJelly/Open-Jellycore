@@ -83,7 +83,7 @@ final class FunctionDefinitionNode: CoreNode {
     func build(call: [FunctionCallParameterItem], magicVariable: Variable?, scope: Scope) throws -> [WFAction] {
         for parameter in call {
             if parameter.slotName == nil {
-                ErrorReporter.shared.reportError(error: .missingParameterName(function: name, name: "PLACEHOLDER"), node: parameter)
+                EventReporter.shared.reportError(error: .missingParameterName(function: name, name: "PLACEHOLDER"), node: parameter)
             }
         }
         

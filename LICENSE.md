@@ -1,3 +1,13 @@
+# COMMERCIAL LICENSE
+If you want to include Open-Jellycore in a non open-sourced project you will need to purchase a Commercial License. A Commercial Licnese is a custom license negotiated between you and the lead maintainer of the Open-Jellycore project based on your needs. This allows you to protect your source code and not have to open-source your entire codebase to comply with the GPLv3 license.
+
+If you are interested in a Commercial License, please contact [taylor.lineman@gmail.com](mailto:taylor.lineman@gmail.com)
+
+# OPEN SOURCE LICENSE
+For open source projects you are free to use Open-Jellycore under the GPLv3 license!
+
+## LICENSE
+```
                     GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 
@@ -672,3 +682,4 @@ may consider it more useful to permit linking proprietary applications with
 the library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.  But first, please read
 <https://www.gnu.org/licenses/why-not-lgpl.html>.
+```

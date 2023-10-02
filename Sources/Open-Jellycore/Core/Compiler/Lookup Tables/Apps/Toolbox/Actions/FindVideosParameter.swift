@@ -19,27 +19,27 @@ struct FindVideosParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "query" }) {
             parameters.query = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findVideos", name: "query"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findVideos", name: "query"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "orientation" }) {
             parameters.orientation = Jelly_VideoOrientation(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findVideos", name: "orientation"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findVideos", name: "orientation"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "minimumSize" }) {
             parameters.minimumSize = Jelly_MinVidSize(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findVideos", name: "minimumSize"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findVideos", name: "minimumSize"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "resultsPerPage" }) {
             parameters.resultsPerPage = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findVideos", name: "resultsPerPage"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findVideos", name: "resultsPerPage"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "pageNumber" }) {
             parameters.pageNumber = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findVideos", name: "pageNumber"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findVideos", name: "pageNumber"), node: nil)
         }
 
         return parameters

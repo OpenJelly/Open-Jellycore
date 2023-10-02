@@ -16,12 +16,12 @@ struct QueryWorkspaceParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "workspace" }) {
             parameters.workspace = Jelly_Workspace(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "queryWorkspace", name: "workspace"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "queryWorkspace", name: "workspace"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "folder" }) {
             parameters.folder = Jelly_DraftResponseFolder(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "queryWorkspace", name: "folder"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "queryWorkspace", name: "folder"), node: nil)
         }
 
         return parameters

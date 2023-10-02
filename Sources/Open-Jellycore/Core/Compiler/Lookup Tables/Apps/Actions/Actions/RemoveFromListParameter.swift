@@ -19,27 +19,27 @@ struct RemoveFromListParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "list" }) {
             parameters.list = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "removeFromList", name: "list"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "removeFromList", name: "list"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "action" }) {
             parameters.action = Jelly_RemoveFromListAction(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "removeFromList", name: "action"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "removeFromList", name: "action"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "index" }) {
             parameters.index = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "removeFromList", name: "index"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "removeFromList", name: "index"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "rangeLowerBound" }) {
             parameters.rangeLowerBound = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "removeFromList", name: "rangeLowerBound"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "removeFromList", name: "rangeLowerBound"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "rangeUpperBound" }) {
             parameters.rangeUpperBound = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "removeFromList", name: "rangeUpperBound"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "removeFromList", name: "rangeUpperBound"), node: nil)
         }
 
         return parameters

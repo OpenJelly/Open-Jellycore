@@ -15,7 +15,7 @@ struct GetNumberTrackerValueParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "tracker" }) {
             parameters.tracker = Jelly_Tracker(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getNumberTrackerValue", name: "tracker"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getNumberTrackerValue", name: "tracker"), node: nil)
         }
 
         return parameters

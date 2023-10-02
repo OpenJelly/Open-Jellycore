@@ -18,22 +18,22 @@ struct CompleteItemParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "item" }) {
             parameters.item = Jelly_Item(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "completeItem", name: "item"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "completeItem", name: "item"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "date" }) {
             parameters.date = JellyDate(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "completeItem", name: "date"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "completeItem", name: "date"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "skipped" }) {
             parameters.skipped = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "completeItem", name: "skipped"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "completeItem", name: "skipped"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "note" }) {
             parameters.note = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "completeItem", name: "note"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "completeItem", name: "note"), node: nil)
         }
 
         return parameters

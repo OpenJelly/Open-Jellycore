@@ -17,17 +17,17 @@ struct GetKeysParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "source" }) {
             parameters.source = Jelly_GetKeysSource(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getKeys", name: "source"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getKeys", name: "source"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "keyPath" }) {
             parameters.keyPath = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getKeys", name: "keyPath"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getKeys", name: "keyPath"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "errorWhenValueNotFound" }) {
             parameters.errorWhenValueNotFound = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getKeys", name: "errorWhenValueNotFound"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getKeys", name: "errorWhenValueNotFound"), node: nil)
         }
 
         return parameters

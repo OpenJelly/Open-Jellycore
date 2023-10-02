@@ -16,18 +16,16 @@ struct CountParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "type" }) {
             parameters.type = Jelly_WFCountType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "count", name: "type"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "count", name: "type"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "input" })?.item {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.Input = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "count", name: "input"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "count", name: "input"), node: nil)
         }
 
         return parameters

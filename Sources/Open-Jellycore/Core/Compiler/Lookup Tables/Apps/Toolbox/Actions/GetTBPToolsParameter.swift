@@ -15,7 +15,7 @@ struct GetTBPToolsParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "category" }) {
             parameters.category = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getTBPTools", name: "category"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getTBPTools", name: "category"), node: nil)
         }
 
         return parameters

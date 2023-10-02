@@ -15,7 +15,7 @@ struct Actions_HapticFeedbackParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "type" }) {
             parameters.type = Actions_Jelly_HapticFeedbackType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "hapticFeedback", name: "type"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "hapticFeedback", name: "type"), node: nil)
         }
 
         return parameters

@@ -18,22 +18,22 @@ struct GetW3WParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "locationType" }) {
             parameters.locationType = Jelly_W3WLocationType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getW3W", name: "locationType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getW3W", name: "locationType"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "location" }) {
             parameters.location = ShortcutsPlacemark(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getW3W", name: "location"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getW3W", name: "location"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "address" }) {
             parameters.address = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getW3W", name: "address"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getW3W", name: "address"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "coordinates" }) {
             parameters.coordinates = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getW3W", name: "coordinates"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getW3W", name: "coordinates"), node: nil)
         }
 
         return parameters

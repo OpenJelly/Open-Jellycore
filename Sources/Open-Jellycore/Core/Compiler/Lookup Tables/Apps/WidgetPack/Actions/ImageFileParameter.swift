@@ -14,20 +14,18 @@ struct ImageFileParameter: ParameterProtocol, Codable {
         var parameters = ImageFileParameter()
 
         if let variableCall = call.first(where: { node in return node.slotName == "image" }) {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.image = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "imageFile", name: "image"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "imageFile", name: "image"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "resizable" }) {
             parameters.resizable = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "imageFile", name: "resizable"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "imageFile", name: "resizable"), node: nil)
         }
 
         return parameters

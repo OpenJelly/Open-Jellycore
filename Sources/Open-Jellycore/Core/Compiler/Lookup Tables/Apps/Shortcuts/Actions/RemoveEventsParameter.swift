@@ -14,20 +14,18 @@ struct RemoveEventsParameter: ParameterProtocol, Codable {
         var parameters = RemoveEventsParameter()
 
         if let variableCall = call.first(where: { node in return node.slotName == "events" })?.item {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFInputEvents = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "removeEvents", name: "events"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "removeEvents", name: "events"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "includeFuture" }) {
             parameters.WFCalendarIncludeFutureEvents = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "removeEvents", name: "includeFuture"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "removeEvents", name: "includeFuture"), node: nil)
         }
 
         return parameters

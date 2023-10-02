@@ -15,7 +15,7 @@ struct ShowResultParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "text" }) {
             parameters.Text = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "showResult", name: "text"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "showResult", name: "text"), node: nil)
         }
 
         return parameters

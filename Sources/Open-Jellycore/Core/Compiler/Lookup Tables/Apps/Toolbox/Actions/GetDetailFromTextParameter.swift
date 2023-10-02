@@ -17,17 +17,17 @@ struct GetDetailFromTextParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "text" }) {
             parameters.text = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getDetailFromText", name: "text"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getDetailFromText", name: "text"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "detailType" }) {
             parameters.detailType = Jelly_TextDetailType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getDetailFromText", name: "detailType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getDetailFromText", name: "detailType"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "includeOriginal" }) {
             parameters.includeOriginal = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getDetailFromText", name: "includeOriginal"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getDetailFromText", name: "includeOriginal"), node: nil)
         }
 
         return parameters

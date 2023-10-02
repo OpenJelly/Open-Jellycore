@@ -16,30 +16,28 @@ struct ScaleImagesIAIHParameter: ParameterProtocol, Codable {
         var parameters = ScaleImagesIAIHParameter()
 
         if let variableCall = call.first(where: { node in return node.slotName == "images" }) {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.images = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "scaleImagesIAIH", name: "images"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "scaleImagesIAIH", name: "images"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "scaleMode" }) {
             parameters.scaleMode = Jelly_ScaleMode(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "scaleImagesIAIH", name: "scaleMode"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "scaleImagesIAIH", name: "scaleMode"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "pixelSize" }) {
             parameters.pixelSize = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "scaleImagesIAIH", name: "pixelSize"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "scaleImagesIAIH", name: "pixelSize"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "includeAlpha" }) {
             parameters.includeAlpha = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "scaleImagesIAIH", name: "includeAlpha"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "scaleImagesIAIH", name: "includeAlpha"), node: nil)
         }
 
         return parameters

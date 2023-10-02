@@ -16,12 +16,12 @@ struct GetValueParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "keyPath" }) {
             parameters.keyPath = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getValue", name: "keyPath"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getValue", name: "keyPath"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "fallbackValues" }) {
             parameters.fallbackValues = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getValue", name: "fallbackValues"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getValue", name: "fallbackValues"), node: nil)
         }
 
         return parameters

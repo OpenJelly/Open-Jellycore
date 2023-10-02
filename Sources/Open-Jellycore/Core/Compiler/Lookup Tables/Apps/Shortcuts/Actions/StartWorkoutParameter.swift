@@ -18,22 +18,22 @@ struct StartWorkoutParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "workout" }) {
             parameters.Identifier = Jelly_WorkoutIdentifiers(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "startWorkout", name: "workout"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "startWorkout", name: "workout"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "open" }) {
             parameters.isOpenEnded = JellyIntegerBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "startWorkout", name: "open"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "startWorkout", name: "open"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "value" }) {
             parameters.Magnitude = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "startWorkout", name: "value"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "startWorkout", name: "value"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "unit" }) {
             parameters.Unit = ShortcutsQuantity(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "startWorkout", name: "unit"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "startWorkout", name: "unit"), node: nil)
         }
 
         return parameters

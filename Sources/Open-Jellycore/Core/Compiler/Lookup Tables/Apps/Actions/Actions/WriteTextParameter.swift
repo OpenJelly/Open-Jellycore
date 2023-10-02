@@ -17,17 +17,17 @@ struct WriteTextParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "shouldEdit" }) {
             parameters.shouldEdit = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "writeText", name: "shouldEdit"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "writeText", name: "shouldEdit"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "text" }) {
             parameters.text = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "writeText", name: "text"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "writeText", name: "text"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "editorTitle" }) {
             parameters.editorTitle = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "writeText", name: "editorTitle"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "writeText", name: "editorTitle"), node: nil)
         }
 
         return parameters

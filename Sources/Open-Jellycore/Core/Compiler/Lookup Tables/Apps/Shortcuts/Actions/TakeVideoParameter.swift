@@ -17,17 +17,17 @@ struct TakeVideoParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "camera" }) {
             parameters.camera = Jelly_WFCameraCaptureDevice(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "takeVideo", name: "camera"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "takeVideo", name: "camera"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "quality" }) {
             parameters.quality = Jelly_WFCameraCaptureQuality(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "takeVideo", name: "quality"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "takeVideo", name: "quality"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "start" }) {
             parameters.start = Jelly_WFRecordingStart(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "takeVideo", name: "start"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "takeVideo", name: "start"), node: nil)
         }
 
         return parameters

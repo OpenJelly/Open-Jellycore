@@ -16,30 +16,28 @@ struct SmartMenuParameter: ParameterProtocol, Codable {
         var parameters = SmartMenuParameter()
 
         if let variableCall = call.first(where: { node in return node.slotName == "sourceList" }) {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.sourceList = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "smartMenu", name: "sourceList"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "smartMenu", name: "sourceList"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "openURL" }) {
             parameters.openURL = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "smartMenu", name: "openURL"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "smartMenu", name: "openURL"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "postURL" }) {
             parameters.postURL = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "smartMenu", name: "postURL"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "smartMenu", name: "postURL"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "title" }) {
             parameters.title = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "smartMenu", name: "title"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "smartMenu", name: "title"), node: nil)
         }
 
         return parameters

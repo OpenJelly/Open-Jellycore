@@ -21,55 +21,53 @@ struct SignJWTParameter: ParameterProtocol, Codable {
         var parameters = SignJWTParameter()
 
         if let variableCall = call.first(where: { node in return node.slotName == "key" }) {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.key = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "signJWT", name: "key"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "signJWT", name: "key"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "algorithm" }) {
             parameters.algorithm = Jelly_JWTAlgorithm(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "signJWT", name: "algorithm"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "signJWT", name: "algorithm"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "issuer" }) {
             parameters.issuer = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "signJWT", name: "issuer"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "signJWT", name: "issuer"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "keyID" }) {
             parameters.keyID = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "signJWT", name: "keyID"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "signJWT", name: "keyID"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "audience" }) {
             parameters.audience = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "signJWT", name: "audience"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "signJWT", name: "audience"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "notBefore" }) {
             parameters.notBefore = ShortcutsQuantity(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "signJWT", name: "notBefore"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "signJWT", name: "notBefore"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "expiration" }) {
             parameters.expiration = ShortcutsQuantity(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "signJWT", name: "expiration"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "signJWT", name: "expiration"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "subject" }) {
             parameters.subject = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "signJWT", name: "subject"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "signJWT", name: "subject"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "jwtID" }) {
             parameters.jwtID = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "signJWT", name: "jwtID"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "signJWT", name: "jwtID"), node: nil)
         }
 
         return parameters

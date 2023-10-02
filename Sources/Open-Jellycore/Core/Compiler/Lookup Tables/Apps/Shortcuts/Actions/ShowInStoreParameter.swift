@@ -13,15 +13,13 @@ struct ShowInStoreParameter: ParameterProtocol, Codable {
         var parameters = ShowInStoreParameter()
 
         if let variableCall = call.first(where: { node in return node.slotName == "product" })?.item {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFProduct = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "showInStore", name: "product"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "showInStore", name: "product"), node: nil)
         }
 
         return parameters

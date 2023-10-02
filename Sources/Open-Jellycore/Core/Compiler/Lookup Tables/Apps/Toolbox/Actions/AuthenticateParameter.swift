@@ -16,12 +16,12 @@ struct AuthenticateParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "openURL" }) {
             parameters.openURL = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "authenticate", name: "openURL"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "authenticate", name: "openURL"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "postURL" }) {
             parameters.postURL = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "authenticate", name: "postURL"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "authenticate", name: "postURL"), node: nil)
         }
 
         return parameters

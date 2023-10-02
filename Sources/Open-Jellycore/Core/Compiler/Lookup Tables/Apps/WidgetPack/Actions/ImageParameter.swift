@@ -18,28 +18,26 @@ struct ImageParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "kind" }) {
             parameters.kind = Jelly_ImageKind(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "image", name: "kind"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "image", name: "kind"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "systemImage" }) {
             parameters.systemImage = Jelly_SFSymbol(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "image", name: "systemImage"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "image", name: "systemImage"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "image" }) {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.image = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "image", name: "image"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "image", name: "image"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "resizable" }) {
             parameters.resizable = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "image", name: "resizable"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "image", name: "resizable"), node: nil)
         }
 
         return parameters

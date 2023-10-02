@@ -18,46 +18,42 @@ struct AddFrameToGIFParameter: ParameterProtocol, Codable {
         var parameters = AddFrameToGIFParameter()
 
         if let variableCall = call.first(where: { node in return node.slotName == "photo" })?.item {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFImage = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "addFrameToGIF", name: "photo"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "addFrameToGIF", name: "photo"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "gif" })?.item {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFInputGIF = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "addFrameToGIF", name: "gif"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "addFrameToGIF", name: "gif"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "delay" }) {
             parameters.WFGIFDelayTime = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "addFrameToGIF", name: "delay"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "addFrameToGIF", name: "delay"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "autoSize" }) {
             parameters.WFGIFAutoSize = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "addFrameToGIF", name: "autoSize"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "addFrameToGIF", name: "autoSize"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "width" }) {
             parameters.WFGIFManualSizeWidth = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "addFrameToGIF", name: "width"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "addFrameToGIF", name: "width"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "height" }) {
             parameters.WFGIFManualSizeHeight = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "addFrameToGIF", name: "height"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "addFrameToGIF", name: "height"), node: nil)
         }
 
         return parameters

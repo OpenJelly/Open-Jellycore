@@ -16,12 +16,12 @@ struct Toolbox_DeviceDetailsParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "deviceDetails" }) {
             parameters.deviceDetails = Jelly_DeviceInfoTypes(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "deviceDetails", name: "deviceDetails"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "deviceDetails", name: "deviceDetails"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "uptimeOutputTypes" }) {
             parameters.uptimeOutputTypes = Jelly_UptimeOutputTypes(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "deviceDetails", name: "uptimeOutputTypes"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "deviceDetails", name: "uptimeOutputTypes"), node: nil)
         }
 
         return parameters

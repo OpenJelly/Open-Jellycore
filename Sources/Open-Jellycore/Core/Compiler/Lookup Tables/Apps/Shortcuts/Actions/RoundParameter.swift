@@ -17,17 +17,17 @@ struct RoundParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "number" }) {
             parameters.WFInput = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "round", name: "number"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "round", name: "number"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "roundTo" }) {
             parameters.roundTo = Jelly_WFRoundTo(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "round", name: "roundTo"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "round", name: "roundTo"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "mode" }) {
             parameters.mode = Jelly_WFRoundMode(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "round", name: "mode"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "round", name: "mode"), node: nil)
         }
 
         return parameters

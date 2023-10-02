@@ -13,15 +13,13 @@ struct DetectFacesIAIHParameter: ParameterProtocol, Codable {
         var parameters = DetectFacesIAIHParameter()
 
         if let variableCall = call.first(where: { node in return node.slotName == "image" }) {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.image = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "detectFacesIAIH", name: "image"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "detectFacesIAIH", name: "image"), node: nil)
         }
 
         return parameters

@@ -17,17 +17,17 @@ struct ModifierBorderParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "view" }) {
             parameters.view = Jelly_View(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierBorder", name: "view"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierBorder", name: "view"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "content" }) {
             parameters.content = Jelly_View(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierBorder", name: "content"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierBorder", name: "content"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "width" }) {
             parameters.width = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierBorder", name: "width"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierBorder", name: "width"), node: nil)
         }
 
         return parameters

@@ -21,37 +21,37 @@ struct SetDraftParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "draft" }) {
             parameters.draft = Jelly_Draft(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setDraft", name: "draft"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setDraft", name: "draft"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "content" }) {
             parameters.content = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setDraft", name: "content"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setDraft", name: "content"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "writeType" }) {
             parameters.writeType = Jelly_DraftWriteType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setDraft", name: "writeType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setDraft", name: "writeType"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "tags" }) {
             parameters.tags = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setDraft", name: "tags"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setDraft", name: "tags"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "folder" }) {
             parameters.folder = Jelly_DraftUpdateFolder(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setDraft", name: "folder"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setDraft", name: "folder"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "isFlagged" }) {
             parameters.isFlagged = Jelly_DraftUpdateFlaggedStatus(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setDraft", name: "isFlagged"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setDraft", name: "isFlagged"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "grammarType" }) {
             parameters.grammarType = Jelly_GrammarType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setDraft", name: "grammarType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setDraft", name: "grammarType"), node: nil)
         }
 
         return parameters

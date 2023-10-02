@@ -1,4 +1,4 @@
-// swift-tools-version: 5.8
+// swift-tools-version: 5.7
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -11,22 +11,26 @@ let package = Package(
         .library(
             name: "Open-Jellycore",
             targets: ["Open-Jellycore"]),
+        .executable(name: "jelly", targets: ["jelly"])
     ],
     dependencies: [
-        .package(url: "https://github.com/ActuallyTaylor/tree-sitter-spm", branch: "master"),
-        .package(url: "https://github.com/ActuallyTaylor/tree-sitter-jelly", branch: "main"),
+        .package(url: "https://github.com/tree-sitter/tree-sitter", branch: "master"),
+        .package(url: "https://github.com/ActuallyTaylor/tree-sitter-jelly", from: "0.1.0"),
         .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0"),
+        .package(url: "https://github.com/apple/swift-argument-parser", from: "1.0.0"),
     ],
     targets: [
-        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
-        // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "Open-Jellycore",
             dependencies: [
-                .product(name: "TreeSitter", package: "tree-sitter-spm"),
+                .product(name: "TreeSitter", package: "tree-sitter"),
                 .product(name: "TreeSitterJelly", package: "tree-sitter-jelly")
             ]
         ),
+        .executableTarget(name: "jelly", dependencies: [
+            "Open-Jellycore",
+            .product(name: "ArgumentParser", package: "swift-argument-parser"),
+        ]),
         .testTarget(
             name: "Open-JellycoreTests",
             dependencies: ["Open-Jellycore"]

@@ -23,47 +23,47 @@ struct FindBooksParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "query" }) {
             parameters.query = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findBooks", name: "query"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findBooks", name: "query"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "onlyDownloadable" }) {
             parameters.onlyDownloadable = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findBooks", name: "onlyDownloadable"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findBooks", name: "onlyDownloadable"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "availability" }) {
             parameters.availability = Jelly_BookAvailability(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findBooks", name: "availability"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findBooks", name: "availability"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "type" }) {
             parameters.type = Jelly_BookType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findBooks", name: "type"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findBooks", name: "type"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "includePreorders" }) {
             parameters.includePreorders = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findBooks", name: "includePreorders"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findBooks", name: "includePreorders"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "orderBy" }) {
             parameters.orderBy = Jelly_OrderBooksBy(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findBooks", name: "orderBy"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findBooks", name: "orderBy"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "languageCode" }) {
             parameters.languageCode = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findBooks", name: "languageCode"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findBooks", name: "languageCode"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "resultCount" }) {
             parameters.resultCount = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findBooks", name: "resultCount"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findBooks", name: "resultCount"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "renderThumbnails" }) {
             parameters.renderThumbnails = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findBooks", name: "renderThumbnails"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findBooks", name: "renderThumbnails"), node: nil)
         }
 
         return parameters

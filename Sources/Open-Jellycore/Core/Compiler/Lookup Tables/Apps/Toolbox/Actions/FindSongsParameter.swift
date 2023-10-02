@@ -20,32 +20,32 @@ struct FindSongsParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "searchMode" }) {
             parameters.searchMode = Jelly_AlbumSearchMode(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findSongs", name: "searchMode"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findSongs", name: "searchMode"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "query" }) {
             parameters.query = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findSongs", name: "query"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findSongs", name: "query"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "ids" }) {
             parameters.ids = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findSongs", name: "ids"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findSongs", name: "ids"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "limitResults" }) {
             parameters.limitResults = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findSongs", name: "limitResults"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findSongs", name: "limitResults"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "limitCount" }) {
             parameters.limitCount = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findSongs", name: "limitCount"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findSongs", name: "limitCount"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "isrcs" }) {
             parameters.isrcs = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findSongs", name: "isrcs"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findSongs", name: "isrcs"), node: nil)
         }
 
         return parameters

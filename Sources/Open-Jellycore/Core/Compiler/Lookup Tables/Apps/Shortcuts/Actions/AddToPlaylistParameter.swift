@@ -14,20 +14,18 @@ struct AddToPlaylistParameter: ParameterProtocol, Codable {
         var parameters = AddToPlaylistParameter()
 
         if let variableCall = call.first(where: { node in return node.slotName == "music" })?.item {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFInput = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "addToPlaylist", name: "music"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "addToPlaylist", name: "music"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "playlist" }) {
             parameters.WFPlaylistName = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "addToPlaylist", name: "playlist"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "addToPlaylist", name: "playlist"), node: nil)
         }
 
         return parameters

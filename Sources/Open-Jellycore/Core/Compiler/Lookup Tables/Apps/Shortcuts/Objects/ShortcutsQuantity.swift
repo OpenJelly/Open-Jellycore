@@ -17,7 +17,7 @@ struct ShortcutsQuantity: JellyAny, Codable {
         let intervalCallSplit = input.split(separator: " ")
         
         if intervalCallSplit.count < 2 {
-            ErrorReporter.shared.reportError(error: .syntax(description: "Quantity value not correctly formatted.", recoveryStrategy: "Make sure the interval has both a quantity and a value"), node: nil)
+            EventReporter.shared.reportError(error: .syntax(description: "Quantity value not correctly formatted.", recoveryStrategy: "Make sure the interval has both a quantity and a value"), node: nil)
             return [:]
         }
         

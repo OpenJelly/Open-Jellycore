@@ -21,37 +21,37 @@ struct RandomTextParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "length" }) {
             parameters.length = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "randomText", name: "length"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "randomText", name: "length"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "useCustomCharacters" }) {
             parameters.useCustomCharacters = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "randomText", name: "useCustomCharacters"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "randomText", name: "useCustomCharacters"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "useLowercase" }) {
             parameters.useLowercase = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "randomText", name: "useLowercase"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "randomText", name: "useLowercase"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "useUppercase" }) {
             parameters.useUppercase = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "randomText", name: "useUppercase"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "randomText", name: "useUppercase"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "useDigits" }) {
             parameters.useDigits = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "randomText", name: "useDigits"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "randomText", name: "useDigits"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "customCharacters" }) {
             parameters.customCharacters = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "randomText", name: "customCharacters"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "randomText", name: "customCharacters"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "seed" }) {
             parameters.seed = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "randomText", name: "seed"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "randomText", name: "seed"), node: nil)
         }
 
         return parameters

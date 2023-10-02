@@ -15,25 +15,23 @@ struct SetFileCreationModificationDateParameter: ParameterProtocol, Codable {
         var parameters = SetFileCreationModificationDateParameter()
 
         if let variableCall = call.first(where: { node in return node.slotName == "file" }) {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.file = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setFileCreationModificationDate", name: "file"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setFileCreationModificationDate", name: "file"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "type" }) {
             parameters.type = Jelly_SetFileDateType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setFileCreationModificationDate", name: "type"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setFileCreationModificationDate", name: "type"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "date" }) {
             parameters.date = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setFileCreationModificationDate", name: "date"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setFileCreationModificationDate", name: "date"), node: nil)
         }
 
         return parameters

@@ -15,7 +15,7 @@ struct NumberParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "value" }) {
             parameters.WFNumberActionNumber = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "number", name: "value"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "number", name: "value"), node: nil)
         }
 
         return parameters

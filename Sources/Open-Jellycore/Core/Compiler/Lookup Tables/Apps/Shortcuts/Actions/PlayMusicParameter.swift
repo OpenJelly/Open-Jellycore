@@ -15,25 +15,23 @@ struct PlayMusicParameter: ParameterProtocol, Codable {
         var parameters = PlayMusicParameter()
 
         if let variableCall = call.first(where: { node in return node.slotName == "music" })?.item {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFMediaItems = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "playMusic", name: "music"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "playMusic", name: "music"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "shuffle" }) {
             parameters.shuffle = Jelly_WFPlayMusicActionShuffle(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "playMusic", name: "shuffle"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "playMusic", name: "shuffle"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "repeat" }) {
             parameters.repeat = Jelly_WFPlayMusicActionRepeat(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "playMusic", name: "repeat"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "playMusic", name: "repeat"), node: nil)
         }
 
         return parameters

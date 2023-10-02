@@ -17,35 +17,33 @@ struct QueryJSONParameter: ParameterProtocol, Codable {
         var parameters = QueryJSONParameter()
 
         if let variableCall = call.first(where: { node in return node.slotName == "input" }) {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.input = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "queryJSON", name: "input"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "queryJSON", name: "input"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "queryType" }) {
             parameters.queryType = Jelly_JSONQueryType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "queryJSON", name: "queryType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "queryJSON", name: "queryType"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "jsonPathQuery" }) {
             parameters.jsonPathQuery = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "queryJSON", name: "jsonPathQuery"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "queryJSON", name: "jsonPathQuery"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "jqQuery" }) {
             parameters.jqQuery = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "queryJSON", name: "jqQuery"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "queryJSON", name: "jqQuery"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "slurp" }) {
             parameters.slurp = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "queryJSON", name: "slurp"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "queryJSON", name: "slurp"), node: nil)
         }
 
         return parameters

@@ -17,17 +17,17 @@ struct TranslateTextParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "text" }) {
             parameters.WFInputText = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "translateText", name: "text"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "translateText", name: "text"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "from" }) {
             parameters.from = Jelly_WFSelectedFromLanguage(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "translateText", name: "from"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "translateText", name: "from"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "to" }) {
             parameters.to = Jelly_WFSelectedLanguage(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "translateText", name: "to"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "translateText", name: "to"), node: nil)
         }
 
         return parameters

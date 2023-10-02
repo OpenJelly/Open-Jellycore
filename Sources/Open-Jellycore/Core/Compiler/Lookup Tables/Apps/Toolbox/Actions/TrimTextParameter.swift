@@ -20,32 +20,32 @@ struct TrimTextParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "charCount" }) {
             parameters.charCount = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "trimText", name: "charCount"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "trimText", name: "charCount"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "trimFrom" }) {
             parameters.trimFrom = Jelly_TrimFrom(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "trimText", name: "trimFrom"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "trimText", name: "trimFrom"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "sourceText" }) {
             parameters.sourceText = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "trimText", name: "sourceText"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "trimText", name: "sourceText"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "removeWhiteSpace" }) {
             parameters.removeWhiteSpace = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "trimText", name: "removeWhiteSpace"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "trimText", name: "removeWhiteSpace"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "removeNewLines" }) {
             parameters.removeNewLines = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "trimText", name: "removeNewLines"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "trimText", name: "removeNewLines"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "emptyLineType" }) {
             parameters.emptyLineType = Jelly_EmptyLineType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "trimText", name: "emptyLineType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "trimText", name: "emptyLineType"), node: nil)
         }
 
         return parameters

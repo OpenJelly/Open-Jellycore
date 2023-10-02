@@ -17,17 +17,17 @@ struct AddContactGroupParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "groupMode" }) {
             parameters.groupMode = Jelly_ContactGroupMode(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "addContactGroup", name: "groupMode"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "addContactGroup", name: "groupMode"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "name" }) {
             parameters.name = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "addContactGroup", name: "name"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "addContactGroup", name: "name"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "groupName" }) {
             parameters.groupName = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "addContactGroup", name: "groupName"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "addContactGroup", name: "groupName"), node: nil)
         }
 
         return parameters

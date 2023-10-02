@@ -18,22 +18,22 @@ struct CombineListsParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "firstList" }) {
             parameters.firstList = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "combineLists", name: "firstList"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "combineLists", name: "firstList"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "secondList" }) {
             parameters.secondList = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "combineLists", name: "secondList"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "combineLists", name: "secondList"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "operation" }) {
             parameters.operation = Jelly_CombineListsOperation(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "combineLists", name: "operation"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "combineLists", name: "operation"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "removeDuplicates" }) {
             parameters.removeDuplicates = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "combineLists", name: "removeDuplicates"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "combineLists", name: "removeDuplicates"), node: nil)
         }
 
         return parameters

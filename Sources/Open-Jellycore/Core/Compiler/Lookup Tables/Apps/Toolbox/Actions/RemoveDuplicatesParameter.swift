@@ -15,25 +15,23 @@ struct RemoveDuplicatesParameter: ParameterProtocol, Codable {
         var parameters = RemoveDuplicatesParameter()
 
         if let variableCall = call.first(where: { node in return node.slotName == "items" }) {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.items = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "removeDuplicates", name: "items"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "removeDuplicates", name: "items"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "limitResults" }) {
             parameters.limitResults = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "removeDuplicates", name: "limitResults"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "removeDuplicates", name: "limitResults"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "resultCount" }) {
             parameters.resultCount = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "removeDuplicates", name: "resultCount"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "removeDuplicates", name: "resultCount"), node: nil)
         }
 
         return parameters

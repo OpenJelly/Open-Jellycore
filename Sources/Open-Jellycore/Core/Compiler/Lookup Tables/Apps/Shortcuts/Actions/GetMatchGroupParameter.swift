@@ -17,23 +17,21 @@ struct GetMatchGroupParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "type" }) {
             parameters.type = Jelly_WFGetGroupType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getMatchGroup", name: "type"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getMatchGroup", name: "type"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "matches" })?.item {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.matches = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getMatchGroup", name: "matches"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getMatchGroup", name: "matches"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "index" }) {
             parameters.WFGroupIndex = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getMatchGroup", name: "index"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getMatchGroup", name: "index"), node: nil)
         }
 
         return parameters

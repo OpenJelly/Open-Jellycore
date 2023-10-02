@@ -26,62 +26,62 @@ struct GetWorkoutsParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "workoutType" }) {
             parameters.workoutType = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getWorkouts", name: "workoutType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getWorkouts", name: "workoutType"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "useDateRange" }) {
             parameters.useDateRange = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getWorkouts", name: "useDateRange"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getWorkouts", name: "useDateRange"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "afterDate" }) {
             parameters.afterDate = JellyDate(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getWorkouts", name: "afterDate"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getWorkouts", name: "afterDate"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "beforeDate" }) {
             parameters.beforeDate = JellyDate(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getWorkouts", name: "beforeDate"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getWorkouts", name: "beforeDate"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "units" }) {
             parameters.units = Jelly_WorkoutUnits(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getWorkouts", name: "units"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getWorkouts", name: "units"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "tempUnits" }) {
             parameters.tempUnits = Jelly_TempUnits(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getWorkouts", name: "tempUnits"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getWorkouts", name: "tempUnits"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "sort" }) {
             parameters.sort = Jelly_WorkoutSort(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getWorkouts", name: "sort"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getWorkouts", name: "sort"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "dateOrder" }) {
             parameters.dateOrder = Jelly_WorkoutTimeOrder(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getWorkouts", name: "dateOrder"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getWorkouts", name: "dateOrder"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "distanceOrder" }) {
             parameters.distanceOrder = Jelly_WorkoutDistanceOrder(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getWorkouts", name: "distanceOrder"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getWorkouts", name: "distanceOrder"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "energyOrder" }) {
             parameters.energyOrder = Jelly_WorkoutEnergyOrder(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getWorkouts", name: "energyOrder"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getWorkouts", name: "energyOrder"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "durationOrder" }) {
             parameters.durationOrder = Jelly_WorkoutDurationOrder(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getWorkouts", name: "durationOrder"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getWorkouts", name: "durationOrder"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "limit" }) {
             parameters.limit = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getWorkouts", name: "limit"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getWorkouts", name: "limit"), node: nil)
         }
 
         return parameters

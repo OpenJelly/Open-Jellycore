@@ -17,17 +17,17 @@ struct Actions_SortListParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "list" }) {
             parameters.list = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "sortList", name: "list"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "sortList", name: "list"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "ascending" }) {
             parameters.ascending = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "sortList", name: "ascending"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "sortList", name: "ascending"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "sortType" }) {
             parameters.sortType = Jelly_SortType_(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "sortList", name: "sortType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "sortList", name: "sortType"), node: nil)
         }
 
         return parameters

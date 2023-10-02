@@ -15,7 +15,7 @@ struct OpenSubredditParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "subreddit" }) {
             parameters.subreddit = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "openSubreddit", name: "subreddit"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "openSubreddit", name: "subreddit"), node: nil)
         }
 
         return parameters

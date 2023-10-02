@@ -20,38 +20,36 @@ struct DownloadURLParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "url" }) {
             parameters.WFURL = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "downloadURL", name: "url"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "downloadURL", name: "url"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "method" }) {
             parameters.method = Jelly_WFHTTPMethod(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "downloadURL", name: "method"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "downloadURL", name: "method"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "headers" }) {
             parameters.WFHTTPHeaders = JellyDictionary(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "downloadURL", name: "headers"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "downloadURL", name: "headers"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "requestType" }) {
             parameters.requestType = Jelly_WFHTTPBodyType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "downloadURL", name: "requestType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "downloadURL", name: "requestType"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "requestJSON" }) {
             parameters.WFJSONValues = JellyDictionary(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "downloadURL", name: "requestJSON"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "downloadURL", name: "requestJSON"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "requestVar" })?.item {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFRequestVariable = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "downloadURL", name: "requestVar"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "downloadURL", name: "requestVar"), node: nil)
         }
 
         return parameters

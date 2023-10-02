@@ -16,12 +16,12 @@ struct ModifierMinimumScaleFactorParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "minimumScaleFactor" }) {
             parameters.minimumScaleFactor = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierMinimumScaleFactor", name: "minimumScaleFactor"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierMinimumScaleFactor", name: "minimumScaleFactor"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "view" }) {
             parameters.view = Jelly_View(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierMinimumScaleFactor", name: "view"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierMinimumScaleFactor", name: "view"), node: nil)
         }
 
         return parameters

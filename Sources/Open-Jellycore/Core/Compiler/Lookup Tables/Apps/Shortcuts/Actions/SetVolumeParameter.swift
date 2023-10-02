@@ -15,7 +15,7 @@ struct SetVolumeParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "level" }) {
             parameters.WFVolume = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setVolume", name: "level"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setVolume", name: "level"), node: nil)
         }
 
         return parameters

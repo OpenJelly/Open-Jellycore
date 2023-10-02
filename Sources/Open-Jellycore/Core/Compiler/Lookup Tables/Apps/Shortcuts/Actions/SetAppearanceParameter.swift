@@ -15,7 +15,7 @@ struct SetAppearanceParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "mode" }) {
             parameters.style = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setAppearance", name: "mode"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setAppearance", name: "mode"), node: nil)
         }
 
         return parameters

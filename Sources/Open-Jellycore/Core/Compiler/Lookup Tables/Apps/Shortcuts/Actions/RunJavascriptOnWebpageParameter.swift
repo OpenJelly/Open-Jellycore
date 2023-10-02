@@ -14,20 +14,18 @@ struct RunJavascriptOnWebpageParameter: ParameterProtocol, Codable {
         var parameters = RunJavascriptOnWebpageParameter()
 
         if let variableCall = call.first(where: { node in return node.slotName == "url" })?.item {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFInput = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "runJavascriptOnWebpage", name: "url"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "runJavascriptOnWebpage", name: "url"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "javascript" }) {
             parameters.WFJavaScript = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "runJavascriptOnWebpage", name: "javascript"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "runJavascriptOnWebpage", name: "javascript"), node: nil)
         }
 
         return parameters

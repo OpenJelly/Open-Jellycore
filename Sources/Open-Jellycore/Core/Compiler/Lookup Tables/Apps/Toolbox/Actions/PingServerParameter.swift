@@ -16,12 +16,12 @@ struct PingServerParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "url" }) {
             parameters.url = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "pingServer", name: "url"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "pingServer", name: "url"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "output" }) {
             parameters.output = Jelly_PingServerOutput(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "pingServer", name: "output"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "pingServer", name: "output"), node: nil)
         }
 
         return parameters

@@ -16,12 +16,12 @@ struct ViewInsightsParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "segment" }) {
             parameters.segment = Jelly_WidgetSegment(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "viewInsights", name: "segment"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "viewInsights", name: "segment"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "insight" }) {
             parameters.insight = JellyArray<Jelly_Insight>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "viewInsights", name: "insight"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "viewInsights", name: "insight"), node: nil)
         }
 
         return parameters

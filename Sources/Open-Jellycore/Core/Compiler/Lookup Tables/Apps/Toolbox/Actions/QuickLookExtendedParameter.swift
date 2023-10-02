@@ -31,93 +31,91 @@ struct QuickLookExtendedParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "title" }) {
             parameters.title = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "quickLookExtended", name: "title"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "quickLookExtended", name: "title"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "body" }) {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.body = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "quickLookExtended", name: "body"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "quickLookExtended", name: "body"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "openURL" }) {
             parameters.openURL = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "quickLookExtended", name: "openURL"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "quickLookExtended", name: "openURL"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "postURL" }) {
             parameters.postURL = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "quickLookExtended", name: "postURL"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "quickLookExtended", name: "postURL"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "theme" }) {
             parameters.theme = Jelly_PreviewThemes(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "quickLookExtended", name: "theme"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "quickLookExtended", name: "theme"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "imageSize" }) {
             parameters.imageSize = Jelly_PreviewImageSize(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "quickLookExtended", name: "imageSize"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "quickLookExtended", name: "imageSize"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "imageAlignment" }) {
             parameters.imageAlignment = Jelly_PreviewAlignment(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "quickLookExtended", name: "imageAlignment"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "quickLookExtended", name: "imageAlignment"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "imageShadows" }) {
             parameters.imageShadows = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "quickLookExtended", name: "imageShadows"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "quickLookExtended", name: "imageShadows"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "textAlignment" }) {
             parameters.textAlignment = Jelly_PreviewAlignment(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "quickLookExtended", name: "textAlignment"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "quickLookExtended", name: "textAlignment"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "buttonStyle" }) {
             parameters.buttonStyle = Jelly_PreviewButtonStyle(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "quickLookExtended", name: "buttonStyle"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "quickLookExtended", name: "buttonStyle"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "buttonRadius" }) {
             parameters.buttonRadius = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "quickLookExtended", name: "buttonRadius"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "quickLookExtended", name: "buttonRadius"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "imageMask" }) {
             parameters.imageMask = Jelly_PreviewImageMask(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "quickLookExtended", name: "imageMask"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "quickLookExtended", name: "imageMask"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "imageRadius" }) {
             parameters.imageRadius = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "quickLookExtended", name: "imageRadius"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "quickLookExtended", name: "imageRadius"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "mapPin" }) {
             parameters.mapPin = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "quickLookExtended", name: "mapPin"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "quickLookExtended", name: "mapPin"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "mapZoom" }) {
             parameters.mapZoom = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "quickLookExtended", name: "mapZoom"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "quickLookExtended", name: "mapZoom"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "mapInteractivity" }) {
             parameters.mapInteractivity = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "quickLookExtended", name: "mapInteractivity"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "quickLookExtended", name: "mapInteractivity"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "mapSize" }) {
             parameters.mapSize = Jelly_MapSize(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "quickLookExtended", name: "mapSize"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "quickLookExtended", name: "mapSize"), node: nil)
         }
 
         return parameters

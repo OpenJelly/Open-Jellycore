@@ -1,12 +1,21 @@
 {
   "pins" : [
     {
+      "identity" : "swift-argument-parser",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-argument-parser.git",
+      "state" : {
+        "revision" : "8f4d2753f0e4778c76d5f05ad16c74f707390531",
+        "version" : "1.2.3"
+      }
+    },
+    {
       "identity" : "swift-docc-plugin",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-docc-plugin",
       "state" : {
-        "revision" : "9b1258905c21fc1b97bf03d1b4ca12c4ec4e5fda",
-        "version" : "1.2.0"
+        "revision" : "26ac5758409154cc448d7ab82389c520fa8a8247",
+        "version" : "1.3.0"
       }
     },
     {
@@ -19,21 +28,21 @@
       }
     },
     {
+      "identity" : "tree-sitter",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/tree-sitter/tree-sitter",
+      "state" : {
+        "branch" : "master",
+        "revision" : "6bbb50bef8249e6460e7d69e42cc8146622fa4fd"
+      }
+    },
+    {
       "identity" : "tree-sitter-jelly",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ActuallyTaylor/tree-sitter-jelly",
       "state" : {
-        "branch" : "main",
-        "revision" : "452cfbb68376927d39814321fe7dad8f8fd98310"
-      }
-    },
-    {
-      "identity" : "tree-sitter-spm",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ActuallyTaylor/tree-sitter-spm",
-      "state" : {
-        "branch" : "master",
-        "revision" : "3860f9e8c683a730a53cd6fd594ff2d8cdc4c222"
+        "revision" : "353edc08feff65003bb58bb3b0a63e28f70b0dfc",
+        "version" : "0.1.0"
       }
     }
   ],

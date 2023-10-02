@@ -16,12 +16,12 @@ struct FormatDateDifferenceParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "firstDate" }) {
             parameters.firstDate = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "formatDateDifference", name: "firstDate"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "formatDateDifference", name: "firstDate"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "secondDate" }) {
             parameters.secondDate = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "formatDateDifference", name: "secondDate"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "formatDateDifference", name: "secondDate"), node: nil)
         }
 
         return parameters

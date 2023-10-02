@@ -15,7 +15,7 @@ struct DictateDraftParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "DraftsLocale" }) {
             parameters.DraftsLocale = Jelly_DraftsLocale(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "dictateDraft", name: "DraftsLocale"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "dictateDraft", name: "DraftsLocale"), node: nil)
         }
 
         return parameters

@@ -120,10 +120,10 @@ struct JellyVariableReference: JellyAny, Codable {
                 spaceVariableName(name: variable.name)
                 self.variableType = VariableType(jellyValue: variable.name)
             }
-        } else if let globalVariable = Compiler.globalVariables.first(where: { variableNameFilter(variable: $0, name: name) }) {
+        } else if let globalVariable = Scope.globalVariables.first(where: { variableNameFilter(variable: $0, name: name) }) {
             self.variableType = VariableType(jellyValue: globalVariable.name)
         } else {
-            ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: self.name), node: value)
+            EventReporter.shared.reportError(error: .variableDoesNotExist(variable: self.name), node: value)
             return nil
         }
     }
@@ -135,7 +135,7 @@ struct JellyVariableReference: JellyAny, Codable {
     init?(identifierNode: IdentifierNode, scopedVariables: [Variable]) {
         self.name = identifierNode.content
         self.uuid = ""
-        
+
         if let variable = scopedVariables.first(where: { variableNameFilter(variable: $0, name: name) }) {
             self.name = variable.name
             self.uuid = variable.uuid
@@ -154,11 +154,11 @@ struct JellyVariableReference: JellyAny, Codable {
                 spaceVariableName(name: variable.name)
                 self.variableType = VariableType(jellyValue: variable.name)
             }
-        } else if let globalVariable = Compiler.globalVariables.first(where: { variableNameFilter(variable: $0, name: name) }) {
+        } else if let globalVariable = Scope.globalVariables.first(where: { variableNameFilter(variable: $0, name: name) }) {
             self.variableType = VariableType(jellyValue: globalVariable.name)
             self.aggrandizements = identifierNode.aggrandizements
         } else {
-            ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: self.name), node: identifierNode)
+            EventReporter.shared.reportError(error: .variableDoesNotExist(variable: self.name), node: identifierNode)
             return nil
         }
     }
@@ -190,11 +190,11 @@ struct JellyVariableReference: JellyAny, Codable {
                 spaceVariableName(name: variable.name)
                 self.variableType = VariableType(jellyValue: variable.name)
             }
-        } else if let globalVariable = Compiler.globalVariables.first(where: { variableNameFilter(variable: $0, name: name) }) {
+        } else if let globalVariable = Scope.globalVariables.first(where: { variableNameFilter(variable: $0, name: name) }) {
             self.variableType = VariableType(jellyValue: globalVariable.name)
             self.aggrandizements = interpolationNode.identifierNode?.aggrandizements ?? []
         } else {
-            ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: self.name), node: interpolationNode)
+            EventReporter.shared.reportError(error: .variableDoesNotExist(variable: self.name), node: interpolationNode)
             return nil
         }
     }

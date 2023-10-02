@@ -17,17 +17,17 @@ struct SplitTextParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "text" }) {
             parameters.text = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "splitText", name: "text"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "splitText", name: "text"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "separator" }) {
             parameters.separator = Jelly_WFTextSeparator(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "splitText", name: "separator"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "splitText", name: "separator"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "customSeparator" }) {
             parameters.WFTextCustomSeparator = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "splitText", name: "customSeparator"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "splitText", name: "customSeparator"), node: nil)
         }
 
         return parameters

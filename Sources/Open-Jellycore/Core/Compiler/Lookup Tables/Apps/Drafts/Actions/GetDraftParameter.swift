@@ -15,7 +15,7 @@ struct GetDraftParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "draft" }) {
             parameters.draft = Jelly_Draft(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getDraft", name: "draft"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getDraft", name: "draft"), node: nil)
         }
 
         return parameters

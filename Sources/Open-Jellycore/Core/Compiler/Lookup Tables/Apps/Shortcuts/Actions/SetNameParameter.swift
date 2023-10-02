@@ -15,25 +15,23 @@ struct SetNameParameter: ParameterProtocol, Codable {
         var parameters = SetNameParameter()
 
         if let variableCall = call.first(where: { node in return node.slotName == "input" })?.item {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFInput = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setName", name: "input"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setName", name: "input"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "name" }) {
             parameters.WFName = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setName", name: "name"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setName", name: "name"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "dontIncludeExtension" }) {
             parameters.WFDontIncludeFileExtension = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setName", name: "dontIncludeExtension"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setName", name: "dontIncludeExtension"), node: nil)
         }
 
         return parameters

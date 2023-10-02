@@ -18,40 +18,38 @@ struct QueryDocumentParameter: ParameterProtocol, Codable {
         var parameters = QueryDocumentParameter()
 
         if let variableCall = call.first(where: { node in return node.slotName == "file" }) {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.file = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "queryDocument", name: "file"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "queryDocument", name: "file"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "queryType" }) {
             parameters.queryType = Jelly_DocumentQueryType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "queryDocument", name: "queryType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "queryDocument", name: "queryType"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "cssQuery" }) {
             parameters.cssQuery = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "queryDocument", name: "cssQuery"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "queryDocument", name: "cssQuery"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "xpathQuery" }) {
             parameters.xpathQuery = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "queryDocument", name: "xpathQuery"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "queryDocument", name: "xpathQuery"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "outputType" }) {
             parameters.outputType = Jelly_QueryDocumentOutput(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "queryDocument", name: "outputType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "queryDocument", name: "outputType"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "oneResult" }) {
             parameters.oneResult = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "queryDocument", name: "oneResult"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "queryDocument", name: "oneResult"), node: nil)
         }
 
         return parameters

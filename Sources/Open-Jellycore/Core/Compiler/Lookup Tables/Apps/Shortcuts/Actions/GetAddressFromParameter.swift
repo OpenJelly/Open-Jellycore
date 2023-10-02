@@ -13,15 +13,13 @@ struct GetAddressFromParameter: ParameterProtocol, Codable {
         var parameters = GetAddressFromParameter()
 
         if let variableCall = call.first(where: { node in return node.slotName == "input" })?.item {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFInput = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getAddressFrom", name: "input"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getAddressFrom", name: "input"), node: nil)
         }
 
         return parameters

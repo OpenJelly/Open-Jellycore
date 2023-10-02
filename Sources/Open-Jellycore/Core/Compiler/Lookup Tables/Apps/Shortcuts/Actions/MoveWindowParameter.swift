@@ -17,35 +17,33 @@ struct MoveWindowParameter: ParameterProtocol, Codable {
         var parameters = MoveWindowParameter()
 
         if let variableCall = call.first(where: { node in return node.slotName == "window" })?.item {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFWindow = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "moveWindow", name: "window"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "moveWindow", name: "window"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "position" }) {
             parameters.position = Jelly_WFPosition(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "moveWindow", name: "position"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "moveWindow", name: "position"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "bringToFront" }) {
             parameters.WFBringToFront = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "moveWindow", name: "bringToFront"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "moveWindow", name: "bringToFront"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "xCoordinate" }) {
             parameters.WFXCoordinate = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "moveWindow", name: "xCoordinate"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "moveWindow", name: "xCoordinate"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "yCoordinate" }) {
             parameters.WFYCoordinate = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "moveWindow", name: "yCoordinate"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "moveWindow", name: "yCoordinate"), node: nil)
         }
 
         return parameters

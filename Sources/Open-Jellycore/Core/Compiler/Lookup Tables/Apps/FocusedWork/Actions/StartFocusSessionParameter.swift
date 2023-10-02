@@ -16,12 +16,12 @@ struct StartFocusSessionParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "focusSession" }) {
             parameters.focusSession = Jelly_FocusSession(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "startFocusSession", name: "focusSession"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "startFocusSession", name: "focusSession"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "focus" }) {
             parameters.focus = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "startFocusSession", name: "focus"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "startFocusSession", name: "focus"), node: nil)
         }
 
         return parameters

@@ -16,12 +16,12 @@ struct FormatNumberParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "number" }) {
             parameters.WFNumber = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "formatNumber", name: "number"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "formatNumber", name: "number"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "places" }) {
             parameters.WFNumberFormatDecimalPlaces = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "formatNumber", name: "places"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "formatNumber", name: "places"), node: nil)
         }
 
         return parameters

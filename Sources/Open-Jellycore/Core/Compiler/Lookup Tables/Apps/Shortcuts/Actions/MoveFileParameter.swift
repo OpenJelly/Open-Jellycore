@@ -14,26 +14,22 @@ struct MoveFileParameter: ParameterProtocol, Codable {
         var parameters = MoveFileParameter()
 
         if let variableCall = call.first(where: { node in return node.slotName == "file" })?.item {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFFile = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "moveFile", name: "file"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "moveFile", name: "file"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "folder" })?.item {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFFolder = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "moveFile", name: "folder"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "moveFile", name: "folder"), node: nil)
         }
 
         return parameters

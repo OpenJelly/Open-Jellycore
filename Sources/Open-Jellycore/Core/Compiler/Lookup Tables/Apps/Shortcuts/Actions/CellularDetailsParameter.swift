@@ -15,7 +15,7 @@ struct CellularDetailsParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "detail" }) {
             parameters.detail = Jelly_WFCellularDetail(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "cellularDetails", name: "detail"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "cellularDetails", name: "detail"), node: nil)
         }
 
         return parameters

@@ -18,22 +18,22 @@ struct SeekPlaybackParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "setPosition" }) {
             parameters.setPosition = Jelly_PlaybackPosition(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "seekPlayback", name: "setPosition"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "seekPlayback", name: "setPosition"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "position" }) {
             parameters.position = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "seekPlayback", name: "position"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "seekPlayback", name: "position"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "seekForward" }) {
             parameters.seekForward = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "seekPlayback", name: "seekForward"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "seekPlayback", name: "seekForward"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "seekBack" }) {
             parameters.seekBack = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "seekPlayback", name: "seekBack"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "seekPlayback", name: "seekBack"), node: nil)
         }
 
         return parameters

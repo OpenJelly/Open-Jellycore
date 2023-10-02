@@ -19,27 +19,27 @@ struct EditTextParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "textType" }) {
             parameters.textType = Jelly_TextType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "editText", name: "textType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "editText", name: "textType"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "text" }) {
             parameters.text = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "editText", name: "text"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "editText", name: "text"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "openURL" }) {
             parameters.openURL = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "editText", name: "openURL"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "editText", name: "openURL"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "postURL" }) {
             parameters.postURL = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "editText", name: "postURL"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "editText", name: "postURL"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "title" }) {
             parameters.title = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "editText", name: "title"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "editText", name: "title"), node: nil)
         }
 
         return parameters

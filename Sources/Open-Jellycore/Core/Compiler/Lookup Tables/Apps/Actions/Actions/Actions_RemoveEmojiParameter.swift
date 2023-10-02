@@ -15,7 +15,7 @@ struct Actions_RemoveEmojiParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "text" }) {
             parameters.text = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "removeEmoji", name: "text"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "removeEmoji", name: "text"), node: nil)
         }
 
         return parameters

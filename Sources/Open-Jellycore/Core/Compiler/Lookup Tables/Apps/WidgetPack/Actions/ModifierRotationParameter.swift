@@ -16,12 +16,12 @@ struct ModifierRotationParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "view" }) {
             parameters.view = Jelly_View(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierRotation", name: "view"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierRotation", name: "view"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "angle" }) {
             parameters.angle = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierRotation", name: "angle"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierRotation", name: "angle"), node: nil)
         }
 
         return parameters

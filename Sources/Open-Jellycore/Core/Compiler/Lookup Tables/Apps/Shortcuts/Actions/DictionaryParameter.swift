@@ -15,7 +15,7 @@ struct DictionaryParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "json" }) {
             parameters.WFItems = JellyDictionary(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "dictionary", name: "json"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "dictionary", name: "json"), node: nil)
         }
 
         return parameters

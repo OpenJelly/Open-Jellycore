@@ -17,35 +17,33 @@ struct GenerateThumbnailsParameter: ParameterProtocol, Codable {
         var parameters = GenerateThumbnailsParameter()
 
         if let variableCall = call.first(where: { node in return node.slotName == "files" }) {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.files = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "generateThumbnails", name: "files"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "generateThumbnails", name: "files"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "outputType" }) {
             parameters.outputType = Jelly_ThumbsOutputType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "generateThumbnails", name: "outputType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "generateThumbnails", name: "outputType"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "withPreviews" }) {
             parameters.withPreviews = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "generateThumbnails", name: "withPreviews"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "generateThumbnails", name: "withPreviews"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "backgroundColour" }) {
             parameters.backgroundColour = Jelly_BackgroundColours(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "generateThumbnails", name: "backgroundColour"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "generateThumbnails", name: "backgroundColour"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "hexCode" }) {
             parameters.hexCode = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "generateThumbnails", name: "hexCode"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "generateThumbnails", name: "hexCode"), node: nil)
         }
 
         return parameters

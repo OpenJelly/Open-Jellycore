@@ -14,20 +14,18 @@ struct HtmlFromRichTextParameter: ParameterProtocol, Codable {
         var parameters = HtmlFromRichTextParameter()
 
         if let variableCall = call.first(where: { node in return node.slotName == "text" })?.item {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFInput = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "htmlFromRichText", name: "text"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "htmlFromRichText", name: "text"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "fullDocument" }) {
             parameters.WFMakeFullDocument = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "htmlFromRichText", name: "fullDocument"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "htmlFromRichText", name: "fullDocument"), node: nil)
         }
 
         return parameters

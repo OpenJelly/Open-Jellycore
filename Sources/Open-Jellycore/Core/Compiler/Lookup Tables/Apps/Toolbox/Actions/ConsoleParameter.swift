@@ -17,17 +17,17 @@ struct ConsoleParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "consoleMode" }) {
             parameters.consoleMode = Jelly_ConsoleMode(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "console", name: "consoleMode"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "console", name: "consoleMode"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "notes" }) {
             parameters.notes = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "console", name: "notes"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "console", name: "notes"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "retrievalType" }) {
             parameters.retrievalType = Jelly_ConsoleRetrievalType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "console", name: "retrievalType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "console", name: "retrievalType"), node: nil)
         }
 
         return parameters

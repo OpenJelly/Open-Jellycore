@@ -18,22 +18,22 @@ struct CreateRemindersListParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "title" }) {
             parameters.title = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createRemindersList", name: "title"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createRemindersList", name: "title"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "useHex" }) {
             parameters.useHex = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createRemindersList", name: "useHex"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createRemindersList", name: "useHex"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "colours" }) {
             parameters.colours = Jelly_DefaultColours(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createRemindersList", name: "colours"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createRemindersList", name: "colours"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "hexCode" }) {
             parameters.hexCode = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createRemindersList", name: "hexCode"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createRemindersList", name: "hexCode"), node: nil)
         }
 
         return parameters

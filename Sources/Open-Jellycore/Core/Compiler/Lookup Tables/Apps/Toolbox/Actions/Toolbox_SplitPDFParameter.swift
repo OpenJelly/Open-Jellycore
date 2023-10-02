@@ -13,15 +13,13 @@ struct Toolbox_SplitPDFParameter: ParameterProtocol, Codable {
         var parameters = Toolbox_SplitPDFParameter()
 
         if let variableCall = call.first(where: { node in return node.slotName == "pdfs" }) {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.pdfs = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "splitPDF", name: "pdfs"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "splitPDF", name: "pdfs"), node: nil)
         }
 
         return parameters

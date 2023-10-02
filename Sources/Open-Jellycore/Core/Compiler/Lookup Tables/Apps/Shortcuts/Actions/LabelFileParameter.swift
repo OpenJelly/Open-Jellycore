@@ -14,20 +14,18 @@ struct LabelFileParameter: ParameterProtocol, Codable {
         var parameters = LabelFileParameter()
 
         if let variableCall = call.first(where: { node in return node.slotName == "files" })?.item {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFInput = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "labelFile", name: "files"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "labelFile", name: "files"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "color" }) {
             parameters.WFLabelColorNumber = Jelly_WFLabelColorNumber(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "labelFile", name: "color"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "labelFile", name: "color"), node: nil)
         }
 
         return parameters

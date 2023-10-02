@@ -21,37 +21,37 @@ struct DownloadUnsplashPhotosParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "ids" }) {
             parameters.ids = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "downloadUnsplashPhotos", name: "ids"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "downloadUnsplashPhotos", name: "ids"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "photoSize" }) {
             parameters.photoSize = Jelly_PhotoSize(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "downloadUnsplashPhotos", name: "photoSize"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "downloadUnsplashPhotos", name: "photoSize"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "width" }) {
             parameters.width = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "downloadUnsplashPhotos", name: "width"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "downloadUnsplashPhotos", name: "width"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "height" }) {
             parameters.height = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "downloadUnsplashPhotos", name: "height"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "downloadUnsplashPhotos", name: "height"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "scale" }) {
             parameters.scale = Jelly_PhotoScaleType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "downloadUnsplashPhotos", name: "scale"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "downloadUnsplashPhotos", name: "scale"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "format" }) {
             parameters.format = Jelly_PhotoFormats(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "downloadUnsplashPhotos", name: "format"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "downloadUnsplashPhotos", name: "format"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "quality" }) {
             parameters.quality = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "downloadUnsplashPhotos", name: "quality"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "downloadUnsplashPhotos", name: "quality"), node: nil)
         }
 
         return parameters

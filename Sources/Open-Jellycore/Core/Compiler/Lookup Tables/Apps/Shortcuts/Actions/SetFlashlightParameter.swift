@@ -16,12 +16,12 @@ struct SetFlashlightParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "state" }) {
             parameters.state = JellyIntegerBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setFlashlight", name: "state"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setFlashlight", name: "state"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "level" }) {
             parameters.WFFlashlightLevel = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setFlashlight", name: "level"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setFlashlight", name: "level"), node: nil)
         }
 
         return parameters

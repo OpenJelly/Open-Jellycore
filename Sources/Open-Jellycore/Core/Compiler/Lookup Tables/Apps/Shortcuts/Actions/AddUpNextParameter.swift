@@ -14,20 +14,18 @@ struct AddUpNextParameter: ParameterProtocol, Codable {
         var parameters = AddUpNextParameter()
 
         if let variableCall = call.first(where: { node in return node.slotName == "music" })?.item {
-            if let variable = scopedVariables.first(where: { variable in
-                return variable.name == variableCall.content
-            }) {
+            if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFMusic = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "addUpNext", name: "music"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "addUpNext", name: "music"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "place" }) {
             parameters.place = Jelly_WFWhenToPlay(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "addUpNext", name: "place"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "addUpNext", name: "place"), node: nil)
         }
 
         return parameters

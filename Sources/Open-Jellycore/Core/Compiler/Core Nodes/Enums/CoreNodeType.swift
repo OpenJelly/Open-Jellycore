@@ -41,4 +41,5 @@ enum CoreNodeType: String {
     case blockComment = "block_comment"
     case variableProperty = "variable_property"
     case variablePropertyType = "variable_property_type"
+    case error = "ERROR"
 }

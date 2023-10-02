@@ -30,82 +30,82 @@ struct CreateEventParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "title" }) {
             parameters.title = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createEvent", name: "title"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createEvent", name: "title"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "calendar" }) {
             parameters.calendar = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createEvent", name: "calendar"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createEvent", name: "calendar"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "isAllDay" }) {
             parameters.isAllDay = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createEvent", name: "isAllDay"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createEvent", name: "isAllDay"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "startTime" }) {
             parameters.startTime = JellyDate(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createEvent", name: "startTime"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createEvent", name: "startTime"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "endTime" }) {
             parameters.endTime = JellyDate(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createEvent", name: "endTime"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createEvent", name: "endTime"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "startDate" }) {
             parameters.startDate = JellyDate(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createEvent", name: "startDate"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createEvent", name: "startDate"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "endDate" }) {
             parameters.endDate = JellyDate(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createEvent", name: "endDate"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createEvent", name: "endDate"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "alertTime" }) {
             parameters.alertTime = Jelly_EventAlert(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createEvent", name: "alertTime"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createEvent", name: "alertTime"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "alertDate" }) {
             parameters.alertDate = JellyDate(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createEvent", name: "alertDate"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createEvent", name: "alertDate"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "recur" }) {
             parameters.recur = Jelly_RepeatType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createEvent", name: "recur"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createEvent", name: "recur"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "availability" }) {
             parameters.availability = Jelly_EventAvailability(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createEvent", name: "availability"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createEvent", name: "availability"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "notes" }) {
             parameters.notes = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createEvent", name: "notes"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createEvent", name: "notes"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "addLocation" }) {
             parameters.addLocation = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createEvent", name: "addLocation"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createEvent", name: "addLocation"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "location" }) {
             parameters.location = ShortcutsPlacemark(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createEvent", name: "location"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createEvent", name: "location"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "addURL" }) {
             parameters.addURL = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createEvent", name: "addURL"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createEvent", name: "addURL"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "url" }) {
             parameters.url = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createEvent", name: "url"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createEvent", name: "url"), node: nil)
         }
 
         return parameters
