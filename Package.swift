@@ -24,7 +24,7 @@ let package = Package(
             name: "Open-Jellycore",
             dependencies: [
                 .product(name: "TreeSitter", package: "tree-sitter"),
-//                .product(name: "TreeSitterJelly", package: "tree-sitter-jelly")
+                .product(name: "TreeSitterJelly", package: "tree-sitter-jelly")
             ]
         ),
         .testTarget(
