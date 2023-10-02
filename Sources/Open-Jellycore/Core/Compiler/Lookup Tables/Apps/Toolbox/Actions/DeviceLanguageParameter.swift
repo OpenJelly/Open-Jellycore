@@ -15,7 +15,7 @@ struct DeviceLanguageParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "languageType" }) {
             parameters.languageType = Jelly_LanguageTypes(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "deviceLanguage", name: "languageType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "deviceLanguage", name: "languageType"), node: nil)
         }
 
         return parameters

@@ -17,17 +17,17 @@ struct FormatNumberAsTextParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "number" }) {
             parameters.number = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "formatNumberAsText", name: "number"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "formatNumberAsText", name: "number"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "locale" }) {
             parameters.locale = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "formatNumberAsText", name: "locale"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "formatNumberAsText", name: "locale"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "typeCase" }) {
             parameters.typeCase = Jelly_PluraliseCase(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "formatNumberAsText", name: "typeCase"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "formatNumberAsText", name: "typeCase"), node: nil)
         }
 
         return parameters

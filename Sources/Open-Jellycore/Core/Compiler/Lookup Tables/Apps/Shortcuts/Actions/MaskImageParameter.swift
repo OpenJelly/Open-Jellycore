@@ -18,24 +18,24 @@ struct MaskImageParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFImage = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "maskImage", name: "image"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "maskImage", name: "image"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "mode" }) {
             parameters.mode = Jelly_WFMaskType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "maskImage", name: "mode"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "maskImage", name: "mode"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "mask" })?.item {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFCustomMaskImage = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "maskImage", name: "mask"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "maskImage", name: "mask"), node: nil)
         }
 
         return parameters

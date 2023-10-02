@@ -25,59 +25,59 @@ struct EncodeAudioParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFMedia = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "encodeAudio", name: "media"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "encodeAudio", name: "media"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "format" }) {
             parameters.format = Jelly_WFMediaAudioFormat(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "encodeAudio", name: "format"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "encodeAudio", name: "format"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "speed" }) {
             parameters.speed = Jelly_WFMediaSpeed(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "encodeAudio", name: "speed"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "encodeAudio", name: "speed"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "customSpeed" }) {
             parameters.WFMediaCustomSpeed = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "encodeAudio", name: "customSpeed"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "encodeAudio", name: "customSpeed"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "title" }) {
             parameters.WFMetadataTitle = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "encodeAudio", name: "title"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "encodeAudio", name: "title"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "artist" }) {
             parameters.WFMetadataArtist = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "encodeAudio", name: "artist"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "encodeAudio", name: "artist"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "album" }) {
             parameters.WFMetadataAlbum = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "encodeAudio", name: "album"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "encodeAudio", name: "album"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "genre" }) {
             parameters.WFMetadataGenre = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "encodeAudio", name: "genre"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "encodeAudio", name: "genre"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "year" }) {
             parameters.WFMetadataYear = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "encodeAudio", name: "year"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "encodeAudio", name: "year"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "artwork" })?.item {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFMetadataArtwork = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "encodeAudio", name: "artwork"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "encodeAudio", name: "artwork"), node: nil)
         }
 
         return parameters

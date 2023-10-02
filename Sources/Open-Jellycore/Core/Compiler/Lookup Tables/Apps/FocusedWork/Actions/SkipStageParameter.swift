@@ -15,7 +15,7 @@ struct SkipStageParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "finalStageEndSessionAction" }) {
             parameters.finalStageEndSessionAction = Jelly_SkipEndSession(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "skipStage", name: "finalStageEndSessionAction"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "skipStage", name: "finalStageEndSessionAction"), node: nil)
         }
 
         return parameters

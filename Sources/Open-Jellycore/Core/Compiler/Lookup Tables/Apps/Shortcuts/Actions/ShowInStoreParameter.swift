@@ -16,10 +16,10 @@ struct ShowInStoreParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFProduct = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "showInStore", name: "product"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "showInStore", name: "product"), node: nil)
         }
 
         return parameters

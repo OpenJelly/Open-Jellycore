@@ -15,7 +15,7 @@ struct BugExampleParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "outputCount" }) {
             parameters.outputCount = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "bugExample", name: "outputCount"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "bugExample", name: "outputCount"), node: nil)
         }
 
         return parameters

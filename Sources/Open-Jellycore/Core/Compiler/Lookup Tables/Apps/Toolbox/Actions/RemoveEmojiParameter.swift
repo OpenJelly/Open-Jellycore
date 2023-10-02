@@ -16,12 +16,12 @@ struct RemoveEmojiParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "text" }) {
             parameters.text = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "removeEmoji", name: "text"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "removeEmoji", name: "text"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "replaceDoubleSpaces" }) {
             parameters.replaceDoubleSpaces = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "removeEmoji", name: "replaceDoubleSpaces"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "removeEmoji", name: "replaceDoubleSpaces"), node: nil)
         }
 
         return parameters

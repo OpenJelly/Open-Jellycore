@@ -18,22 +18,22 @@ struct ParseDateParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "date" }) {
             parameters.date = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "parseDate", name: "date"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "parseDate", name: "date"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "format" }) {
             parameters.format = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "parseDate", name: "format"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "parseDate", name: "format"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "errorIfInvalid" }) {
             parameters.errorIfInvalid = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "parseDate", name: "errorIfInvalid"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "parseDate", name: "errorIfInvalid"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "locale" }) {
             parameters.locale = Jelly_DateLocale(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "parseDate", name: "locale"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "parseDate", name: "locale"), node: nil)
         }
 
         return parameters

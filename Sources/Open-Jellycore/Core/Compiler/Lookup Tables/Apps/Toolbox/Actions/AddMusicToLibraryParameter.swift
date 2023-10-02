@@ -17,17 +17,17 @@ struct AddMusicToLibraryParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "songIDs" }) {
             parameters.songIDs = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "addMusicToLibrary", name: "songIDs"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "addMusicToLibrary", name: "songIDs"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "albumIDs" }) {
             parameters.albumIDs = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "addMusicToLibrary", name: "albumIDs"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "addMusicToLibrary", name: "albumIDs"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "playlistIDs" }) {
             parameters.playlistIDs = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "addMusicToLibrary", name: "playlistIDs"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "addMusicToLibrary", name: "playlistIDs"), node: nil)
         }
 
         return parameters

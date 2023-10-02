@@ -17,17 +17,17 @@ struct AddPhotoAlbumParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "title" }) {
             parameters.title = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "addPhotoAlbum", name: "title"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "addPhotoAlbum", name: "title"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "allowDuplicates" }) {
             parameters.allowDuplicates = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "addPhotoAlbum", name: "allowDuplicates"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "addPhotoAlbum", name: "allowDuplicates"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "type" }) {
             parameters.type = Jelly_PhotoAlbumType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "addPhotoAlbum", name: "type"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "addPhotoAlbum", name: "type"), node: nil)
         }
 
         return parameters

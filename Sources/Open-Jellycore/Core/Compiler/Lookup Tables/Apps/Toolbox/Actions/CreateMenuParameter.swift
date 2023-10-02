@@ -34,106 +34,106 @@ struct CreateMenuParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "customIconType" }) {
             parameters.customIconType = Jelly_IconType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "customIconType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "customIconType"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "defaultIcons" }) {
             parameters.defaultIcons = Jelly_DefaultIcons(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "defaultIcons"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "defaultIcons"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "customIcon" }) {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.customIcon = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "customIcon"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "customIcon"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "sfSymbolName" }) {
             parameters.sfSymbolName = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "sfSymbolName"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "sfSymbolName"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "emojiName" }) {
             parameters.emojiName = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "emojiName"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "emojiName"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "iconColour" }) {
             parameters.iconColour = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "iconColour"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "iconColour"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "backgroundColour" }) {
             parameters.backgroundColour = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "backgroundColour"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "backgroundColour"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "emojiBG" }) {
             parameters.emojiBG = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "emojiBG"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "emojiBG"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "imageURL" }) {
             parameters.imageURL = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "imageURL"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "imageURL"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "defaultBGColour" }) {
             parameters.defaultBGColour = Jelly_SystemColours(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "defaultBGColour"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "defaultBGColour"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "defaultIconColour" }) {
             parameters.defaultIconColour = Jelly_SystemColours(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "defaultIconColour"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "defaultIconColour"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "bgTransparency" }) {
             parameters.bgTransparency = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "bgTransparency"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "bgTransparency"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "bgTransparencyEmoji" }) {
             parameters.bgTransparencyEmoji = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "bgTransparencyEmoji"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "bgTransparencyEmoji"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "base64" }) {
             parameters.base64 = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "base64"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "base64"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "sfScale" }) {
             parameters.sfScale = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "sfScale"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "sfScale"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "defaultScale" }) {
             parameters.defaultScale = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "defaultScale"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "defaultScale"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "title" }) {
             parameters.title = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "title"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "title"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "subtitle" }) {
             parameters.subtitle = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "subtitle"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "subtitle"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "field1" }) {
             parameters.field1 = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "field1"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "field1"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "field2" }) {
             parameters.field2 = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "field2"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createMenu", name: "field2"), node: nil)
         }
 
         return parameters

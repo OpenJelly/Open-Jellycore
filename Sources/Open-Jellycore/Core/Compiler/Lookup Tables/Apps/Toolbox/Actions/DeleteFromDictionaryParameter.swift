@@ -21,37 +21,37 @@ struct DeleteFromDictionaryParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "dictionary" }) {
             parameters.dictionary = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "deleteFromDictionary", name: "dictionary"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "deleteFromDictionary", name: "dictionary"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "type" }) {
             parameters.type = Jelly_DeleteDictType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "deleteFromDictionary", name: "type"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "deleteFromDictionary", name: "type"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "keys" }) {
             parameters.keys = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "deleteFromDictionary", name: "keys"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "deleteFromDictionary", name: "keys"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "valueQuery" }) {
             parameters.valueQuery = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "deleteFromDictionary", name: "valueQuery"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "deleteFromDictionary", name: "valueQuery"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "keyQuery" }) {
             parameters.keyQuery = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "deleteFromDictionary", name: "keyQuery"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "deleteFromDictionary", name: "keyQuery"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "dictionaryToMerge" }) {
             parameters.dictionaryToMerge = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "deleteFromDictionary", name: "dictionaryToMerge"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "deleteFromDictionary", name: "dictionaryToMerge"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "removeEmptyValues" }) {
             parameters.removeEmptyValues = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "deleteFromDictionary", name: "removeEmptyValues"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "deleteFromDictionary", name: "removeEmptyValues"), node: nil)
         }
 
         return parameters

@@ -16,12 +16,12 @@ struct RandomDataParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "size" }) {
             parameters.size = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "randomData", name: "size"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "randomData", name: "size"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "outputEncoding" }) {
             parameters.outputEncoding = Jelly_BinaryOutputEncoding(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "randomData", name: "outputEncoding"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "randomData", name: "outputEncoding"), node: nil)
         }
 
         return parameters

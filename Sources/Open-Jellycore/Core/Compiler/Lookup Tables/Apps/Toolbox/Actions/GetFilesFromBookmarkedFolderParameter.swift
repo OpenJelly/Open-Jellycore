@@ -16,12 +16,12 @@ struct GetFilesFromBookmarkedFolderParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "bookmarkedFolder" }) {
             parameters.bookmarkedFolder = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getFilesFromBookmarkedFolder", name: "bookmarkedFolder"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getFilesFromBookmarkedFolder", name: "bookmarkedFolder"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "filePath" }) {
             parameters.filePath = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getFilesFromBookmarkedFolder", name: "filePath"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getFilesFromBookmarkedFolder", name: "filePath"), node: nil)
         }
 
         return parameters

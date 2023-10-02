@@ -20,32 +20,32 @@ struct CalculateWithSoulverParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "text" }) {
             parameters.text = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "calculateWithSoulver", name: "text"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "calculateWithSoulver", name: "text"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "roundResult" }) {
             parameters.roundResult = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "calculateWithSoulver", name: "roundResult"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "calculateWithSoulver", name: "roundResult"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "roundTo" }) {
             parameters.roundTo = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "calculateWithSoulver", name: "roundTo"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "calculateWithSoulver", name: "roundTo"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "changeLocale" }) {
             parameters.changeLocale = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "calculateWithSoulver", name: "changeLocale"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "calculateWithSoulver", name: "changeLocale"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "locale" }) {
             parameters.locale = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "calculateWithSoulver", name: "locale"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "calculateWithSoulver", name: "locale"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "updateCurrencies" }) {
             parameters.updateCurrencies = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "calculateWithSoulver", name: "updateCurrencies"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "calculateWithSoulver", name: "updateCurrencies"), node: nil)
         }
 
         return parameters

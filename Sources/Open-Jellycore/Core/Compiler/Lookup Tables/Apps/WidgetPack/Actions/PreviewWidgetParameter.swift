@@ -16,12 +16,12 @@ struct PreviewWidgetParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "view" }) {
             parameters.view = Jelly_View(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "previewWidget", name: "view"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "previewWidget", name: "view"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "size" }) {
             parameters.size = Jelly_WidgetFamily(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "previewWidget", name: "size"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "previewWidget", name: "size"), node: nil)
         }
 
         return parameters

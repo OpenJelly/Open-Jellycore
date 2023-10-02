@@ -18,22 +18,22 @@ struct FileDraftParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "draft" }) {
             parameters.draft = Jelly_Draft(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "fileDraft", name: "draft"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "fileDraft", name: "draft"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "folder" }) {
             parameters.folder = Jelly_DraftUpdateFolder(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "fileDraft", name: "folder"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "fileDraft", name: "folder"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "isFlagged" }) {
             parameters.isFlagged = Jelly_DraftUpdateFlaggedStatus(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "fileDraft", name: "isFlagged"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "fileDraft", name: "isFlagged"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "tags" }) {
             parameters.tags = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "fileDraft", name: "tags"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "fileDraft", name: "tags"), node: nil)
         }
 
         return parameters

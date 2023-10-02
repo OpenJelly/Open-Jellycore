@@ -5,7 +5,7 @@ import XCTest
 
 
 func execute(with testString: String, shouldFail: Bool = false) throws {
-    ErrorReporter.shared.reset()
+    EventReporter.shared.reset()
     let parser = Parser(contents: testString)
     try parser.parse()
     
@@ -13,19 +13,19 @@ func execute(with testString: String, shouldFail: Bool = false) throws {
     let _ = try compiler.compile(named: "Function Tests")
     
     if shouldFail {
-        XCTAssertTrue(ErrorReporter.shared.numberOfErrors > 0)
+        XCTAssertTrue(EventReporter.shared.numberOfErrors > 0)
         
-        for error in ErrorReporter.shared.errors {
+        for error in EventReporter.shared.events {
             print(error.errorDescription ?? "No Description", error.recoveryStrategy)
         }
     } else {
-        if ErrorReporter.shared.numberOfErrors > 0 {
-            for error in ErrorReporter.shared.errors {
+        if EventReporter.shared.numberOfErrors > 0 {
+            for error in EventReporter.shared.events {
                 print(error.errorDescription ?? "No Description", error.recoveryStrategy)
             }
-            XCTFail("Found \(ErrorReporter.shared.errors.count) errors")
+            XCTFail("Found \(EventReporter.shared.events.count) errors")
         } else {
-            for error in ErrorReporter.shared.errors {
+            for error in EventReporter.shared.events {
                 print(error.errorDescription ?? "No Description", error.recoveryStrategy)
             }
             

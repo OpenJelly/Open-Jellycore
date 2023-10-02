@@ -17,17 +17,17 @@ struct OutputParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "result" }) {
             parameters.WFOutput = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "output", name: "result"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "output", name: "result"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "noResultBehavior" }) {
             parameters.noResultBehavior = Jelly_WFNoOutputSurfaceBehavior(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "output", name: "noResultBehavior"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "output", name: "noResultBehavior"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "response" }) {
             parameters.WFResponse = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "output", name: "response"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "output", name: "response"), node: nil)
         }
 
         return parameters

@@ -18,22 +18,22 @@ struct GetRelativeDateParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "date" }) {
             parameters.date = JellyDate(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getRelativeDate", name: "date"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getRelativeDate", name: "date"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "context" }) {
             parameters.context = Jelly_DateContext(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getRelativeDate", name: "context"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getRelativeDate", name: "context"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "unitsStyle" }) {
             parameters.unitsStyle = Jelly_DateUnitsStyle(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getRelativeDate", name: "unitsStyle"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getRelativeDate", name: "unitsStyle"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "startingDate" }) {
             parameters.startingDate = JellyDate(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getRelativeDate", name: "startingDate"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getRelativeDate", name: "startingDate"), node: nil)
         }
 
         return parameters

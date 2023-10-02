@@ -19,27 +19,27 @@ struct FormatDateParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "date" }) {
             parameters.WFDate = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "formatDate", name: "date"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "formatDate", name: "date"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "dStyle" }) {
             parameters.WFDateFormatStyle = Jelly_WFDateFormatStyle(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "formatDate", name: "dStyle"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "formatDate", name: "dStyle"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "tStyle" }) {
             parameters.WFTimeFormatStyle = Jelly_WFTimeFormatStyle(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "formatDate", name: "tStyle"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "formatDate", name: "tStyle"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "custom" }) {
             parameters.WFDateFormat = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "formatDate", name: "custom"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "formatDate", name: "custom"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "isoTime" }) {
             parameters.WFISO8601IncludeTime = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "formatDate", name: "isoTime"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "formatDate", name: "isoTime"), node: nil)
         }
 
         return parameters

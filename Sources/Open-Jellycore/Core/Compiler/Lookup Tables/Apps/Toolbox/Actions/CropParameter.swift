@@ -18,20 +18,20 @@ struct CropParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.image = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "crop", name: "image"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "crop", name: "image"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "openURL" }) {
             parameters.openURL = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "crop", name: "openURL"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "crop", name: "openURL"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "postURL" }) {
             parameters.postURL = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "crop", name: "postURL"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "crop", name: "postURL"), node: nil)
         }
 
         return parameters

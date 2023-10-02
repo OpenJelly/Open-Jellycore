@@ -16,12 +16,12 @@ struct SpellOutNumberParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "number" }) {
             parameters.number = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "spellOutNumber", name: "number"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "spellOutNumber", name: "number"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "ActionsLocale" }) {
             parameters.ActionsLocale = Jelly_ActionsLocale(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "spellOutNumber", name: "ActionsLocale"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "spellOutNumber", name: "ActionsLocale"), node: nil)
         }
 
         return parameters

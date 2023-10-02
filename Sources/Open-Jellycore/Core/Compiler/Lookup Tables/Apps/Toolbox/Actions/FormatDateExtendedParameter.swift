@@ -19,27 +19,27 @@ struct FormatDateExtendedParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "sourceDate" }) {
             parameters.sourceDate = JellyDate(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "formatDateExtended", name: "sourceDate"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "formatDateExtended", name: "sourceDate"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "dateTimeZone" }) {
             parameters.dateTimeZone = Jelly_DateOrTime(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "formatDateExtended", name: "dateTimeZone"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "formatDateExtended", name: "dateTimeZone"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "dateFormat" }) {
             parameters.dateFormat = Jelly_DateFormat(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "formatDateExtended", name: "dateFormat"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "formatDateExtended", name: "dateFormat"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "timeFormat" }) {
             parameters.timeFormat = Jelly_TimeFormat(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "formatDateExtended", name: "timeFormat"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "formatDateExtended", name: "timeFormat"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "zoneFormat" }) {
             parameters.zoneFormat = Jelly_ZoneFormat(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "formatDateExtended", name: "zoneFormat"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "formatDateExtended", name: "zoneFormat"), node: nil)
         }
 
         return parameters

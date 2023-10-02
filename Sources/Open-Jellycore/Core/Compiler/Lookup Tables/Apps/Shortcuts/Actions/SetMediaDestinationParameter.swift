@@ -16,10 +16,10 @@ struct SetMediaDestinationParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFMediaRoute = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setMediaDestination", name: "device"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setMediaDestination", name: "device"), node: nil)
         }
 
         return parameters

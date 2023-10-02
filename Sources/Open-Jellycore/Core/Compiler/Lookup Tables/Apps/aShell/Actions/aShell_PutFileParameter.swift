@@ -17,15 +17,15 @@ struct aShell_PutFileParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.file = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "putFile", name: "file"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "putFile", name: "file"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "overwrite" }) {
             parameters.overwrite = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "putFile", name: "overwrite"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "putFile", name: "overwrite"), node: nil)
         }
 
         return parameters

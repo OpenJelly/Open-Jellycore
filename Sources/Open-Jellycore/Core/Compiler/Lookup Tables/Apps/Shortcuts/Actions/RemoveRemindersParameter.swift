@@ -16,10 +16,10 @@ struct RemoveRemindersParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFInputReminders = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "removeReminders", name: "reminders"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "removeReminders", name: "reminders"), node: nil)
         }
 
         return parameters

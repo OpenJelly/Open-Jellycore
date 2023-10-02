@@ -16,12 +16,12 @@ struct HapticFeedbackParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "feedbackType" }) {
             parameters.feedbackType = Jelly_HapticFeedbackType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "hapticFeedback", name: "feedbackType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "hapticFeedback", name: "feedbackType"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "vibrateIfUnsupported" }) {
             parameters.vibrateIfUnsupported = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "hapticFeedback", name: "vibrateIfUnsupported"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "hapticFeedback", name: "vibrateIfUnsupported"), node: nil)
         }
 
         return parameters

@@ -17,17 +17,17 @@ struct Toolbox_PlayMusicParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "ids" }) {
             parameters.ids = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "playMusic", name: "ids"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "playMusic", name: "ids"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "repeatMode" }) {
             parameters.repeatMode = Jelly_RepeatMode(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "playMusic", name: "repeatMode"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "playMusic", name: "repeatMode"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "shuffle" }) {
             parameters.shuffle = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "playMusic", name: "shuffle"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "playMusic", name: "shuffle"), node: nil)
         }
 
         return parameters

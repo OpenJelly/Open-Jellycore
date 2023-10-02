@@ -16,10 +16,10 @@ struct Toolbox_SplitPDFParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.pdfs = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "splitPDF", name: "pdfs"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "splitPDF", name: "pdfs"), node: nil)
         }
 
         return parameters

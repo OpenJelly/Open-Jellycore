@@ -18,22 +18,22 @@ struct CurrentForecastParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "location" }) {
             parameters.location = ShortcutsPlacemark(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "currentForecast", name: "location"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "currentForecast", name: "location"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "forecastType" }) {
             parameters.forecastType = Jelly_ForecastType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "currentForecast", name: "forecastType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "currentForecast", name: "forecastType"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "dataType" }) {
             parameters.dataType = Jelly_DataType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "currentForecast", name: "dataType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "currentForecast", name: "dataType"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "timeThreshold" }) {
             parameters.timeThreshold = Jelly_TimeThreshold(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "currentForecast", name: "timeThreshold"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "currentForecast", name: "timeThreshold"), node: nil)
         }
 
         return parameters

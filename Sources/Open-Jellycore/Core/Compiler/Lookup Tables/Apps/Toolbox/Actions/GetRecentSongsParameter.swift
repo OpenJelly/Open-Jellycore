@@ -17,17 +17,17 @@ struct GetRecentSongsParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "limitResults" }) {
             parameters.limitResults = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getRecentSongs", name: "limitResults"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getRecentSongs", name: "limitResults"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "limitCount" }) {
             parameters.limitCount = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getRecentSongs", name: "limitCount"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getRecentSongs", name: "limitCount"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "recentMusicType" }) {
             parameters.recentMusicType = Jelly_RecentMusicType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getRecentSongs", name: "recentMusicType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getRecentSongs", name: "recentMusicType"), node: nil)
         }
 
         return parameters

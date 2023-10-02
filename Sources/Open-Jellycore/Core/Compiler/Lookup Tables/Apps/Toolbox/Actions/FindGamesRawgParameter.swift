@@ -31,87 +31,87 @@ struct FindGamesRawgParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "query" }) {
             parameters.query = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findGamesRawg", name: "query"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findGamesRawg", name: "query"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "queryMatching" }) {
             parameters.queryMatching = Jelly_RawgQueryMatching(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findGamesRawg", name: "queryMatching"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findGamesRawg", name: "queryMatching"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "platforms" }) {
             parameters.platforms = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findGamesRawg", name: "platforms"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findGamesRawg", name: "platforms"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "genres" }) {
             parameters.genres = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findGamesRawg", name: "genres"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findGamesRawg", name: "genres"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "stores" }) {
             parameters.stores = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findGamesRawg", name: "stores"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findGamesRawg", name: "stores"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "playerType" }) {
             parameters.playerType = Jelly_GamePlayers(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findGamesRawg", name: "playerType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findGamesRawg", name: "playerType"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "perspective" }) {
             parameters.perspective = Jelly_RawgPerspective(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findGamesRawg", name: "perspective"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findGamesRawg", name: "perspective"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "worldTypes" }) {
             parameters.worldTypes = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findGamesRawg", name: "worldTypes"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findGamesRawg", name: "worldTypes"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "scoreAbove" }) {
             parameters.scoreAbove = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findGamesRawg", name: "scoreAbove"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findGamesRawg", name: "scoreAbove"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "subtitleType" }) {
             parameters.subtitleType = Jelly_GameSubtitleType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findGamesRawg", name: "subtitleType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findGamesRawg", name: "subtitleType"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "excludeAdditions" }) {
             parameters.excludeAdditions = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findGamesRawg", name: "excludeAdditions"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findGamesRawg", name: "excludeAdditions"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "sortOrder" }) {
             parameters.sortOrder = Jelly_RawgSortOrder(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findGamesRawg", name: "sortOrder"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findGamesRawg", name: "sortOrder"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "descendingOrder" }) {
             parameters.descendingOrder = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findGamesRawg", name: "descendingOrder"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findGamesRawg", name: "descendingOrder"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "afterYear" }) {
             parameters.afterYear = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findGamesRawg", name: "afterYear"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findGamesRawg", name: "afterYear"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "beforeYear" }) {
             parameters.beforeYear = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findGamesRawg", name: "beforeYear"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findGamesRawg", name: "beforeYear"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "renderThumbnails" }) {
             parameters.renderThumbnails = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findGamesRawg", name: "renderThumbnails"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findGamesRawg", name: "renderThumbnails"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "resultCount" }) {
             parameters.resultCount = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "findGamesRawg", name: "resultCount"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "findGamesRawg", name: "resultCount"), node: nil)
         }
 
         return parameters

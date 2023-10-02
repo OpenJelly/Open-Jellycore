@@ -15,7 +15,7 @@ struct OpenAppParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "id" }) {
             parameters.WFAppIdentifier = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "openApp", name: "id"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "openApp", name: "id"), node: nil)
         }
 
         return parameters

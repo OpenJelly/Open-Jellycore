@@ -16,12 +16,12 @@ struct ShowCaptureParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "content" }) {
             parameters.content = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "showCapture", name: "content"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "showCapture", name: "content"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "tags" }) {
             parameters.tags = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "showCapture", name: "tags"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "showCapture", name: "tags"), node: nil)
         }
 
         return parameters

@@ -15,7 +15,7 @@ struct GetEmailFromParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "input" }) {
             parameters.WFInput = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getEmailFrom", name: "input"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getEmailFrom", name: "input"), node: nil)
         }
 
         return parameters

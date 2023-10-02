@@ -17,15 +17,15 @@ struct AverageColourParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.inputImage = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "averageColour", name: "inputImage"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "averageColour", name: "inputImage"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "colourType" }) {
             parameters.colourType = Jelly_ColourTypes(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "averageColour", name: "colourType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "averageColour", name: "colourType"), node: nil)
         }
 
         return parameters

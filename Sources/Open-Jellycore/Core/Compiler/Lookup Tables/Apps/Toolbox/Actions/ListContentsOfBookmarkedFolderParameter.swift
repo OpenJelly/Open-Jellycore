@@ -18,22 +18,22 @@ struct ListContentsOfBookmarkedFolderParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "bookmarkedFolder" }) {
             parameters.bookmarkedFolder = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "listContentsOfBookmarkedFolder", name: "bookmarkedFolder"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "listContentsOfBookmarkedFolder", name: "bookmarkedFolder"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "subFolderPath" }) {
             parameters.subFolderPath = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "listContentsOfBookmarkedFolder", name: "subFolderPath"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "listContentsOfBookmarkedFolder", name: "subFolderPath"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "filter" }) {
             parameters.filter = Jelly_FileType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "listContentsOfBookmarkedFolder", name: "filter"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "listContentsOfBookmarkedFolder", name: "filter"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "thumbs" }) {
             parameters.thumbs = Jelly_ThumbnailType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "listContentsOfBookmarkedFolder", name: "thumbs"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "listContentsOfBookmarkedFolder", name: "thumbs"), node: nil)
         }
 
         return parameters

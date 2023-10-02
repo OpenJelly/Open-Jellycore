@@ -19,25 +19,25 @@ struct ChooseParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFInput = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "choose", name: "list"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "choose", name: "list"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "prompt" }) {
             parameters.WFChooseFromListActionPrompt = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "choose", name: "prompt"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "choose", name: "prompt"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "multiple" }) {
             parameters.WFChooseFromListActionSelectMultiple = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "choose", name: "multiple"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "choose", name: "multiple"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "all" }) {
             parameters.WFChooseFromListActionSelectAll = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "choose", name: "all"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "choose", name: "all"), node: nil)
         }
 
         return parameters

@@ -25,57 +25,57 @@ struct EditBookmarkedFileParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "bookmarkedFile" }) {
             parameters.bookmarkedFile = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "editBookmarkedFile", name: "bookmarkedFile"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "editBookmarkedFile", name: "bookmarkedFile"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "bookmarkedFolder" }) {
             parameters.bookmarkedFolder = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "editBookmarkedFile", name: "bookmarkedFolder"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "editBookmarkedFile", name: "bookmarkedFolder"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "mode" }) {
             parameters.mode = Jelly_EditTextMode(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "editBookmarkedFile", name: "mode"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "editBookmarkedFile", name: "mode"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "replacing" }) {
             parameters.replacing = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "editBookmarkedFile", name: "replacing"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "editBookmarkedFile", name: "replacing"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "texts" }) {
             parameters.texts = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "editBookmarkedFile", name: "texts"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "editBookmarkedFile", name: "texts"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "line" }) {
             parameters.line = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "editBookmarkedFile", name: "line"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "editBookmarkedFile", name: "line"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "separator" }) {
             parameters.separator = Jelly_CombineText(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "editBookmarkedFile", name: "separator"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "editBookmarkedFile", name: "separator"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "custom" }) {
             parameters.custom = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "editBookmarkedFile", name: "custom"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "editBookmarkedFile", name: "custom"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "source" }) {
             parameters.source = Jelly_EditTextSource(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "editBookmarkedFile", name: "source"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "editBookmarkedFile", name: "source"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "path" }) {
             parameters.path = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "editBookmarkedFile", name: "path"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "editBookmarkedFile", name: "path"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "postURL" }) {
             parameters.postURL = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "editBookmarkedFile", name: "postURL"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "editBookmarkedFile", name: "postURL"), node: nil)
         }
 
         return parameters

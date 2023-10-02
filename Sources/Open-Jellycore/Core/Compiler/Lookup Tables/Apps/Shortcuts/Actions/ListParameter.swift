@@ -15,7 +15,7 @@ struct ListParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "items" }) {
             parameters.WFItems = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "list", name: "items"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "list", name: "items"), node: nil)
         }
 
         return parameters

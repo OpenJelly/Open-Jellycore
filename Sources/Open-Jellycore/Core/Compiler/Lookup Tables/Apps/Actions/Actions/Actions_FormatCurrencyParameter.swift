@@ -16,12 +16,12 @@ struct Actions_FormatCurrencyParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "amount" }) {
             parameters.amount = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "formatCurrency", name: "amount"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "formatCurrency", name: "amount"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "currency" }) {
             parameters.currency = Jelly_Currency(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "formatCurrency", name: "currency"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "formatCurrency", name: "currency"), node: nil)
         }
 
         return parameters

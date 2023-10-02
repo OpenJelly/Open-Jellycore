@@ -20,32 +20,32 @@ struct ProgressViewParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "kind" }) {
             parameters.kind = Jelly_ProgressViewKind(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "progressView", name: "kind"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "progressView", name: "kind"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "circularTint" }) {
             parameters.circularTint = Jelly_View(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "progressView", name: "circularTint"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "progressView", name: "circularTint"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "linearTint" }) {
             parameters.linearTint = Jelly_View(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "progressView", name: "linearTint"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "progressView", name: "linearTint"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "value" }) {
             parameters.value = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "progressView", name: "value"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "progressView", name: "value"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "total" }) {
             parameters.total = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "progressView", name: "total"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "progressView", name: "total"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "label" }) {
             parameters.label = Jelly_View(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "progressView", name: "label"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "progressView", name: "label"), node: nil)
         }
 
         return parameters

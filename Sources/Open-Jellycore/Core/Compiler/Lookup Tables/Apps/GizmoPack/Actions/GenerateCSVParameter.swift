@@ -20,30 +20,30 @@ struct GenerateCSVParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.rows = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "generateCSV", name: "rows"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "generateCSV", name: "rows"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "allFields" }) {
             parameters.allFields = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "generateCSV", name: "allFields"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "generateCSV", name: "allFields"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "fields" }) {
             parameters.fields = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "generateCSV", name: "fields"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "generateCSV", name: "fields"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "delimiter" }) {
             parameters.delimiter = Jelly_CSVDelimiter(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "generateCSV", name: "delimiter"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "generateCSV", name: "delimiter"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "customDelimiter" }) {
             parameters.customDelimiter = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "generateCSV", name: "customDelimiter"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "generateCSV", name: "customDelimiter"), node: nil)
         }
 
         return parameters

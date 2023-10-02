@@ -16,12 +16,12 @@ struct ScanDocumentParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "scanType" }) {
             parameters.scanType = Jelly_ScanType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "scanDocument", name: "scanType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "scanDocument", name: "scanType"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "url" }) {
             parameters.url = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "scanDocument", name: "url"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "scanDocument", name: "url"), node: nil)
         }
 
         return parameters

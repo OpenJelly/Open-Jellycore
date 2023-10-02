@@ -19,31 +19,31 @@ struct SaveFilesToBookmarkedFoldersParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "bookmarkedFolder" }) {
             parameters.bookmarkedFolder = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "saveFilesToBookmarkedFolders", name: "bookmarkedFolder"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "saveFilesToBookmarkedFolders", name: "bookmarkedFolder"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "files" }) {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.files = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "saveFilesToBookmarkedFolders", name: "files"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "saveFilesToBookmarkedFolders", name: "files"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "subFolderPath" }) {
             parameters.subFolderPath = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "saveFilesToBookmarkedFolders", name: "subFolderPath"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "saveFilesToBookmarkedFolders", name: "subFolderPath"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "overwriteExisting" }) {
             parameters.overwriteExisting = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "saveFilesToBookmarkedFolders", name: "overwriteExisting"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "saveFilesToBookmarkedFolders", name: "overwriteExisting"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "tags" }) {
             parameters.tags = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "saveFilesToBookmarkedFolders", name: "tags"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "saveFilesToBookmarkedFolders", name: "tags"), node: nil)
         }
 
         return parameters

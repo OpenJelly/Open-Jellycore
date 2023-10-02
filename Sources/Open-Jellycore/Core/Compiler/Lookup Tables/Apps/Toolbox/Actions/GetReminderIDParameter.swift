@@ -16,12 +16,12 @@ struct GetReminderIDParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "reminder" }) {
             parameters.reminder = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getReminderID", name: "reminder"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getReminderID", name: "reminder"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "list" }) {
             parameters.list = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getReminderID", name: "list"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getReminderID", name: "list"), node: nil)
         }
 
         return parameters

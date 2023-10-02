@@ -16,12 +16,12 @@ struct GetColoursParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "mode" }) {
             parameters.mode = Jelly_ColourMode(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getColours", name: "mode"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getColours", name: "mode"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "colour" }) {
             parameters.colour = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getColours", name: "colour"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getColours", name: "colour"), node: nil)
         }
 
         return parameters

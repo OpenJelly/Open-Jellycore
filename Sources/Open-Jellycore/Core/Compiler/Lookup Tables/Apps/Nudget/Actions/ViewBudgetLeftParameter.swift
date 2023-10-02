@@ -15,7 +15,7 @@ struct ViewBudgetLeftParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "segment" }) {
             parameters.segment = Jelly_WidgetSegment(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "viewBudgetLeft", name: "segment"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "viewBudgetLeft", name: "segment"), node: nil)
         }
 
         return parameters

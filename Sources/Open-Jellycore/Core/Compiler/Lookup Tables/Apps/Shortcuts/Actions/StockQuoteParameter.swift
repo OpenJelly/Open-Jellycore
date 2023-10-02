@@ -15,7 +15,7 @@ struct StockQuoteParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "symbol" }) {
             parameters.StockSymbol = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "stockQuote", name: "symbol"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "stockQuote", name: "symbol"), node: nil)
         }
 
         return parameters

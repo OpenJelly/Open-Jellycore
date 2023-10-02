@@ -18,20 +18,20 @@ struct RunFileParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.file = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "runFile", name: "file"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "runFile", name: "file"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "arguments" }) {
             parameters.arguments = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "runFile", name: "arguments"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "runFile", name: "arguments"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "runInApp" }) {
             parameters.runInApp = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "runFile", name: "runInApp"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "runFile", name: "runInApp"), node: nil)
         }
 
         return parameters

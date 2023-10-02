@@ -17,17 +17,17 @@ struct aShell_ExecuteCommandParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "command" }) {
             parameters.command = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "executeCommand", name: "command"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "executeCommand", name: "command"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "openWindow" }) {
             parameters.openWindow = aShell_Jelly_Enum(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "executeCommand", name: "openWindow"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "executeCommand", name: "openWindow"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "keepGoing" }) {
             parameters.keepGoing = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "executeCommand", name: "keepGoing"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "executeCommand", name: "keepGoing"), node: nil)
         }
 
         return parameters

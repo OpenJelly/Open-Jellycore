@@ -19,27 +19,27 @@ struct ModifierRelativeFrameParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "relativeFrameWidth" }) {
             parameters.relativeFrameWidth = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierRelativeFrame", name: "relativeFrameWidth"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierRelativeFrame", name: "relativeFrameWidth"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "relativeFrameHeight" }) {
             parameters.relativeFrameHeight = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierRelativeFrame", name: "relativeFrameHeight"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierRelativeFrame", name: "relativeFrameHeight"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "relativeFrameAlignment" }) {
             parameters.relativeFrameAlignment = Jelly_Alignment(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierRelativeFrame", name: "relativeFrameAlignment"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierRelativeFrame", name: "relativeFrameAlignment"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "relativeFrameRelativeTo" }) {
             parameters.relativeFrameRelativeTo = Jelly_RelativeFrameRelativeTo(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierRelativeFrame", name: "relativeFrameRelativeTo"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierRelativeFrame", name: "relativeFrameRelativeTo"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "view" }) {
             parameters.view = Jelly_View(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierRelativeFrame", name: "view"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierRelativeFrame", name: "view"), node: nil)
         }
 
         return parameters

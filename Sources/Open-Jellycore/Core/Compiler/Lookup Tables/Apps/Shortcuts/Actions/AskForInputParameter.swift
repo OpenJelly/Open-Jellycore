@@ -19,27 +19,27 @@ struct AskForInputParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "prompt" }) {
             parameters.WFAskActionPrompt = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "askForInput", name: "prompt"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "askForInput", name: "prompt"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "type" }) {
             parameters.type = Jelly_WFInputType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "askForInput", name: "type"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "askForInput", name: "type"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "default" }) {
             parameters.WFAskActionDefaultAnswer = Jelly_WFAskActionDefaultAnswer(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "askForInput", name: "default"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "askForInput", name: "default"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "allowDecimal" }) {
             parameters.WFAskActionAllowsDecimalNumbers = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "askForInput", name: "allowDecimal"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "askForInput", name: "allowDecimal"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "allowNegative" }) {
             parameters.WFAskActionAllowsNegativeNumbers = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "askForInput", name: "allowNegative"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "askForInput", name: "allowNegative"), node: nil)
         }
 
         return parameters

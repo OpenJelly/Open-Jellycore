@@ -15,7 +15,7 @@ struct GetCalendarsParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "getType" }) {
             parameters.getType = Jelly_GetCalendarType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getCalendars", name: "getType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getCalendars", name: "getType"), node: nil)
         }
 
         return parameters

@@ -15,7 +15,7 @@ struct GetLocationFromW3WParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "what3words" }) {
             parameters.what3words = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getLocationFromW3W", name: "what3words"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getLocationFromW3W", name: "what3words"), node: nil)
         }
 
         return parameters

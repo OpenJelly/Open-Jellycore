@@ -19,27 +19,27 @@ struct DoubleColumnWidgetParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "displayFirstColumn" }) {
             parameters.displayFirstColumn = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "doubleColumnWidget", name: "displayFirstColumn"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "doubleColumnWidget", name: "displayFirstColumn"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "firstColumnLabel" }) {
             parameters.firstColumnLabel = Jelly_ShortcutLabel(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "doubleColumnWidget", name: "firstColumnLabel"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "doubleColumnWidget", name: "firstColumnLabel"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "displaySecondColumn" }) {
             parameters.displaySecondColumn = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "doubleColumnWidget", name: "displaySecondColumn"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "doubleColumnWidget", name: "displaySecondColumn"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "secondColumnLabel" }) {
             parameters.secondColumnLabel = Jelly_ShortcutLabel(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "doubleColumnWidget", name: "secondColumnLabel"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "doubleColumnWidget", name: "secondColumnLabel"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "includeArchivedLinks" }) {
             parameters.includeArchivedLinks = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "doubleColumnWidget", name: "includeArchivedLinks"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "doubleColumnWidget", name: "includeArchivedLinks"), node: nil)
         }
 
         return parameters

@@ -16,10 +16,10 @@ struct RichTextFromHTMLParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFInput = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "richTextFromHTML", name: "html"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "richTextFromHTML", name: "html"), node: nil)
         }
 
         return parameters

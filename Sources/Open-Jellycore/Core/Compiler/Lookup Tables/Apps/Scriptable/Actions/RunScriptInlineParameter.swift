@@ -21,37 +21,37 @@ struct RunScriptInlineParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "script" }) {
             parameters.script = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "runScriptInline", name: "script"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "runScriptInline", name: "script"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "parameter" }) {
             parameters.parameter = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "runScriptInline", name: "parameter"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "runScriptInline", name: "parameter"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "texts" }) {
             parameters.texts = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "runScriptInline", name: "texts"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "runScriptInline", name: "texts"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "urls" }) {
             parameters.urls = JellyArray<JellyString>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "runScriptInline", name: "urls"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "runScriptInline", name: "urls"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "images" }) {
             parameters.images = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "runScriptInline", name: "images"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "runScriptInline", name: "images"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "files" }) {
             parameters.files = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "runScriptInline", name: "files"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "runScriptInline", name: "files"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "runInApp" }) {
             parameters.runInApp = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "runScriptInline", name: "runInApp"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "runScriptInline", name: "runInApp"), node: nil)
         }
 
         return parameters

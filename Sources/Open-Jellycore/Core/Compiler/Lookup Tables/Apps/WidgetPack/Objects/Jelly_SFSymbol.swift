@@ -19,19 +19,19 @@ struct Jelly_SFSymbol: JellyObject, Codable {
     init(_ value: CoreNode, scopedVariables: [Variable]) {
 //        if let parameter = node as? ObjectNode {
 //            if parameter.objectName != correctType {
-//                ErrorReporter.shared.report(error: .typeError(type: objectName, description: "\(parameter.objectName) is not equivalent to the expected type \(objectName)"), textPosition: parameter.textPosition)
+//                EventReporter.shared.report(error: .typeError(type: objectName, description: "\(parameter.objectName) is not equivalent to the expected type \(objectName)"), textPosition: parameter.textPosition)
 //                return
 //            }
 //
 //            if let value = parameter.parameters.first(where: { node in return node.slotName == "identifier" }) {
 //                self.identifier = JellyString(value, scopedVariables: scopedVariables)
 //            } else {
-//                ErrorReporter.shared.report(error: .parameterNotFound(parameter: "identifier", functionName: "SFSymbol"), textPosition: node.textPosition)
+//                EventReporter.shared.report(error: .parameterNotFound(parameter: "identifier", functionName: "SFSymbol"), textPosition: node.textPosition)
 //            }
 //            if let value = parameter.parameters.first(where: { node in return node.slotName == "displayString" }) {
 //                self.displayString = JellyString(value, scopedVariables: scopedVariables)
 //            } else {
-//                ErrorReporter.shared.report(error: .parameterNotFound(parameter: "displayString", functionName: "SFSymbol"), textPosition: node.textPosition)
+//                EventReporter.shared.report(error: .parameterNotFound(parameter: "displayString", functionName: "SFSymbol"), textPosition: node.textPosition)
 //            }
 //        }
     }

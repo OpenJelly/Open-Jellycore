@@ -15,7 +15,7 @@ struct OpenMultiredditParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "multiredditName" }) {
             parameters.multiredditName = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "openMultireddit", name: "multiredditName"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "openMultireddit", name: "multiredditName"), node: nil)
         }
 
         return parameters

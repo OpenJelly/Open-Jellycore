@@ -24,74 +24,74 @@ struct HashDataParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.input = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "hashData", name: "input"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "hashData", name: "input"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "algorithm" }) {
             parameters.algorithm = Jelly_HashDataAlgorithm(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "hashData", name: "algorithm"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "hashData", name: "algorithm"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "hmacMd5Key" }) {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.hmacMd5Key = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "hashData", name: "hmacMd5Key"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "hashData", name: "hmacMd5Key"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "hmacSha1Key" }) {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.hmacSha1Key = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "hashData", name: "hmacSha1Key"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "hashData", name: "hmacSha1Key"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "hmacSha224Key" }) {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.hmacSha224Key = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "hashData", name: "hmacSha224Key"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "hashData", name: "hmacSha224Key"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "hmacSha256Key" }) {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.hmacSha256Key = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "hashData", name: "hmacSha256Key"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "hashData", name: "hmacSha256Key"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "hmacSha384Key" }) {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.hmacSha384Key = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "hashData", name: "hmacSha384Key"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "hashData", name: "hmacSha384Key"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "hmacSha512Key" }) {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.hmacSha512Key = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "hashData", name: "hmacSha512Key"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "hashData", name: "hmacSha512Key"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "outputEncoding" }) {
             parameters.outputEncoding = Jelly_BinaryOutputEncoding(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "hashData", name: "outputEncoding"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "hashData", name: "outputEncoding"), node: nil)
         }
 
         return parameters

@@ -17,17 +17,17 @@ struct UpdateNumberTrackerParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "tracker" }) {
             parameters.tracker = Jelly_Tracker(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "updateNumberTracker", name: "tracker"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "updateNumberTracker", name: "tracker"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "value" }) {
             parameters.value = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "updateNumberTracker", name: "value"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "updateNumberTracker", name: "value"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "note" }) {
             parameters.note = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "updateNumberTracker", name: "note"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "updateNumberTracker", name: "note"), node: nil)
         }
 
         return parameters

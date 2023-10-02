@@ -16,12 +16,12 @@ struct SetVoiceDataParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "mode" }) {
             parameters.mode = Jelly_RatMode(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setVoiceData", name: "mode"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setVoiceData", name: "mode"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "sim" }) {
             parameters.sim = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setVoiceData", name: "sim"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setVoiceData", name: "sim"), node: nil)
         }
 
         return parameters

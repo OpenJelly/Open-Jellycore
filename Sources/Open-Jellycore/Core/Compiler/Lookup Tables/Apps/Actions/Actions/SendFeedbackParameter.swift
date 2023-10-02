@@ -16,12 +16,12 @@ struct SendFeedbackParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "message" }) {
             parameters.message = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "sendFeedback", name: "message"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "sendFeedback", name: "message"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "email" }) {
             parameters.email = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "sendFeedback", name: "email"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "sendFeedback", name: "email"), node: nil)
         }
 
         return parameters

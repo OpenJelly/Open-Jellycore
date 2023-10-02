@@ -17,17 +17,17 @@ struct ShapeParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "kind" }) {
             parameters.kind = Jelly_ShapeKind(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "shape", name: "kind"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "shape", name: "kind"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "radius" }) {
             parameters.radius = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "shape", name: "radius"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "shape", name: "radius"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "rotation" }) {
             parameters.rotation = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "shape", name: "rotation"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "shape", name: "rotation"), node: nil)
         }
 
         return parameters

@@ -16,12 +16,12 @@ struct ShowWebPageParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "url" }) {
             parameters.WFURL = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "showWebPage", name: "url"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "showWebPage", name: "url"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "reader" }) {
             parameters.WFEnterSafariReader = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "showWebPage", name: "reader"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "showWebPage", name: "reader"), node: nil)
         }
 
         return parameters

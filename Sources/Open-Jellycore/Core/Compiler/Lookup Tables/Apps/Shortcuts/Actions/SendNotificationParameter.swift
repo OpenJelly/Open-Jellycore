@@ -18,26 +18,26 @@ struct SendNotificationParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "body" }) {
             parameters.WFNotificationActionBody = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "sendNotification", name: "body"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "sendNotification", name: "body"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "title" }) {
             parameters.WFNotificationActionTitle = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "sendNotification", name: "title"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "sendNotification", name: "title"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "sound" }) {
             parameters.WFNotificationActionSound = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "sendNotification", name: "sound"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "sendNotification", name: "sound"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "attachment" })?.item {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFInput = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "sendNotification", name: "attachment"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "sendNotification", name: "attachment"), node: nil)
         }
 
         return parameters

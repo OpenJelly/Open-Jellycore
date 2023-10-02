@@ -123,7 +123,7 @@ struct JellyVariableReference: JellyAny, Codable {
         } else if let globalVariable = Scope.globalVariables.first(where: { variableNameFilter(variable: $0, name: name) }) {
             self.variableType = VariableType(jellyValue: globalVariable.name)
         } else {
-            ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: self.name), node: value)
+            EventReporter.shared.reportError(error: .variableDoesNotExist(variable: self.name), node: value)
             return nil
         }
     }
@@ -158,7 +158,7 @@ struct JellyVariableReference: JellyAny, Codable {
             self.variableType = VariableType(jellyValue: globalVariable.name)
             self.aggrandizements = identifierNode.aggrandizements
         } else {
-            ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: self.name), node: identifierNode)
+            EventReporter.shared.reportError(error: .variableDoesNotExist(variable: self.name), node: identifierNode)
             return nil
         }
     }
@@ -194,7 +194,7 @@ struct JellyVariableReference: JellyAny, Codable {
             self.variableType = VariableType(jellyValue: globalVariable.name)
             self.aggrandizements = interpolationNode.identifierNode?.aggrandizements ?? []
         } else {
-            ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: self.name), node: interpolationNode)
+            EventReporter.shared.reportError(error: .variableDoesNotExist(variable: self.name), node: interpolationNode)
             return nil
         }
     }

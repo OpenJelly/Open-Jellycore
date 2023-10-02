@@ -20,32 +20,32 @@ struct OpenDraftParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "draft" }) {
             parameters.draft = Jelly_Draft(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "openDraft", name: "draft"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "openDraft", name: "draft"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "draftList" }) {
             parameters.draftList = Jelly_ShowHideStatus(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "openDraft", name: "draftList"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "openDraft", name: "draftList"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "actionList" }) {
             parameters.actionList = Jelly_ShowHideStatus(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "openDraft", name: "actionList"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "openDraft", name: "actionList"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "loadWorkspace" }) {
             parameters.loadWorkspace = Jelly_Workspace(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "openDraft", name: "loadWorkspace"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "openDraft", name: "loadWorkspace"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "loadActionGroup" }) {
             parameters.loadActionGroup = Jelly_ActionGroup(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "openDraft", name: "loadActionGroup"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "openDraft", name: "loadActionGroup"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "loadActionBarGroup" }) {
             parameters.loadActionBarGroup = Jelly_ActionGroup(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "openDraft", name: "loadActionBarGroup"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "openDraft", name: "loadActionBarGroup"), node: nil)
         }
 
         return parameters

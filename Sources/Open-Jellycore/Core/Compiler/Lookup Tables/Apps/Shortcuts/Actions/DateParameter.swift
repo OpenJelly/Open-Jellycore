@@ -15,7 +15,7 @@ struct DateParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "date" }) {
             parameters.WFDateActionDate = JellyDate(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "date", name: "date"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "date", name: "date"), node: nil)
         }
 
         return parameters

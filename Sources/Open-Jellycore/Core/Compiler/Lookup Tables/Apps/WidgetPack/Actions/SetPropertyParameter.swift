@@ -41,137 +41,137 @@ struct SetPropertyParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "property" }) {
             parameters.property = Jelly_Property(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "property"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "property"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "backgroundView" }) {
             parameters.backgroundView = Jelly_View(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "backgroundView"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "backgroundView"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "backgroundAlignment" }) {
             parameters.backgroundAlignment = Jelly_Alignment(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "backgroundAlignment"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "backgroundAlignment"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "overlayView" }) {
             parameters.overlayView = Jelly_View(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "overlayView"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "overlayView"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "overlayAlignment" }) {
             parameters.overlayAlignment = Jelly_Alignment(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "overlayAlignment"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "overlayAlignment"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "foregroundColor" }) {
             parameters.foregroundColor = Jelly_View(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "foregroundColor"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "foregroundColor"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "accentColor" }) {
             parameters.accentColor = Jelly_View(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "accentColor"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "accentColor"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "padding" }) {
             parameters.padding = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "padding"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "padding"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "opacity" }) {
             parameters.opacity = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "opacity"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "opacity"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "brightness" }) {
             parameters.brightness = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "brightness"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "brightness"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "contrast" }) {
             parameters.contrast = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "contrast"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "contrast"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "saturation" }) {
             parameters.saturation = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "saturation"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "saturation"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "grayscale" }) {
             parameters.grayscale = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "grayscale"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "grayscale"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "font" }) {
             parameters.font = Jelly_Font(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "font"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "font"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "clipShape" }) {
             parameters.clipShape = Jelly_View(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "clipShape"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "clipShape"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "mask" }) {
             parameters.mask = Jelly_View(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "mask"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "mask"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "fixedFrameWidth" }) {
             parameters.fixedFrameWidth = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "fixedFrameWidth"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "fixedFrameWidth"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "fixedFrameHeight" }) {
             parameters.fixedFrameHeight = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "fixedFrameHeight"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "fixedFrameHeight"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "fixedFrameAlignment" }) {
             parameters.fixedFrameAlignment = Jelly_Alignment(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "fixedFrameAlignment"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "fixedFrameAlignment"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "minimumScaleFactor" }) {
             parameters.minimumScaleFactor = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "minimumScaleFactor"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "minimumScaleFactor"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "relativeFrameWidth" }) {
             parameters.relativeFrameWidth = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "relativeFrameWidth"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "relativeFrameWidth"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "relativeFrameHeight" }) {
             parameters.relativeFrameHeight = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "relativeFrameHeight"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "relativeFrameHeight"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "relativeFrameAlignment" }) {
             parameters.relativeFrameAlignment = Jelly_Alignment(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "relativeFrameAlignment"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "relativeFrameAlignment"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "relativeFrameRelativeTo" }) {
             parameters.relativeFrameRelativeTo = Jelly_RelativeFrameRelativeTo(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "relativeFrameRelativeTo"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "relativeFrameRelativeTo"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "fixedSizeHorizontal" }) {
             parameters.fixedSizeHorizontal = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "fixedSizeHorizontal"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "fixedSizeHorizontal"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "fixedSizeVertical" }) {
             parameters.fixedSizeVertical = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "fixedSizeVertical"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "fixedSizeVertical"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "view" }) {
             parameters.view = Jelly_View(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "view"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "setProperty", name: "view"), node: nil)
         }
 
         return parameters

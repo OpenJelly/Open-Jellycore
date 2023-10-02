@@ -15,7 +15,7 @@ struct ModifierClippedParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "view" }) {
             parameters.view = Jelly_View(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierClipped", name: "view"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierClipped", name: "view"), node: nil)
         }
 
         return parameters

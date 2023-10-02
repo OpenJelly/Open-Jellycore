@@ -18,22 +18,22 @@ struct ModifierFixedFrameParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "fixedFrameWidth" }) {
             parameters.fixedFrameWidth = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierFixedFrame", name: "fixedFrameWidth"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierFixedFrame", name: "fixedFrameWidth"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "fixedFrameHeight" }) {
             parameters.fixedFrameHeight = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierFixedFrame", name: "fixedFrameHeight"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierFixedFrame", name: "fixedFrameHeight"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "fixedFrameAlignment" }) {
             parameters.fixedFrameAlignment = Jelly_Alignment(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierFixedFrame", name: "fixedFrameAlignment"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierFixedFrame", name: "fixedFrameAlignment"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "view" }) {
             parameters.view = Jelly_View(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierFixedFrame", name: "view"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierFixedFrame", name: "view"), node: nil)
         }
 
         return parameters

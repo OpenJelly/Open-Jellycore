@@ -17,17 +17,17 @@ struct MatchTextParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "text" }) {
             parameters.text = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "matchText", name: "text"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "matchText", name: "text"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "regex" }) {
             parameters.WFMatchTextPattern = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "matchText", name: "regex"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "matchText", name: "regex"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "caseSensitive" }) {
             parameters.WFMatchTextCaseSensitive = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "matchText", name: "caseSensitive"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "matchText", name: "caseSensitive"), node: nil)
         }
 
         return parameters

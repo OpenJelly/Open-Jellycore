@@ -15,7 +15,7 @@ struct GetLinksToSongParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "sourceURL" }) {
             parameters.sourceURL = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getLinksToSong", name: "sourceURL"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getLinksToSong", name: "sourceURL"), node: nil)
         }
 
         return parameters

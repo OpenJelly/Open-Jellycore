@@ -17,17 +17,17 @@ struct ModifierFixedSizeParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "fixedSizeHorizontal" }) {
             parameters.fixedSizeHorizontal = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierFixedSize", name: "fixedSizeHorizontal"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierFixedSize", name: "fixedSizeHorizontal"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "fixedSizeVertical" }) {
             parameters.fixedSizeVertical = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierFixedSize", name: "fixedSizeVertical"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierFixedSize", name: "fixedSizeVertical"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "view" }) {
             parameters.view = Jelly_View(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "modifierFixedSize", name: "view"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "modifierFixedSize", name: "view"), node: nil)
         }
 
         return parameters

@@ -27,67 +27,67 @@ struct ViewMapParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "location" }) {
             parameters.location = ShortcutsPlacemark(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "viewMap", name: "location"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "viewMap", name: "location"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "mapTitle" }) {
             parameters.mapTitle = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "viewMap", name: "mapTitle"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "viewMap", name: "mapTitle"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "showPin" }) {
             parameters.showPin = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "viewMap", name: "showPin"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "viewMap", name: "showPin"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "pinLabel" }) {
             parameters.pinLabel = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "viewMap", name: "pinLabel"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "viewMap", name: "pinLabel"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "mapZoom" }) {
             parameters.mapZoom = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "viewMap", name: "mapZoom"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "viewMap", name: "mapZoom"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "showBuildings" }) {
             parameters.showBuildings = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "viewMap", name: "showBuildings"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "viewMap", name: "showBuildings"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "showCompass" }) {
             parameters.showCompass = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "viewMap", name: "showCompass"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "viewMap", name: "showCompass"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "showZoomControls" }) {
             parameters.showZoomControls = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "viewMap", name: "showZoomControls"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "viewMap", name: "showZoomControls"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "showScale" }) {
             parameters.showScale = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "viewMap", name: "showScale"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "viewMap", name: "showScale"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "showTraffic" }) {
             parameters.showTraffic = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "viewMap", name: "showTraffic"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "viewMap", name: "showTraffic"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "isInteractive" }) {
             parameters.isInteractive = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "viewMap", name: "isInteractive"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "viewMap", name: "isInteractive"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "isScrollable" }) {
             parameters.isScrollable = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "viewMap", name: "isScrollable"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "viewMap", name: "isScrollable"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "isZoomable" }) {
             parameters.isZoomable = JellyBoolean(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "viewMap", name: "isZoomable"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "viewMap", name: "isZoomable"), node: nil)
         }
 
         return parameters

@@ -42,7 +42,7 @@ struct JellyDictionary: JellyPrimitiveType {
             self.value = convertJSONObjectToShortcutsDictionary(object: jsonDictionary, scopedVariables: [])
             
         } catch let error as NSError {
-            ErrorReporter.shared.reportError(error: JellycoreError.unableToParseJSON(error: error), node: nil)
+            EventReporter.shared.reportError(error: JellycoreError.unableToParseJSON(error: error), node: nil)
         }
     }
     
@@ -64,7 +64,7 @@ struct JellyDictionary: JellyPrimitiveType {
                 self.value = convertJSONObjectToShortcutsDictionary(object: jsonDictionary, scopedVariables: scopedVariables)
                 
             } catch let error as NSError {
-                ErrorReporter.shared.reportError(error: JellycoreError.unableToParseJSON(error: error), node: value)
+                EventReporter.shared.reportError(error: JellycoreError.unableToParseJSON(error: error), node: value)
             }
         } else {
             // Load Jellycuts Dictionary from User Defaults

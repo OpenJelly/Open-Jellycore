@@ -17,17 +17,17 @@ struct FormatCurrencyParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "amount" }) {
             parameters.amount = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "formatCurrency", name: "amount"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "formatCurrency", name: "amount"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "currencyCode" }) {
             parameters.currencyCode = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "formatCurrency", name: "currencyCode"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "formatCurrency", name: "currencyCode"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "roundTo" }) {
             parameters.roundTo = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "formatCurrency", name: "roundTo"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "formatCurrency", name: "roundTo"), node: nil)
         }
 
         return parameters

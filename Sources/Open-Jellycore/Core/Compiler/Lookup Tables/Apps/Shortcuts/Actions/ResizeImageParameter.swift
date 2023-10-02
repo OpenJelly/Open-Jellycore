@@ -18,20 +18,20 @@ struct ResizeImageParameter: ParameterProtocol, Codable {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.WFImage = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "resizeImage", name: "image"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "resizeImage", name: "image"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "height" }) {
             parameters.WFImageResizeHeight = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "resizeImage", name: "height"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "resizeImage", name: "height"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "width" }) {
             parameters.WFImageResizeWidth = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "resizeImage", name: "width"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "resizeImage", name: "width"), node: nil)
         }
 
         return parameters

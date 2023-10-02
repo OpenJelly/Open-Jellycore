@@ -25,57 +25,57 @@ struct EditReminderParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "editType" }) {
             parameters.editType = Jelly_EditReminderType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "editReminder", name: "editType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "editReminder", name: "editType"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "title" }) {
             parameters.title = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "editReminder", name: "title"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "editReminder", name: "title"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "note" }) {
             parameters.note = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "editReminder", name: "note"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "editReminder", name: "note"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "dueDate" }) {
             parameters.dueDate = JellyDate(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "editReminder", name: "dueDate"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "editReminder", name: "dueDate"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "priority" }) {
             parameters.priority = Jelly_ReminderPriority(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "editReminder", name: "priority"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "editReminder", name: "priority"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "list" }) {
             parameters.list = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "editReminder", name: "list"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "editReminder", name: "list"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "location" }) {
             parameters.location = ShortcutsPlacemark(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "editReminder", name: "location"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "editReminder", name: "location"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "repeatType" }) {
             parameters.repeatType = Jelly_RepeatType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "editReminder", name: "repeatType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "editReminder", name: "repeatType"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "locationType" }) {
             parameters.locationType = Jelly_LocationAlertType(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "editReminder", name: "locationType"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "editReminder", name: "locationType"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "alertDate" }) {
             parameters.alertDate = JellyDate(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "editReminder", name: "alertDate"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "editReminder", name: "alertDate"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "id" }) {
             parameters.id = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "editReminder", name: "id"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "editReminder", name: "id"), node: nil)
         }
 
         return parameters

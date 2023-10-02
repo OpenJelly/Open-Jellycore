@@ -15,7 +15,7 @@ struct Actions_ReverseListParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "list" }) {
             parameters.list = JellyArray<JellyVariableReference>(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "reverseList", name: "list"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "reverseList", name: "list"), node: nil)
         }
 
         return parameters

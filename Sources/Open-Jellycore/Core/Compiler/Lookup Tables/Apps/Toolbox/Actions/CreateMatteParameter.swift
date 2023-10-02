@@ -19,27 +19,27 @@ struct CreateMatteParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "width" }) {
             parameters.width = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createMatte", name: "width"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createMatte", name: "width"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "height" }) {
             parameters.height = JellyInteger(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createMatte", name: "height"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createMatte", name: "height"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "colour" }) {
             parameters.colour = Jelly_MatteColours(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createMatte", name: "colour"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createMatte", name: "colour"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "hexColour" }) {
             parameters.hexColour = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createMatte", name: "hexColour"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createMatte", name: "hexColour"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "transparency" }) {
             parameters.transparency = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "createMatte", name: "transparency"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "createMatte", name: "transparency"), node: nil)
         }
 
         return parameters

@@ -17,17 +17,17 @@ struct GetEventIDParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "title" }) {
             parameters.title = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getEventID", name: "title"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getEventID", name: "title"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "startDate" }) {
             parameters.startDate = JellyDate(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getEventID", name: "startDate"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getEventID", name: "startDate"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "calendar" }) {
             parameters.calendar = JellyString(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "getEventID", name: "calendar"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "getEventID", name: "calendar"), node: nil)
         }
 
         return parameters

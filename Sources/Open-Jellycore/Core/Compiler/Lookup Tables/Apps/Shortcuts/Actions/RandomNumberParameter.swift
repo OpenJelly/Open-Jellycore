@@ -16,12 +16,12 @@ struct RandomNumberParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "min" }) {
             parameters.WFRandomNumberMinimum = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "randomNumber", name: "min"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "randomNumber", name: "min"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "max" }) {
             parameters.WFRandomNumberMaximum = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "randomNumber", name: "max"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "randomNumber", name: "max"), node: nil)
         }
 
         return parameters

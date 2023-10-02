@@ -17,21 +17,21 @@ struct HorizontalStackParameter: ParameterProtocol, Codable {
         if let value = call.first(where: { node in return node.slotName == "alignment" }) {
             parameters.alignment = Jelly_VerticalAlignment(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "horizontalStack", name: "alignment"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "horizontalStack", name: "alignment"), node: nil)
         }
         if let value = call.first(where: { node in return node.slotName == "spacing" }) {
             parameters.spacing = JellyDouble(parameterItem: value, scopedVariables: scopedVariables)
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "horizontalStack", name: "spacing"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "horizontalStack", name: "spacing"), node: nil)
         }
         if let variableCall = call.first(where: { node in return node.slotName == "content" }) {
             if let variable = Scope.find(variableCall.content, in: scopedVariables) {
                 parameters.content = JellyVariableReference(variable, scopedVariables: scopedVariables)
             } else {
-                ErrorReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
+                EventReporter.shared.reportError(error: .variableDoesNotExist(variable: variableCall.content), node: nil)
             }
         } else {
-            ErrorReporter.shared.reportError(error: .missingParameter(function: "horizontalStack", name: "content"), node: nil)
+            EventReporter.shared.reportError(error: .missingParameter(function: "horizontalStack", name: "content"), node: nil)
         }
 
         return parameters
