@@ -1473,6 +1473,11 @@ ActionPreset(path: "WFEncodeMode", value: "Encode"),
                                 """, lowestCompatibleHost: .iOS14, presets: [
                                     
                                 ]),
+   "getCurrentFocus": Action<GetCurrentFocusParameter>(name:"Get current focus", identifier: "is.workflow.actions.dnd.getfocus", correctTypedFunction: "getCurrentFocus", description: """
+                                Get the current focus active.
+                                """, lowestCompatibleHost: .iOS16, presets: [
+
+                                ])
 
     ]
 }
