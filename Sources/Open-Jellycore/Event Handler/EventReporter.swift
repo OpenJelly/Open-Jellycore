@@ -17,6 +17,11 @@ public class EventReporter {
         events.filter({$0.level == .error || $0.level == .fatal || $0.level == .syntax}).count
     }
     
+    /// The set of `events` that are errors
+    public var errors: [JellycoreError] {
+        return events.filter({$0.level == .error || $0.level == .fatal || $0.level == .syntax})
+    }
+    
     /// A calculated variable that counts the number of warnings present in ``EventReporter/errors``
     public var numberOfWarnings: Int {
         events.filter({$0.level == .warning}).count
