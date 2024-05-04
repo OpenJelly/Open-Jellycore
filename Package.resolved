@@ -30,16 +30,16 @@
     {
       "identity" : "tree-sitter",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/tree-sitter/tree-sitter",
+      "location" : "https://github.com/simonbs/tree-sitter",
       "state" : {
-        "branch" : "master",
-        "revision" : "6bbb50bef8249e6460e7d69e42cc8146622fa4fd"
+        "revision" : "8456f7eb7a70addb3c0af8a757f1997ae9af3ed6",
+        "version" : "0.20.9-beta-2"
       }
     },
     {
       "identity" : "tree-sitter-jelly",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ActuallyTaylor/tree-sitter-jelly",
+      "location" : "https://github.com/Jellycuts/tree-sitter-jelly",
       "state" : {
         "revision" : "353edc08feff65003bb58bb3b0a63e28f70b0dfc",
         "version" : "0.1.0"
