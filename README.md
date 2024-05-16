@@ -1,4 +1,9 @@
 # Open-Jellycore
+
+<a href="https://openjelly.com/join-discord" target="_blank">
+  <img src="https://img.shields.io/discord/503976650439131183?logo=discord&amp;label=discord" alt="Star on GitHub">
+</a>
+
 An open source version of the originally closed source Jellycore. This package handles all of the transpiling of Jelly -> Shortcuts.
 
 ## Compiling in the Command Line
@@ -64,7 +69,7 @@ Because this is a brand new version of Jellycore, it does not currently support 
 I have written this version of Jellycore with the intention of it being possible for others to use it across the Shortcuts ecosystem. It has also been built with as many Swift platform features as possible, attempting to not rely on Apple's Foundation framework, however at times it still does.
 
 ## Documentation
-The entirety of Jellycore is documented using Doc-C. Online documentation is available at https://actuallytaylor.github.io/Open-Jellycore/documentation/open_jellycore/.
+The entirety of Jellycore is documented using Doc-C. [See Online documentation](https://openjelly.github.io/Open-Jellycore/documentation/open_jellycore/).
 
 # Contributing
 If you are curious about contributing or where to start, the Features header is a great place to look at what is still left! If you are looking for smaller things to fix, there are a plethora of `// TODO:` comments throughout the library that are all small fixes or additions that would be nice to have.
